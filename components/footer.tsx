@@ -25,19 +25,19 @@ const Footer = () => {
             </Link>
             <p className="text-sm text-terpenos-charcoal">{t("footer.description")}</p>
             <div className="flex space-x-4">
-              <Link href="#" className="text-terpenos-green hover:text-terpenos-forest-green">
+              <Link href="https://www.facebook.com/terpenoshumboldt/" className="text-terpenos-green hover:text-terpenos-forest-green">
                 <Facebook size={20} />
                 <span className="sr-only">Facebook</span>
               </Link>
-              <Link href="#" className="text-terpenos-green hover:text-terpenos-forest-green">
+              <Link href="https://x.com/terpenosdotcom" className="text-terpenos-green hover:text-terpenos-forest-green">
                 <Twitter size={20} />
-                <span className="sr-only">Twitter</span>
+                <span className="sr-only">X</span>
               </Link>
-              <Link href="#" className="text-terpenos-green hover:text-terpenos-forest-green">
+              <Link href="https://www.instagram.com/terpenoshumboldtec/" className="text-terpenos-green hover:text-terpenos-forest-green">
                 <Instagram size={20} />
                 <span className="sr-only">Instagram</span>
               </Link>
-              <Link href="#" className="text-terpenos-green hover:text-terpenos-forest-green">
+              <Link href="https://www.linkedin.com/company/99119231" className="text-terpenos-green hover:text-terpenos-forest-green">
                 <Linkedin size={20} />
                 <span className="sr-only">LinkedIn</span>
               </Link>
