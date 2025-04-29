@@ -61,7 +61,7 @@ export default function Home() {
               <div className="inline-block rounded-lg bg-white px-3 py-1 text-sm text-terpenos-forest-green font-medium">
                 Our Expertise
               </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-terpenos-forest-green font-montserrat">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-terpenos-black font-montserrat">
                 {t("home.features.title")}
               </h2>
               <p className="max-w-[900px] text-terpenos-forest-green md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">

@@ -1,6 +1,9 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
+import { useLanguage } from "@/lib/i18n/context"
 
 // Team member data
 const teamMembers = [
@@ -61,6 +64,8 @@ const teamMembers = [
 ]
 
 export default function TeamPage() {
+  const { t } = useLanguage()
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -68,9 +73,9 @@ export default function TeamPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Our Team</h1>
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">{t("team.hero.title")}</h1>
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Meet the brilliant minds behind our scientific innovations.
+                {t("team.hero.subtitle")}
               </p>
             </div>
           </div>
@@ -116,24 +121,17 @@ export default function TeamPage() {
       </section>
 
       {/* Join Our Team */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-terpenos-light-green">
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
             <div className="space-y-4">
-              <h2 className="text-3xl font-bold tracking-tighter">Join Our Team</h2>
-              <p className="text-muted-foreground">
-                We're always looking for talented scientists, researchers, and professionals to join our team. At
-                Terpenos, you'll have the opportunity to work on cutting-edge research, collaborate with brilliant
-                minds, and make a meaningful impact.
-              </p>
-              <p className="text-muted-foreground">
-                We offer a stimulating work environment, competitive benefits, and opportunities for professional growth
-                and development.
-              </p>
+              <h2 className="text-3xl font-bold tracking-tighter text-terpenos-forest-green">{t("team.join.title")}</h2>
+              <p className="text-terpenos-forest-green">{t("team.join.p1")}</p>
+              <p className="text-terpenos-forest-green">{t("team.join.p2")}</p>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Link href="/contact">
                   <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-                    View Open Positions
+                    {t("team.join.button")}
                   </button>
                 </Link>
               </div>

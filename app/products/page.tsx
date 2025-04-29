@@ -1,10 +1,15 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowRight, FlaskRoundIcon as Flask, Microscope, Database, Dna } from "lucide-react"
+import { ArrowRight, FlaskRoundIcon as Flask, Microscope, Database, Atom } from "lucide-react"
+import { useLanguage } from "@/lib/i18n/context"
 
 export default function ProductsPage() {
+  const { t } = useLanguage()
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -12,9 +17,9 @@ export default function ProductsPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Products & Services</h1>
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">{t("products.hero.title")}</h1>
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Innovative scientific solutions tailored to your needs.
+                {t("products.hero.subtitle")}
               </p>
             </div>
           </div>
@@ -26,8 +31,8 @@ export default function ProductsPage() {
         <div className="container px-4 md:px-6">
           <Tabs defaultValue="products" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="products">Products</TabsTrigger>
-              <TabsTrigger value="services">Services</TabsTrigger>
+              <TabsTrigger value="products">{t("products.tabs.products")}</TabsTrigger>
+              <TabsTrigger value="services">{t("products.tabs.services")}</TabsTrigger>
             </TabsList>
             <TabsContent value="products" className="space-y-8">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -110,7 +115,7 @@ export default function ProductsPage() {
                 <Card>
                   <CardHeader className="pb-4">
                     <div className="mb-2 w-fit rounded-full bg-muted p-2">
-                      <Dna className="h-6 w-6" />
+                      <Atom className="h-6 w-6" />
                     </div>
                     <CardTitle>Custom Research</CardTitle>
                     <CardDescription>Tailored scientific investigations</CardDescription>
@@ -185,13 +190,13 @@ export default function ProductsPage() {
       </section>
 
       {/* Case Studies */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-terpenos-light-green">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tighter">Case Studies</h2>
-            <p className="max-w-[900px] text-muted-foreground">
-              See how our products and services have helped organizations achieve their scientific goals.
-            </p>
+            <h2 className="text-3xl font-bold tracking-tighter text-terpenos-forest-green">
+              {t("products.case.title")}
+            </h2>
+            <p className="max-w-[900px] text-terpenos-forest-green">{t("products.case.subtitle")}</p>
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <Card className="overflow-hidden">
@@ -278,21 +283,19 @@ export default function ProductsPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter">Ready to Get Started?</h2>
-              <p className="max-w-[900px] text-muted-foreground">
-                Contact us today to discuss how our products and services can support your scientific endeavors.
-              </p>
+              <h2 className="text-3xl font-bold tracking-tighter">{t("products.cta.title")}</h2>
+              <p className="max-w-[900px] text-muted-foreground">{t("products.cta.subtitle")}</p>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link href="/contact">
                 <Button size="lg">
-                  Contact Us
+                  {t("products.cta.button1")}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link href="/about">
                 <Button variant="outline" size="lg">
-                  Learn More About Us
+                  {t("products.cta.button2")}
                 </Button>
               </Link>
             </div>
