@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, FlaskRoundIcon as Flask, Microscope, Dna, Award } from "lucide-react"
+import { ArrowRight, FlaskRoundIcon as Flask, Microscope, Atom, Award } from "lucide-react"
 import { useLanguage } from "@/lib/i18n/context"
 
 export default function Home() {
@@ -54,53 +54,61 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-terpenos-offwhite">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-terpenos-light-green">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-terpenos-light-green px-3 py-1 text-sm text-terpenos-forest-green font-medium">
+          <div className="flex flex-col items-center justify-center space-y-6 text-center">
+            <div className="space-y-3">
+              <div className="inline-block rounded-lg bg-white px-3 py-1 text-sm text-terpenos-forest-green font-medium">
                 Our Expertise
               </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-terpenos-black font-montserrat">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-terpenos-forest-green font-montserrat">
                 {t("home.features.title")}
               </h2>
-              <p className="max-w-[900px] text-terpenos-charcoal md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="max-w-[900px] text-terpenos-forest-green md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 {t("home.features.subtitle")}
               </p>
             </div>
           </div>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 mt-12">
-            <div className="flex flex-col items-center space-y-2 rounded-lg border border-terpenos-light-green p-6 shadow-sm bg-white relative">
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 mt-16">
+            <div className="flex flex-col items-center space-y-4 rounded-lg border border-terpenos-green p-8 shadow-md bg-white relative">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-terpenos-green to-terpenos-forest-green"></div>
-              <div className="rounded-full bg-terpenos-light-green p-3">
-                <Flask className="h-6 w-6 text-terpenos-green" />
+              <div className="rounded-full bg-terpenos-light-green p-4">
+                <Flask className="h-7 w-7 text-terpenos-green" />
               </div>
               <h3 className="text-xl font-bold text-terpenos-black font-montserrat">{t("home.features.research")}</h3>
-              <p className="text-center text-sm text-terpenos-charcoal">{t("home.features.research.desc")}</p>
+              <p className="text-center text-sm leading-relaxed text-terpenos-charcoal">
+                {t("home.features.research.desc")}
+              </p>
             </div>
-            <div className="flex flex-col items-center space-y-2 rounded-lg border border-terpenos-light-green p-6 shadow-sm bg-white relative">
+            <div className="flex flex-col items-center space-y-4 rounded-lg border border-terpenos-green p-8 shadow-md bg-white relative">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-terpenos-green to-terpenos-forest-green"></div>
-              <div className="rounded-full bg-terpenos-light-green p-3">
-                <Microscope className="h-6 w-6 text-terpenos-green" />
+              <div className="rounded-full bg-terpenos-light-green p-4">
+                <Microscope className="h-7 w-7 text-terpenos-green" />
               </div>
               <h3 className="text-xl font-bold text-terpenos-black font-montserrat">{t("home.features.analysis")}</h3>
-              <p className="text-center text-sm text-terpenos-charcoal">{t("home.features.analysis.desc")}</p>
+              <p className="text-center text-sm leading-relaxed text-terpenos-charcoal">
+                {t("home.features.analysis.desc")}
+              </p>
             </div>
-            <div className="flex flex-col items-center space-y-2 rounded-lg border border-terpenos-light-green p-6 shadow-sm bg-white relative">
+            <div className="flex flex-col items-center space-y-4 rounded-lg border border-terpenos-green p-8 shadow-md bg-white relative">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-terpenos-green to-terpenos-forest-green"></div>
-              <div className="rounded-full bg-terpenos-light-green p-3">
-                <Dna className="h-6 w-6 text-terpenos-green" />
+              <div className="rounded-full bg-terpenos-light-green p-4">
+                <Atom className="h-7 w-7 text-terpenos-green" />
               </div>
               <h3 className="text-xl font-bold text-terpenos-black font-montserrat">{t("home.features.innovation")}</h3>
-              <p className="text-center text-sm text-terpenos-charcoal">{t("home.features.innovation.desc")}</p>
+              <p className="text-center text-sm leading-relaxed text-terpenos-charcoal">
+                {t("home.features.innovation.desc")}
+              </p>
             </div>
-            <div className="flex flex-col items-center space-y-2 rounded-lg border border-terpenos-light-green p-6 shadow-sm bg-white relative">
+            <div className="flex flex-col items-center space-y-4 rounded-lg border border-terpenos-green p-8 shadow-md bg-white relative">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-terpenos-green to-terpenos-forest-green"></div>
-              <div className="rounded-full bg-terpenos-light-green p-3">
-                <Award className="h-6 w-6 text-terpenos-green" />
+              <div className="rounded-full bg-terpenos-light-green p-4">
+                <Award className="h-7 w-7 text-terpenos-green" />
               </div>
               <h3 className="text-xl font-bold text-terpenos-black font-montserrat">{t("home.features.quality")}</h3>
-              <p className="text-center text-sm text-terpenos-charcoal">{t("home.features.quality.desc")}</p>
+              <p className="text-center text-sm leading-relaxed text-terpenos-charcoal">
+                {t("home.features.quality.desc")}
+              </p>
             </div>
           </div>
         </div>
