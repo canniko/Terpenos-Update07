@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, FlaskRoundIcon as Flask, Microscope, Dna, Award } from "lucide-react"
 import { useLanguage } from "@/lib/i18n/context"
@@ -38,31 +39,14 @@ export default function Home() {
             </div>
             <div className="flex justify-center">
               <div className="relative w-full max-w-[500px] aspect-square overflow-hidden rounded-xl border-4 border-terpenos-light-green">
-                <div className="absolute inset-0 bg-terpenos-light-green/20 flex items-center justify-center">
-                  <div className="relative w-3/4 h-3/4">
-                    <svg viewBox="0 0 200 200" className="w-full h-full">
-                      <path
-                        d="M100,20 L180,60 L180,140 L100,180 L20,140 L20,60 Z"
-                        fill="none"
-                        stroke="#2C7A1F"
-                        strokeWidth="2"
-                      />
-                      <path
-                        d="M100,40 L160,70 L160,130 L100,160 L40,130 L40,70 Z"
-                        fill="none"
-                        stroke="#2C7A1F"
-                        strokeWidth="2"
-                      />
-                      <path
-                        d="M100,60 L140,80 L140,120 L100,140 L60,120 L60,80 Z"
-                        fill="none"
-                        stroke="#2C7A1F"
-                        strokeWidth="2"
-                      />
-                      <circle cx="100" cy="100" r="20" fill="#2C7A1F" />
-                    </svg>
-                  </div>
-                </div>
+                <Image
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Terpene%20Skin%20Care.png-anMLt9BCm3tPKOY0RuSeMAAwgKhhrI.jpeg"
+                  alt="Terpene Skin Care - Woman's profile with botanical elements and terpene essence"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 500px"
+                  priority
+                />
               </div>
             </div>
           </div>
