@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 30% 98%;
+    --foreground: 0 0% 20%;
+    --border: 90 30% 84%;
+    --input: 90 30% 84%;
+    --ring: 133 59% 30%;
+    --radius: 0.5rem;
+
+    /* Destructive colors */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 30% 98%;
+  }
+
+  .dark {
+    --background: 0 0% 10%;
+    --foreground: 60 30% 98%;
+    --border: 142 59% 15%;
+    --input: 142 59% 15%;
+    --ring: 133 59% 30%;
+
+    /* Destructive colors */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 60 30% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-terpenos-offwhite text-terpenos-charcoal;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-montserrat font-bold text-terpenos-black;
+  }
+  a {
+    @apply text-terpenos-green hover:text-terpenos-forest-green transition-colors;
+  }
+}
+
+/* Hexagon pattern for backgrounds */
+.hexagon-pattern {
+  background-color: #faf9f6;
+}
+
+/* Custom button styles */
+.btn-primary {
+  @apply bg-terpenos-green text-terpenos-offwhite hover:bg-terpenos-forest-green px-4 py-2 rounded-md transition-colors;
+}
+
+.btn-secondary {
+  @apply bg-transparent border border-terpenos-green text-terpenos-green hover:bg-terpenos-light-green hover:text-terpenos-forest-green px-4 py-2 rounded-md transition-colors;
+}
+
+/* Card styles with subtle hexagon border */
+.terpenos-card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden border border-terpenos-light-green;
+  position: relative;
+}
+
+.terpenos-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2c7a1f, #14532d);
+}
