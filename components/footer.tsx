@@ -96,16 +96,16 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-bold font-montserrat text-terpenos-black">{t("footer.contact.title")}</h3>
             <ul className="space-y-2 text-sm">
-              <li className="text-terpenos-charcoal">123 Science Park, Research Avenue</li>
-              <li className="text-terpenos-charcoal">City, Country, ZIP</li>
+              <li className="text-terpenos-charcoal">Multicentro Av. 6 de Diciembre</li>
+              <li className="text-terpenos-charcoal">Quito, Ecuador</li>
               <li>
                 <Link href="mailto:info@terpenos.com" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  info@terpenos.com
+                  sales@terpenos.com
                 </Link>
               </li>
               <li>
                 <Link href="tel:+1234567890" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  +1 (234) 567-890
+                  +593 2-223-9878
                 </Link>
               </li>
             </ul>
@@ -113,7 +113,7 @@ const Footer = () => {
         </div>
         <div className="mt-10 border-t border-terpenos-light-green pt-6 text-center text-sm text-terpenos-charcoal">
           <p>
-            &copy; {currentYear} Terpenos. {t("footer.copyright")}
+            &copy; {currentYear} Terpenos Humboldt SAS {t("footer.copyright")}
           </p>
         </div>
       </div>

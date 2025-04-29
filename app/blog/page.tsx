@@ -1,8 +1,14 @@
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Search } from "lucide-react"
+import { useLanguage } from "@/lib/i18n/context"
 
 // Blog post data
 const blogPosts = [
@@ -69,21 +75,48 @@ const blogPosts = [
 ]
 
 export default function BlogPage() {
+  const { t } = useLanguage()
+  const [searchTerm, setSearchTerm] = useState("")
+
+  // Filter blog posts based on search term
+  const filteredPosts = searchTerm
+    ? blogPosts.filter(
+        (post) =>
+          post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.author.toLowerCase().includes(searchTerm.toLowerCase()),
+      )
+    : blogPosts
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Search functionality is already handled by the filter above
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-terpenos-offwhite border-b border-terpenos-light-green">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Our Blog</h1>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Insights, discoveries, and perspectives from our scientific team.
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl font-montserrat">
+                {t("blog.hero.title")}
+              </h1>
+              <p className="max-w-[900px] text-terpenos-charcoal md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                {t("blog.hero.subtitle")}
               </p>
             </div>
             <div className="w-full max-w-sm space-y-2">
-              <form className="flex space-x-2">
-                <Input type="search" placeholder="Search articles..." className="max-w-lg flex-1" />
+              <form className="flex space-x-2" onSubmit={handleSearch}>
+                <Input
+                  type="search"
+                  placeholder={t("blog.search.placeholder")}
+                  className="max-w-lg flex-1"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
                 <Button type="submit" size="icon">
                   <Search className="h-4 w-4" />
                   <span className="sr-only">Search</span>
@@ -95,60 +128,64 @@ export default function BlogPage() {
       </section>
 
       {/* Blog Posts */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-terpenos-offwhite">
         <div className="container px-4 md:px-6">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {blogPosts.map((post) => (
-              <Card key={post.id} className="overflow-hidden">
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={post.image || "/placeholder.svg"}
-                    alt={post.title}
-                    className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
-                  />
-                </div>
-                <CardHeader className="p-6">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span>{post.date}</span>
-                    <span>•</span>
-                    <span>{post.category}</span>
+          {filteredPosts.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredPosts.map((post) => (
+                <Card key={post.id} className="overflow-hidden">
+                  <div className="aspect-video overflow-hidden">
+                    <img
+                      src={post.image || "/placeholder.svg"}
+                      alt={post.title}
+                      className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+                    />
                   </div>
-                  <CardTitle className="text-xl">{post.title}</CardTitle>
-                  <CardDescription className="text-sm">By {post.author}</CardDescription>
-                </CardHeader>
-                <CardContent className="p-6 pt-0">
-                  <p className="text-muted-foreground">{post.excerpt}</p>
-                </CardContent>
-                <CardFooter className="p-6 pt-0">
-                  <Link href={`/blog/${post.slug}`}>
-                    <Button variant="outline" size="sm">
-                      Read More
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
+                  <CardHeader className="p-6">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <span>{post.date}</span>
+                      <span>•</span>
+                      <span>{post.category}</span>
+                    </div>
+                    <CardTitle className="text-xl">{post.title}</CardTitle>
+                    <CardDescription className="text-sm">By {post.author}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="p-6 pt-0">
+                    <p className="text-terpenos-charcoal">{post.excerpt}</p>
+                  </CardContent>
+                  <CardFooter className="p-6 pt-0">
+                    <Link href={`/blog/${post.slug}`}>
+                      <Button variant="outline" size="sm">
+                        Read More
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-lg text-terpenos-charcoal">No blog posts found matching your search.</p>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Newsletter Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-terpenos-offwhite border-t border-terpenos-light-green">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter">Stay Updated</h2>
-              <p className="max-w-[900px] text-muted-foreground">
-                Subscribe to our newsletter to receive the latest scientific insights and updates.
-              </p>
+              <h2 className="text-3xl font-bold tracking-tighter font-montserrat">{t("blog.newsletter.title")}</h2>
+              <p className="max-w-[900px] text-terpenos-charcoal">{t("blog.newsletter.subtitle")}</p>
             </div>
             <div className="w-full max-w-md space-y-2">
               <form className="flex flex-col sm:flex-row gap-2">
                 <Input type="email" placeholder="Enter your email" className="max-w-lg flex-1" />
-                <Button type="submit">Subscribe</Button>
+                <Button type="submit">{t("blog.newsletter.button")}</Button>
               </form>
-              <p className="text-xs text-muted-foreground">We respect your privacy. Unsubscribe at any time.</p>
+              <p className="text-xs text-terpenos-charcoal">{t("blog.newsletter.privacy")}</p>
             </div>
           </div>
         </div>
