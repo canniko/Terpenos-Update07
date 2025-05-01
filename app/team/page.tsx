@@ -13,7 +13,7 @@ const teamMembers = [
     role: "Chief Scientific Officer",
     bio: "Alejandro leads our research initiatives with over 10 years of experience in biotechnology. He leads all science and production.",
     image: "/images/alejandro-paz.jpeg",
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/alejandro-paz-davalos/",
     email: "alejandro@terpenos.com",
   },
   {
@@ -22,7 +22,7 @@ const teamMembers = [
     role: "Chief Executive Officer",
     bio: "With an Masters in Business Administration and successful exits, Juan brings a commercial powerhouse to the team. He leads sales and operations.",
     image: "/images/juan-cano.jpeg",
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/juan-jose-cano-a142a353/",
     email: "jcano@terpenos.com",
   },
   {
@@ -31,7 +31,7 @@ const teamMembers = [
     role: "CMO/Big Brain",
     bio: "Alex is the interim CMO and provides support and guidance to the team as chairman of the board of directors. He has founded multiple successful companies before and consults for research and innovation laboratories in the United States.",
     image: "/images/alex-garcia.jpeg",
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/alex-garcia-ennube/",
     email: "alex@terpenos.com",
   },
 ]
@@ -76,7 +76,12 @@ export default function TeamPage() {
                     </div>
                     <p className="text-sm text-muted-foreground">{member.bio}</p>
                     <div className="flex space-x-4">
-                      <Link href={member.linkedin} className="text-muted-foreground hover:text-foreground">
+                      <Link
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-foreground"
+                      >
                         <Linkedin size={20} />
                         <span className="sr-only">LinkedIn</span>
                       </Link>
