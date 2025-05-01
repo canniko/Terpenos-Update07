@@ -112,8 +112,8 @@ export default function TeamPage() {
             <div className="flex justify-center">
               <div className="relative w-full max-w-[500px] aspect-square overflow-hidden rounded-xl">
                 <img
-                  src="/placeholder.svg?height=600&width=600"
-                  alt="Team collaboration"
+                  src="/images/lab-scientist.png"
+                  alt="Scientist working in laboratory"
                   className="object-cover w-full h-full"
                 />
               </div>
