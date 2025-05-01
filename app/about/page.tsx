@@ -28,33 +28,9 @@ export default function AboutPage() {
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
             <div className="space-y-4">
               <h2 className="text-3xl font-bold tracking-tighter">{t("about.story.title")}</h2>
-              <p className="text-muted-foreground">
-                In the heart of Quito, Ecuador, lies a pioneering force in the cannabis industry—Terpenos.com.
-                Established in 2021, our journey is not just a tale of business inception but a profound narrative that
-                intertwines with the history and evolution of cannabis as medicine. Our roots delve deep into the early
-                days of cannabis legalization campaigns in Berkeley and Oakland, California, where our founders were not
-                just spectators but active volunteers and advocates. Their dedication to the cause saw them alongside
-                influential organizations such as Oaksterdam and Harborside, witnessing first-hand the challenges and
-                triumphs that shaped the industry.
-              </p>
-              <p className="text-muted-foreground">
-                Our story, however, did not start with the founding of Terpenos.com. It is a continuation of a
-                decade-long legacy of excellence and innovation in the pharmaceutical and food manufacturing sectors.
-                Our founders brought with them a wealth of experience, having worked with top-tier private label food
-                and pharmaceutical manufacturers, where they were instrumental in implementing world-class systems. This
-                invaluable experience laid the groundwork for what Terpenos.com would become—a leader in the cannabis
-                space, dedicated to the highest standards of quality and safety.
-              </p>
-              <p className="text-muted-foreground">
-                Today, Terpenos.com stands as a fully licensed importer of cannabis-derived molecules, operating out of
-                Ecuador with a satellite presence in California. Our laboratory is at the forefront of developing and
-                maintaining processes that guarantee the pharmaceutical and food-grade quality of our formulations and
-                raw materials. We specialize in terpenes, CBD, and other legal cannabinoids, catering to customers that
-                seek unparalleled purity and efficacy. Our story is a testament to the belief that cannabis is medicine,
-                a belief that has driven us from the early days of legalization campaigns to the cutting-edge of the
-                industry today. At Terpenos.com, we are more than just a company; we are a part of a global movement
-                towards wellness, innovation, and the unyielding pursuit of excellence in the cannabis domain.
-              </p>
+              <p className="text-muted-foreground">{t("about.story.p1")}</p>
+              <p className="text-muted-foreground">{t("about.story.p2")}</p>
+              <p className="text-muted-foreground">{t("about.story.p3")}</p>
             </div>
             <div className="flex justify-center">
               <div className="relative w-full max-w-[500px] aspect-square overflow-hidden rounded-xl">
@@ -126,29 +102,11 @@ export default function AboutPage() {
             </div>
             <div className="space-y-4 order-1 lg:order-2">
               <h2 className="text-3xl font-bold tracking-tighter">{t("about.approach.title")}</h2>
-              <p className="text-muted-foreground">
-                At Terpenos.com, our approach is rooted in science, guided by purpose, and fueled by innovation. From
-                our state-of-the-art lab in Ecuador to our strategic presence in California, we apply rigorous standards
-                to every step of our process—ensuring that every molecule we import or formulate meets pharmaceutical
-                and food-grade benchmarks.
-              </p>
-              <p className="text-muted-foreground">
-                We partner with multiple FDA-certified laboratories in the United States to validate the safety, purity,
-                and consistency of our products. These collaborations reinforce our commitment to quality assurance and
-                global compliance, bridging science and trust across borders.
-              </p>
-              <p className="text-muted-foreground">
-                We don't just work with cannabis—we work with intention. Specializing in terpenes, CBD, and legal
-                cannabinoids, we collaborate with pharmaceutical companies, food labs, and wellness brands that demand
-                purity, traceability, and efficacy.
-              </p>
-              <p className="text-muted-foreground">
-                Our work is grounded in the belief that cannabis is medicine. That conviction drives us to maintain the
-                highest levels of integrity, transparency, and quality in an industry still defining its future. Whether
-                we're formulating bespoke terpene profiles or importing active ingredients, we act as stewards of a
-                plant we respect deeply.
-              </p>
-              <p className="text-muted-foreground">This is more than commerce. It's a mission. It's our approach.</p>
+              <p className="text-muted-foreground">{t("about.approach.p1")}</p>
+              <p className="text-muted-foreground">{t("about.approach.p2")}</p>
+              <p className="text-muted-foreground">{t("about.approach.p3")}</p>
+              <p className="text-muted-foreground">{t("about.approach.p4")}</p>
+              <p className="text-muted-foreground">{t("about.approach.p5")}</p>
             </div>
           </div>
         </div>

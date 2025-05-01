@@ -30,6 +30,9 @@ export type TranslationKey =
   | "about.story.title"
   | "about.story.p1"
   | "about.story.p2"
+  | "about.story.p3"
+  | "about.story.p4"
+  | "about.story.p5"
   | "about.values.title"
   | "about.values.subtitle"
   | "about.values.integrity"
@@ -44,6 +47,11 @@ export type TranslationKey =
   | "about.approach.p1"
   | "about.approach.p2"
   | "about.approach.p3"
+  | "about.approach.p4"
+  | "about.approach.p5"
+  | "about.approach.p6"
+  | "about.approach.p7"
+  | "about.approach.p8"
   | "team.hero.title"
   | "team.hero.subtitle"
   | "team.join.title"
@@ -131,9 +139,11 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "about.hero.subtitle": "Pioneering scientific research and innovation for a better future.",
     "about.story.title": "Our Story",
     "about.story.p1":
-      "Founded in 2010, Terpenos began with a simple mission: to advance scientific knowledge and create innovative solutions that address real-world challenges. What started as a small research team has grown into a leading scientific organization with a global presence.",
+      "In the heart of Quito, Ecuador, lies a pioneering force in the cannabis industry—Terpenos.com. Established in 2021, our journey is not just a tale of business inception but a profound narrative that intertwines with the history and evolution of cannabis as medicine. Our roots delve deep into the early days of cannabis legalization campaigns in Berkeley and Oakland, California, where our founders were not just spectators but active volunteers and advocates. Their dedication to the cause saw them alongside influential organizations such as Oaksterdam and Harborside, witnessing first-hand the challenges and triumphs that shaped the industry.",
     "about.story.p2":
-      "Our journey has been marked by groundbreaking discoveries, technological innovations, and a steadfast commitment to scientific excellence. Today, we continue to push the boundaries of what's possible, driven by curiosity and a passion for discovery.",
+      "Our story, however, did not start with the founding of Terpenos.com. It is a continuation of a decade-long legacy of excellence and innovation in the pharmaceutical and food manufacturing sectors. Our founders brought with them a wealth of experience, having worked with top-tier private label food and pharmaceutical manufacturers, where they were instrumental in implementing world-class systems. This invaluable experience laid the groundwork for what Terpenos.com would become—a leader in the cannabis space, dedicated to the highest standards of quality and safety.",
+    "about.story.p3":
+      "Today, Terpenos.com stands as a fully licensed importer of cannabis-derived molecules, operating out of Ecuador with a satellite presence in California. Our laboratory is at the forefront of developing and maintaining processes that guarantee the pharmaceutical and food-grade quality of our formulations and raw materials. We specialize in terpenes, CBD, and other legal cannabinoids, catering to customers that seek unparalleled purity and efficacy. Our story is a testament to the belief that cannabis is medicine, a belief that has driven us from the early days of legalization campaigns to the cutting-edge of the industry today. At Terpenos.com, we are more than just a company; we are a part of a global movement towards wellness, innovation, and the unyielding pursuit of excellence in the cannabis domain.",
 
     "about.values.title": "Our Values",
     "about.values.subtitle": "The principles that guide our work and define our culture.",
@@ -151,11 +161,14 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
 
     "about.approach.title": "Our Approach",
     "about.approach.p1":
-      "At Terpenos, we combine rigorous scientific methodology with innovative thinking to tackle complex challenges. Our interdisciplinary approach brings together experts from diverse fields, fostering collaboration and cross-pollination of ideas.",
+      "At Terpenos.com, our approach is rooted in science, guided by purpose, and fueled by innovation. From our state-of-the-art lab in Ecuador to our strategic presence in California, we apply rigorous standards to every step of our process—ensuring that every molecule we import or formulate meets pharmaceutical and food-grade benchmarks.",
     "about.approach.p2":
-      "We believe in the power of data-driven decision making and evidence-based solutions. Our research process is characterized by meticulous attention to detail, thorough validation, and a commitment to reproducibility.",
+      "We partner with multiple FDA-certified laboratories in the United States to validate the safety, purity, and consistency of our products. These collaborations reinforce our commitment to quality assurance and global compliance, bridging science and trust across borders.",
     "about.approach.p3":
-      "By maintaining strong connections with academic institutions, industry partners, and the broader scientific community, we ensure that our work remains at the cutting edge of scientific advancement.",
+      "We don't just work with cannabis—we work with intention. Specializing in terpenes, CBD, and legal cannabinoids, we collaborate with pharmaceutical companies, food labs, and wellness brands that demand purity, traceability, and efficacy.",
+    "about.approach.p4":
+      "Our work is grounded in the belief that cannabis is medicine. That conviction drives us to maintain the highest levels of integrity, transparency, and quality in an industry still defining its future. Whether we're formulating bespoke terpene profiles or importing active ingredients, we act as stewards of a plant we respect deeply.",
+    "about.approach.p5": "This is more than commerce. It's a mission. It's our approach.",
 
     "team.hero.title": "Our Team",
     "team.hero.subtitle": "Meet the brilliant minds behind our scientific innovations.",
@@ -252,9 +265,11 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "about.hero.subtitle": "Investigación científica pionera e innovación para un futuro mejor.",
     "about.story.title": "Nuestra Historia",
     "about.story.p1":
-      "Fundada en 2010, Terpenos comenzó con una misión simple: avanzar el conocimiento científico y crear soluciones innovadoras que aborden desafíos del mundo real. Lo que comenzó como un pequeño equipo de investigación se ha convertido en una organización científica líder con presencia global.",
+      "En el corazón de Quito, Ecuador, se encuentra una fuerza pionera en la industria del cannabis: Terpenos.com. Establecida en 2021, nuestra trayectoria no es solo una historia de inicio empresarial, sino una narrativa profunda que se entrelaza con la historia y evolución del cannabis como medicina. Nuestras raíces se adentran en los primeros días de las campañas de legalización del cannabis en Berkeley y Oakland, California, donde nuestros fundadores no fueron simples espectadores, sino voluntarios activos y defensores. Su dedicación a la causa los llevó a colaborar con organizaciones influyentes como Oaksterdam y Harborside, presenciando de primera mano los desafíos y triunfos que moldearon la industria.",
     "about.story.p2":
-      "Nuestro viaje ha estado marcado por descubrimientos revolucionarios, innovaciones tecnológicas y un firme compromiso con la excelencia científica. Hoy, continuamos expandiendo los límites de lo posible, impulsados por la curiosidad y la pasión por el descubrimiento.",
+      "Sin embargo, nuestra historia no comenzó con la fundación de Terpenos.com. Es la continuación de un legado de excelencia e innovación de una década en los sectores farmacéutico y de fabricación de alimentos. Nuestros fundadores trajeron consigo una gran experiencia, habiendo trabajado con fabricantes de alimentos y productos farmacéuticos de marca privada de primer nivel, donde fueron fundamentales en la implementación de sistemas de clase mundial. Esta invaluable experiencia sentó las bases para lo que Terpenos.com llegaría a ser: un líder en el espacio del cannabis, dedicado a los más altos estándares de calidad y seguridad.",
+    "about.story.p3":
+      "Hoy, Terpenos.com se erige como un importador con licencia completa de moléculas derivadas del cannabis, operando desde Ecuador con presencia satelital en California. Nuestro laboratorio está a la vanguardia del desarrollo y mantenimiento de procesos que garantizan la calidad farmacéutica y alimentaria de nuestras formulaciones y materias primas. Nos especializamos en terpenos, CBD y otros cannabinoides legales, atendiendo a clientes que buscan pureza y eficacia sin igual. Nuestra historia es un testimonio de la creencia de que el cannabis es medicina, una convicción que nos ha impulsado desde los primeros días de las campañas de legalización hasta la vanguardia de la industria actual. En Terpenos.com, somos más que una empresa; somos parte de un movimiento global hacia el bienestar, la innovación y la búsqueda inquebrantable de la excelencia en el ámbito del cannabis.",
 
     "about.values.title": "Nuestros Valores",
     "about.values.subtitle": "Los principios que guían nuestro trabajo y definen nuestra cultura.",
@@ -273,11 +288,14 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
 
     "about.approach.title": "Nuestro Enfoque",
     "about.approach.p1":
-      "En Terpenos, combinamos metodología científica rigurosa con pensamiento innovador para abordar desafíos complejos. Nuestro enfoque interdisciplinario reúne a expertos de diversos campos, fomentando la colaboración y la polinización cruzada de ideas.",
+      "En Terpenos.com, nuestro enfoque está arraigado en la ciencia, guiado por un propósito y alimentado por la innovación. Desde nuestro laboratorio de última generación en Ecuador hasta nuestra presencia estratégica en California, aplicamos estándares rigurosos en cada paso de nuestro proceso, asegurando que cada molécula que importamos o formulamos cumpla con los puntos de referencia farmacéuticos y de grado alimenticio.",
     "about.approach.p2":
-      "Creemos en el poder de la toma de decisiones basada en datos y soluciones basadas en evidencia. Nuestro proceso de investigación se caracteriza por una meticulosa atención al detalle, validación exhaustiva y un compromiso con la reproducibilidad.",
+      "Nos asociamos con múltiples laboratorios certificados por la FDA en los Estados Unidos para validar la seguridad, pureza y consistencia de nuestros productos. Estas colaboraciones refuerzan nuestro compromiso con la garantía de calidad y el cumplimiento global, tendiendo puentes entre la ciencia y la confianza a través de las fronteras.",
     "about.approach.p3":
-      "Al mantener fuertes conexiones con instituciones académicas, socios de la industria y la comunidad científica en general, aseguramos que nuestro trabajo permanezca a la vanguardia del avance científico.",
+      "No solo trabajamos con cannabis, trabajamos con intención. Especializándonos en terpenos, CBD y cannabinoides legales, colaboramos con empresas farmacéuticas, laboratorios de alimentos y marcas de bienestar que exigen pureza, trazabilidad y eficacia.",
+    "about.approach.p4":
+      "Nuestro trabajo se basa en la creencia de que el cannabis es medicina. Esa convicción nos impulsa a mantener los más altos niveles de integridad, transparencia y calidad en una industria que aún está definiendo su futuro. Ya sea que estemos formulando perfiles de terpenos a medida o importando ingredientes activos, actuamos como administradores de una planta que respetamos profundamente.",
+    "about.approach.p5": "Esto es más que comercio. Es una misión. Es nuestro enfoque.",
 
     "team.hero.title": "Nuestro Equipo",
     "team.hero.subtitle": "Conozca las mentes brillantes detrás de nuestras innovaciones científicas.",
@@ -376,9 +394,11 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "about.hero.subtitle": "Recherche scientifique pionnière et innovation pour un avenir meilleur.",
     "about.story.title": "Notre Histoire",
     "about.story.p1":
-      "Fondée en 2010, Terpenos a commencé avec une mission simple : faire progresser les connaissances scientifiques et créer des solutions innovantes qui répondent aux défis du monde réel. Ce qui a commencé comme une petite équipe de recherche est devenu une organisation scientifique de premier plan avec une présence mondiale.",
+      "Au cœur de Quito, en Équateur, se trouve une force pionnière dans l'industrie du cannabis : Terpenos.com. Fondée en 2021, notre parcours n'est pas seulement une histoire de création d'entreprise, mais un récit profond qui s'entremêle avec l'histoire et l'évolution du cannabis en tant que médicament. Nos racines plongent dans les premiers jours des campagnes de légalisation du cannabis à Berkeley et Oakland, en Californie, où nos fondateurs n'étaient pas de simples spectateurs, mais des bénévoles actifs et des défenseurs. Leur dévouement à la cause les a amenés à collaborer avec des organisations influentes telles qu'Oaksterdam et Harborside, témoignant de première main des défis et des triomphes qui ont façonné l'industrie.",
     "about.story.p2":
-      "Notre parcours a été marqué par des découvertes révolutionnaires, des innovations technologiques et un engagement ferme envers l'excellence scientifique. Aujourd'hui, nous continuons à repousser les limites du possible, motivés par la curiosité et la passion pour la découverte.",
+      "Cependant, notre histoire n'a pas commencé avec la fondation de Terpenos.com. C'est la continuation d'un héritage d'excellence et d'innovation de dix ans dans les secteurs pharmaceutique et alimentaire. Nos fondateurs ont apporté avec eux une riche expérience, ayant travaillé avec des fabricants de premier plan d'aliments et de produits pharmaceutiques sous marque privée, où ils ont joué un rôle déterminant dans la mise en œuvre de systèmes de classe mondiale. Cette expérience inestimable a jeté les bases de ce que Terpenos.com allait devenir : un leader dans le domaine du cannabis, dédié aux plus hauts standards de qualité et de sécurité.",
+    "about.story.p3":
+      "Aujourd'hui, Terpenos.com est un importateur agréé de molécules dérivées du cannabis, opérant depuis l'Équateur avec une présence satellite en Californie. Notre laboratoire est à la pointe du développement et du maintien de processus qui garantissent la qualité pharmaceutique et alimentaire de nos formulations et matières premières. Nous nous spécialisons dans les terpènes, le CBD et autres cannabinoïdes légaux, répondant aux besoins des clients qui recherchent une pureté et une efficacité inégalées. Notre histoire témoigne de la conviction que le cannabis est un médicament, une conviction qui nous a portés des premiers jours des campagnes de légalisation jusqu'à la pointe de l'industrie aujourd'hui. Chez Terpenos.com, nous sommes plus qu'une entreprise ; nous faisons partie d'un mouvement mondial vers le bien-être, l'innovation et la poursuite inlassable de l'excellence dans le domaine du cannabis.",
 
     "about.values.title": "Nos Valeurs",
     "about.values.subtitle": "Les principes qui guident notre travail et définissent notre culture.",
@@ -397,11 +417,14 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
 
     "about.approach.title": "Notre Approche",
     "about.approach.p1":
-      "Chez Terpenos, nous combinons une méthodologie scientifique rigoureuse avec une pensée innovante pour relever des défis complexes. Notre approche interdisciplinaire réunit des experts de divers domaines, favorisant la collaboration et la pollinisation croisée des idées.",
+      "Chez Terpenos.com, notre approche est ancrée dans la science, guidée par un objectif et alimentée par l'innovation. De notre laboratoire de pointe en Équateur à notre présence stratégique en Californie, nous appliquons des normes rigoureuses à chaque étape de notre processus, garantissant que chaque molécule que nous importons ou formulons répond aux critères pharmaceutiques et alimentaires.",
     "about.approach.p2":
-      "Nous croyons au pouvoir de la prise de décision basée sur les données et des solutions fondées sur des preuves. Notre processus de recherche se caractérise par une attention méticuleuse aux détails, une validation approfondie et un engagement envers la reproductibilité.",
+      "Nous collaborons avec plusieurs laboratoires certifiés par la FDA aux États-Unis pour valider la sécurité, la pureté et la cohérence de nos produits. Ces collaborations renforcent notre engagement envers l'assurance qualité et la conformité mondiale, établissant des ponts entre la science et la confiance au-delà des frontières.",
     "about.approach.p3":
-      "En maintenant des liens solides avec les institutions académiques, les partenaires industriels et la communauté scientifique au sens large, nous veillons à ce que notre travail reste à la pointe de l'avancement scientifique.",
+      "Nous ne travaillons pas simplement avec le cannabis, nous travaillons avec intention. Spécialisés dans les terpènes, le CBD et les cannabinoïdes légaux, nous collaborons avec des entreprises pharmaceutiques, des laboratoires alimentaires et des marques de bien-être qui exigent pureté, traçabilité et efficacité.",
+    "about.approach.p4":
+      "Notre travail est fondé sur la conviction que le cannabis est un médicament. Cette conviction nous pousse à maintenir les plus hauts niveaux d'intégrité, de transparence et de qualité dans une industrie qui définit encore son avenir. Que nous formulions des profils de terpènes sur mesure ou importions des ingrédients actifs, nous agissons en tant que gardiens d'une plante que nous respectons profondément.",
+    "about.approach.p5": "C'est plus que du commerce. C'est une mission. C'est notre approche.",
 
     "team.hero.title": "Notre Équipe",
     "team.hero.subtitle": "Rencontrez les esprits brillants derrière nos innovations scientifiques.",
@@ -500,9 +523,11 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "about.hero.subtitle": "Bahnbrechende wissenschaftliche Forschung und Innovation für eine bessere Zukunft.",
     "about.story.title": "Unsere Geschichte",
     "about.story.p1":
-      "Terpenos wurde 2010 mit einer einfachen Mission gegründet: wissenschaftliches Wissen voranzutreiben und innovative Lösungen zu schaffen, die reale Herausforderungen bewältigen. Was als kleines Forschungsteam begann, ist zu einer führenden wissenschaftlichen Organisation mit globaler Präsenz gewachsen.",
+      "Im Herzen von Quito, Ecuador, liegt eine Pionierarbeit in der Cannabis-Industrie: Terpenos.com. Gegründet im Jahr 2021, ist unsere Reise nicht nur eine Geschichte der Unternehmensgründung, sondern eine tiefgreifende Erzählung, die sich mit der Geschichte und Entwicklung von Cannabis als Medizin verflicht. Unsere Wurzeln reichen tief in die frühen Tage der Cannabis-Legalisierungskampagnen in Berkeley und Oakland, Kalifornien, wo unsere Gründer nicht nur Zuschauer, sondern aktive Freiwillige und Befürworter waren. Ihr Engagement für die Sache führte sie an die Seite einflussreicher Organisationen wie Oaksterdam und Harborside, wo sie die Herausforderungen und Triumphe, die die Branche geprägt haben, aus erster Hand miterlebten.",
     "about.story.p2":
-      "Unsere Reise war geprägt von bahnbrechenden Entdeckungen, technologischen Innovationen und einem standhaften Engagement für wissenschaftliche Exzellenz. Heute setzen wir weiterhin die Grenzen des Möglichen, angetrieben von Neugier und Leidenschaft für Entdeckungen.",
+      "Unsere Geschichte begann jedoch nicht mit der Gründung von Terpenos.com. Es ist die Fortsetzung eines jahrzehntelangen Erbes von Exzellenz und Innovation in den Bereichen Pharmazie und Lebensmittelherstellung. Unsere Gründer brachten eine Fülle von Erfahrungen mit, nachdem sie mit erstklassigen Herstellern von Eigenmarken für Lebensmittel und Pharmazeutika zusammengearbeitet hatten, wo sie maßgeblich an der Implementierung von Weltklasse-Systemen beteiligt waren. Diese unschätzbare Erfahrung legte den Grundstein für das, was Terpenos.com werden sollte – ein Marktführer im Cannabis-Bereich, der sich den höchsten Standards für Qualität und Sicherheit verschrieben hat.",
+    "about.story.p3":
+      "Heute steht Terpenos.com als vollständig lizenzierter Importeur von Cannabis-abgeleiteten Molekülen, der von Ecuador aus mit einer Satellitenpräsenz in Kalifornien operiert. Unser Labor ist führend in der Entwicklung und Aufrechterhaltung von Prozessen, die die pharmazeutische und lebensmittelgerechte Qualität unserer Formulierungen und Rohstoffe garantieren. Wir sind spezialisiert auf Terpene, CBD und andere legale Cannabinoide und bedienen Kunden, die unübertroffene Reinheit und Wirksamkeit suchen. Unsere Geschichte ist ein Zeugnis für die Überzeugung, dass Cannabis Medizin ist, eine Überzeugung, die uns von den frühen Tagen der Legalisierungskampagnen bis zur Spitze der Branche heute angetrieben hat. Bei Terpenos.com sind wir mehr als nur ein Unternehmen; wir sind Teil einer globalen Bewegung in Richtung Wellness, Innovation und dem unermüdlichen Streben nach Exzellenz im Cannabis-Bereich.",
 
     "about.values.title": "Unsere Werte",
     "about.values.subtitle": "Die Prinzipien, die unsere Arbeit leiten und unsere Kultur definieren.",
@@ -521,11 +546,14 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
 
     "about.approach.title": "Unser Ansatz",
     "about.approach.p1":
-      "Bei Terpenos kombinieren wir rigorose wissenschaftliche Methodik mit innovativem Denken, um komplexe Herausforderungen zu bewältigen. Unser interdisziplinärer Ansatz bringt Experten aus verschiedenen Bereichen zusammen und fördert Zusammenarbeit und Kreuzbestäubung von Ideen.",
+      "Bei Terpenos.com ist unser Ansatz in der Wissenschaft verwurzelt, von Zweck geleitet und von Innovation angetrieben. Von unserem hochmodernen Labor in Ecuador bis zu unserer strategischen Präsenz in Kalifornien wenden wir strenge Standards auf jeden Schritt unseres Prozesses an und stellen sicher, dass jedes Molekül, das wir importieren oder formulieren, pharmazeutischen und lebensmittelgerechten Maßstäben entspricht.",
     "about.approach.p2":
-      "Wir glauben an die Kraft der datengestützten Entscheidungsfindung und evidenzbasierter Lösungen. Unser Forschungsprozess zeichnet sich durch akribische Aufmerksamkeit für Details, gründliche Validierung und ein Engagement für Reproduzierbarkeit aus.",
+      "Wir arbeiten mit mehreren FDA-zertifizierten Laboren in den Vereinigten Staaten zusammen, um die Sicherheit, Reinheit und Konsistenz unserer Produkte zu validieren. Diese Kooperationen verstärken unser Engagement für Qualitätssicherung und globale Compliance und überbrücken Wissenschaft und Vertrauen über Grenzen hinweg.",
     "about.approach.p3":
-      "Durch die Aufrechterhaltung starker Verbindungen zu akademischen Einrichtungen, Industriepartnern und der breiteren wissenschaftlichen Gemeinschaft stellen wir sicher, dass unsere Arbeit an der Spitze des wissenschaftlichen Fortschritts bleibt.",
+      "Wir arbeiten nicht nur mit Cannabis – wir arbeiten mit Absicht. Spezialisiert auf Terpene, CBD und legale Cannabinoide, arbeiten wir mit Pharmaunternehmen, Lebensmittellaboren und Wellness-Marken zusammen, die Reinheit, Rückverfolgbarkeit und Wirksamkeit fordern.",
+    "about.approach.p4":
+      "Unsere Arbeit basiert auf der Überzeugung, dass Cannabis Medizin ist. Diese Überzeugung treibt uns dazu an, die höchsten Standards an Integrität, Transparenz und Qualität in einer Branche aufrechtzuerhalten, die ihre Zukunft noch definiert. Ob wir maßgeschneiderte Terpenprofile formulieren oder aktive Inhaltsstoffe importieren, wir handeln als Verwalter einer Pflanze, die wir zutiefst respektieren.",
+    "about.approach.p5": "Dies ist mehr als Handel. Es ist eine Mission. Es ist unser Ansatz.",
 
     "team.hero.title": "Unser Team",
     "team.hero.subtitle": "Lernen Sie die brillanten Köpfe hinter unseren wissenschaftlichen Innovationen kennen.",
