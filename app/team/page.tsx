@@ -30,7 +30,7 @@ const teamMembers = [
     name: "Alex Garcia",
     role: "CMO/Big Brain",
     bio: "Alex is the interim CMO and provides support and guidance to the team as chairman of the board of directors. He has founded multiple successful companies before and consults for research and innovation laboratories in the United States.",
-    image: "/placeholder.svg?height=400&width=400",
+    image: "/images/alex-garcia.jpeg",
     linkedin: "#",
     email: "alex@terpenos.com",
   },
