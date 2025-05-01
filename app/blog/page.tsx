@@ -96,15 +96,24 @@ export default function BlogPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-terpenos-offwhite border-b border-terpenos-light-green">
-        <div className="container px-4 md:px-6">
+      {/* Hero Section with Background Image */}
+      <section
+        className="w-full py-12 md:py-24 lg:py-32 relative bg-cover bg-center"
+        style={{
+          backgroundImage: 'url("/images/blog-banner.png")',
+          backgroundPosition: "center 70%",
+        }}
+      >
+        {/* Semi-transparent overlay for better text readability */}
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+        <div className="container px-4 md:px-6 relative z-10">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl font-montserrat">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl font-montserrat text-white">
                 {t("blog.hero.title")}
               </h1>
-              <p className="max-w-[900px] text-terpenos-charcoal md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="max-w-[900px] text-white/90 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 {t("blog.hero.subtitle")}
               </p>
             </div>
@@ -113,11 +122,11 @@ export default function BlogPage() {
                 <Input
                   type="search"
                   placeholder={t("blog.search.placeholder")}
-                  className="max-w-lg flex-1"
+                  className="max-w-lg flex-1 bg-white/90 placeholder:text-gray-600"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <Button type="submit" size="icon">
+                <Button type="submit" size="icon" className="bg-terpenos-green hover:bg-terpenos-forest-green">
                   <Search className="h-4 w-4" />
                   <span className="sr-only">Search</span>
                 </Button>
