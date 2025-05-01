@@ -59,8 +59,8 @@ export default function AboutPage() {
             <div className="flex justify-center">
               <div className="relative w-full max-w-[500px] aspect-square overflow-hidden rounded-xl">
                 <img
-                  src="/placeholder.svg?height=600&width=600"
-                  alt="Terpenos laboratory"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/DALL%C2%B7E%202023-10-17%2014.33.02%20-%20Illustration%20of%20Alexander%20Von%20Humboldt%20in%20his%20exploration%20attire%2C%20holding%20a%20magnifying%20glass%20inspecting%20a%20cannabis%20plant.%20The%20aromatic%20terpenes%20are%20vi.png-mYD37zwR2yB84B3pxyTjN90p4yORwI.jpeg"
+                  alt="Illustration of scientific exploration of cannabis and terpenes"
                   className="object-cover w-full h-full"
                 />
               </div>
@@ -118,17 +118,37 @@ export default function AboutPage() {
             <div className="flex justify-center order-2 lg:order-1">
               <div className="relative w-full max-w-[500px] aspect-square overflow-hidden rounded-xl">
                 <img
-                  src="/placeholder.svg?height=600&width=600"
-                  alt="Scientific research process"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-XhhAPzbVbMaNXoHNWPrLzuGHjbCYBK.png"
+                  alt="Terpenos laboratory technician analyzing cannabis extracts"
                   className="object-cover w-full h-full"
                 />
               </div>
             </div>
             <div className="space-y-4 order-1 lg:order-2">
               <h2 className="text-3xl font-bold tracking-tighter">{t("about.approach.title")}</h2>
-              <p className="text-muted-foreground">{t("about.approach.p1")}</p>
-              <p className="text-muted-foreground">{t("about.approach.p2")}</p>
-              <p className="text-muted-foreground">{t("about.approach.p3")}</p>
+              <p className="text-muted-foreground">
+                At Terpenos.com, our approach is rooted in science, guided by purpose, and fueled by innovation. From
+                our state-of-the-art lab in Ecuador to our strategic presence in California, we apply rigorous standards
+                to every step of our process—ensuring that every molecule we import or formulate meets pharmaceutical
+                and food-grade benchmarks.
+              </p>
+              <p className="text-muted-foreground">
+                We partner with multiple FDA-certified laboratories in the United States to validate the safety, purity,
+                and consistency of our products. These collaborations reinforce our commitment to quality assurance and
+                global compliance, bridging science and trust across borders.
+              </p>
+              <p className="text-muted-foreground">
+                We don't just work with cannabis—we work with intention. Specializing in terpenes, CBD, and legal
+                cannabinoids, we collaborate with pharmaceutical companies, food labs, and wellness brands that demand
+                purity, traceability, and efficacy.
+              </p>
+              <p className="text-muted-foreground">
+                Our work is grounded in the belief that cannabis is medicine. That conviction drives us to maintain the
+                highest levels of integrity, transparency, and quality in an industry still defining its future. Whether
+                we're formulating bespoke terpene profiles or importing active ingredients, we act as stewards of a
+                plant we respect deeply.
+              </p>
+              <p className="text-muted-foreground">This is more than commerce. It's a mission. It's our approach.</p>
             </div>
           </div>
         </div>
