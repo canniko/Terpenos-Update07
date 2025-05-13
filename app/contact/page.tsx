@@ -190,9 +190,9 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-medium">Address</h3>
                       <p className="text-sm text-muted-foreground mt-1">
-                        123 Science Park, Research Avenue
+                        Multicentro Av. 6 de Diciembre
                         <br />
-                        City, Country, ZIP
+                        Quito, Ecuador
                       </p>
                     </div>
                   </CardContent>
@@ -202,11 +202,7 @@ export default function ContactPage() {
                     <Phone className="h-6 w-6 text-muted-foreground shrink-0" />
                     <div>
                       <h3 className="font-medium">Phone</h3>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        +1 (234) 567-890
-                        <br />
-                        Mon-Fri, 9:00 AM - 5:00 PM
-                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">+593 2-223-9878</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -216,7 +212,7 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-medium">Email</h3>
                       <p className="text-sm text-muted-foreground mt-1">
-                        info@terpenos.com
+                        sales@terpenos.com
                         <br />
                         support@terpenos.com
                       </p>
@@ -242,11 +238,17 @@ export default function ContactPage() {
               <Card>
                 <CardContent className="p-0">
                   <div className="aspect-video w-full overflow-hidden rounded-b-lg">
-                    <img
-                      src="/placeholder.svg?height=400&width=800"
-                      alt="Map location"
-                      className="object-cover w-full h-full"
-                    />
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4462.543197722294!2d-78.48804182503538!3d-0.1994307997986042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d59b702ce1ac5d%3A0xb5c0c27a748dc1bd!2sMulticentro%20Shopping%20Center!5e1!3m2!1sen!2sus!4v1747105951635!5m2!1sen!2sus"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="aspect-video"
+                      title="Terpenos Location - Multicentro Shopping Center"
+                    ></iframe>
                   </div>
                 </CardContent>
               </Card>
