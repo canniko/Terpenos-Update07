@@ -11,8 +11,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
 import { submitContactForm, type ContactFormData } from "../actions/contact-form"
+import { useLanguage } from "@/lib/i18n/context"
 
 export default function ContactPage() {
+  const { t } = useLanguage()
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
@@ -73,9 +75,9 @@ export default function ContactPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Contact Us</h1>
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">{t("contact.hero.title")}</h1>
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                We'd love to hear from you. Get in touch with our team.
+                {t("contact.hero.subtitle")}
               </p>
             </div>
           </div>
@@ -89,10 +91,8 @@ export default function ContactPage() {
             {/* Contact Form */}
             <Card>
               <CardHeader>
-                <CardTitle>Send Us a Message</CardTitle>
-                <CardDescription>
-                  Fill out the form below and we'll get back to you as soon as possible.
-                </CardDescription>
+                <CardTitle>{t("contact.form.title")}</CardTitle>
+                <CardDescription>{t("contact.form.description")}</CardDescription>
               </CardHeader>
               <CardContent>
                 {isSubmitted ? (
@@ -114,12 +114,12 @@ export default function ContactPage() {
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                       </svg>
                     </div>
-                    <h3 className="text-xl font-bold">Message Sent Successfully</h3>
+                    <h3 className="text-xl font-bold">{t("contact.form.success.title")}</h3>
                     <p className="text-muted-foreground">
-                      {submitResult?.message || "Thank you for reaching out! We'll get back to you shortly."}
+                      {submitResult?.message || t("contact.form.success.message")}
                     </p>
                     <Button variant="outline" onClick={() => setIsSubmitted(false)}>
-                      Send Another Message
+                      {t("contact.form.success.button")}
                     </Button>
                   </div>
                 ) : (
@@ -131,22 +131,22 @@ export default function ContactPage() {
                     )}
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="name">{t("contact.form.name")}</Label>
                         <Input
                           id="name"
                           name="name"
-                          placeholder="Your name"
+                          placeholder={t("contact.form.name")}
                           required
                           value={formData.name}
                           onChange={handleChange}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">{t("contact.form.email")}</Label>
                         <Input
                           id="email"
                           name="email"
-                          placeholder="Your email"
+                          placeholder={t("contact.form.email")}
                           required
                           type="email"
                           value={formData.email}
@@ -155,10 +155,10 @@ export default function ContactPage() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="inquiryType">Inquiry Type</Label>
+                      <Label htmlFor="inquiryType">{t("contact.form.inquiryType")}</Label>
                       <Select value={formData.inquiryType} onValueChange={handleSelectChange}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select inquiry type" />
+                          <SelectValue placeholder={t("contact.form.inquiryType")} />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="general">General Inquiry</SelectItem>
@@ -170,22 +170,22 @@ export default function ContactPage() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="subject">Subject</Label>
+                      <Label htmlFor="subject">{t("contact.form.subject")}</Label>
                       <Input
                         id="subject"
                         name="subject"
-                        placeholder="Subject of your message"
+                        placeholder={t("contact.form.subject")}
                         required
                         value={formData.subject}
                         onChange={handleChange}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="message">Message</Label>
+                      <Label htmlFor="message">{t("contact.form.message")}</Label>
                       <Textarea
                         id="message"
                         name="message"
-                        placeholder="Your message"
+                        placeholder={t("contact.form.message")}
                         required
                         rows={5}
                         value={formData.message}
@@ -193,7 +193,7 @@ export default function ContactPage() {
                       />
                     </div>
                     <Button type="submit" className="w-full" disabled={isSubmitting}>
-                      {isSubmitting ? "Sending..." : "Send Message"}
+                      {isSubmitting ? t("contact.form.sending") : t("contact.form.send")}
                     </Button>
                   </form>
                 )}
@@ -203,15 +203,15 @@ export default function ContactPage() {
             {/* Contact Information */}
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold tracking-tight">Contact Information</h2>
-                <p className="text-muted-foreground mt-2">Reach out to us through any of the following channels.</p>
+                <h2 className="text-2xl font-bold tracking-tight">{t("contact.info.title")}</h2>
+                <p className="text-muted-foreground mt-2">{t("contact.info.subtitle")}</p>
               </div>
               <div className="grid gap-4 md:grid-cols-2">
                 <Card>
                   <CardContent className="p-6 flex items-start space-x-4">
                     <MapPin className="h-6 w-6 text-muted-foreground shrink-0" />
                     <div>
-                      <h3 className="font-medium">Address</h3>
+                      <h3 className="font-medium">{t("contact.info.address")}</h3>
                       <p className="text-sm text-muted-foreground mt-1">
                         Multicentro Av. 6 de Diciembre
                         <br />
@@ -224,7 +224,7 @@ export default function ContactPage() {
                   <CardContent className="p-6 flex items-start space-x-4">
                     <Phone className="h-6 w-6 text-muted-foreground shrink-0" />
                     <div>
-                      <h3 className="font-medium">Phone</h3>
+                      <h3 className="font-medium">{t("contact.info.phone")}</h3>
                       <p className="text-sm text-muted-foreground mt-1">+593 2-223-9878</p>
                     </div>
                   </CardContent>
@@ -233,7 +233,7 @@ export default function ContactPage() {
                   <CardContent className="p-6 flex items-start space-x-4">
                     <Mail className="h-6 w-6 text-muted-foreground shrink-0" />
                     <div>
-                      <h3 className="font-medium">Email</h3>
+                      <h3 className="font-medium">{t("contact.info.email")}</h3>
                       <p className="text-sm text-muted-foreground mt-1">
                         sales@terpenos.com
                         <br />
@@ -246,7 +246,7 @@ export default function ContactPage() {
                   <CardContent className="p-6 flex items-start space-x-4">
                     <Clock className="h-6 w-6 text-muted-foreground shrink-0" />
                     <div>
-                      <h3 className="font-medium">Hours</h3>
+                      <h3 className="font-medium">{t("contact.info.hours")}</h3>
                       <p className="text-sm text-muted-foreground mt-1">
                         Monday - Friday
                         <br />
@@ -284,10 +284,8 @@ export default function ContactPage() {
       <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tighter">Frequently Asked Questions</h2>
-            <p className="max-w-[900px] text-muted-foreground">
-              Find answers to common questions about our products and services.
-            </p>
+            <h2 className="text-3xl font-bold tracking-tighter">{t("contact.faq.title")}</h2>
+            <p className="max-w-[900px] text-muted-foreground">{t("contact.faq.subtitle")}</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:gap-12">
             <div className="space-y-4">

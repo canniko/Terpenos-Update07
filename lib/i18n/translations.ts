@@ -80,23 +80,48 @@ export type TranslationKey =
   | "contact.form.title"
   | "contact.form.description"
   | "contact.form.name"
+  | "contact.form.name.placeholder"
   | "contact.form.email"
+  | "contact.form.email.placeholder"
   | "contact.form.inquiryType"
+  | "contact.form.inquiryType.placeholder"
+  | "contact.form.inquiryType.general"
+  | "contact.form.inquiryType.products"
+  | "contact.form.inquiryType.services"
+  | "contact.form.inquiryType.partnership"
+  | "contact.form.inquiryType.careers"
   | "contact.form.subject"
+  | "contact.form.subject.placeholder"
   | "contact.form.message"
+  | "contact.form.message.placeholder"
   | "contact.form.send"
   | "contact.form.sending"
   | "contact.form.success.title"
   | "contact.form.success.message"
   | "contact.form.success.button"
+  | "contact.form.error.general"
   | "contact.info.title"
   | "contact.info.subtitle"
   | "contact.info.address"
   | "contact.info.phone"
   | "contact.info.email"
   | "contact.info.hours"
+  | "contact.info.hours.weekdays"
+  | "contact.map.title"
   | "contact.faq.title"
   | "contact.faq.subtitle"
+  | "contact.faq.q1"
+  | "contact.faq.a1"
+  | "contact.faq.q2"
+  | "contact.faq.a2"
+  | "contact.faq.q3"
+  | "contact.faq.a3"
+  | "contact.faq.q4"
+  | "contact.faq.a4"
+  | "contact.faq.q5"
+  | "contact.faq.a5"
+  | "contact.faq.q6"
+  | "contact.faq.a6"
   | "footer.description"
   | "footer.links.title"
   | "footer.resources.title"
@@ -257,23 +282,54 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "contact.form.title": "Send Us a Message",
     "contact.form.description": "Fill out the form below and we'll get back to you as soon as possible.",
     "contact.form.name": "Name",
+    "contact.form.name.placeholder": "Your name",
     "contact.form.email": "Email",
+    "contact.form.email.placeholder": "Your email",
     "contact.form.inquiryType": "Inquiry Type",
+    "contact.form.inquiryType.placeholder": "Select inquiry type",
+    "contact.form.inquiryType.general": "General Inquiry",
+    "contact.form.inquiryType.products": "Products",
+    "contact.form.inquiryType.services": "Services",
+    "contact.form.inquiryType.partnership": "Partnership",
+    "contact.form.inquiryType.careers": "Careers",
     "contact.form.subject": "Subject",
+    "contact.form.subject.placeholder": "Subject of your message",
     "contact.form.message": "Message",
+    "contact.form.message.placeholder": "Your message",
     "contact.form.send": "Send Message",
     "contact.form.sending": "Sending...",
     "contact.form.success.title": "Message Sent Successfully",
     "contact.form.success.message": "Thank you for reaching out! We'll get back to you shortly.",
     "contact.form.success.button": "Send Another Message",
+    "contact.form.error.general": "An unexpected error occurred. Please try again later.",
     "contact.info.title": "Contact Information",
     "contact.info.subtitle": "Reach out to us through any of the following channels.",
     "contact.info.address": "Address",
     "contact.info.phone": "Phone",
     "contact.info.email": "Email",
     "contact.info.hours": "Hours",
+    "contact.info.hours.weekdays": "Monday - Friday",
+    "contact.map.title": "Terpenos Location - Multicentro Shopping Center",
     "contact.faq.title": "Frequently Asked Questions",
     "contact.faq.subtitle": "Find answers to common questions about our products and services.",
+    "contact.faq.q1": "What areas of research does Terpenos specialize in?",
+    "contact.faq.a1":
+      "Terpenos specializes in molecular biology, biochemistry, analytical chemistry, and related fields. Our interdisciplinary approach allows us to tackle complex scientific challenges across various domains.",
+    "contact.faq.q2": "Do you offer custom research services?",
+    "contact.faq.a2":
+      "Yes, we provide tailored research services to meet specific client needs. Our team can design and execute research projects from concept to completion, delivering comprehensive results and analysis.",
+    "contact.faq.q3": "What is your typical turnaround time for laboratory analysis?",
+    "contact.faq.a3":
+      "Turnaround times vary depending on the complexity of the analysis, but we strive to deliver results as efficiently as possible without compromising quality. Standard analyses typically take 5-7 business days.",
+    "contact.faq.q4": "Do you ship products internationally?",
+    "contact.faq.a4":
+      "Yes, we ship our products worldwide. International shipping times and costs vary by destination. Please contact us for specific information regarding your location.",
+    "contact.faq.q5": "Can I schedule a consultation with your scientific team?",
+    "contact.faq.a5":
+      "Absolutely. We offer consultations with our scientific experts to discuss your research needs, challenges, and potential solutions. Please contact us to arrange a meeting.",
+    "contact.faq.q6": "Do you offer training for your analytical equipment?",
+    "contact.faq.a6":
+      "Yes, we provide comprehensive training for all our equipment and software. Training can be conducted on-site or remotely, depending on your preference and requirements.",
 
     "footer.description": "Innovative scientific solutions and research for a better future.",
     "footer.links.title": "Quick Links",
@@ -458,23 +514,54 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "contact.form.description":
       "Complete el formulario a continuación y nos pondremos en contacto con usted lo antes posible.",
     "contact.form.name": "Nombre",
+    "contact.form.name.placeholder": "Su nombre",
     "contact.form.email": "Correo Electrónico",
+    "contact.form.email.placeholder": "Su correo electrónico",
     "contact.form.inquiryType": "Tipo de Consulta",
+    "contact.form.inquiryType.placeholder": "Seleccione el tipo de consulta",
+    "contact.form.inquiryType.general": "Consulta General",
+    "contact.form.inquiryType.products": "Productos",
+    "contact.form.inquiryType.services": "Servicios",
+    "contact.form.inquiryType.partnership": "Asociación",
+    "contact.form.inquiryType.careers": "Carreras",
     "contact.form.subject": "Asunto",
+    "contact.form.subject.placeholder": "Asunto de su mensaje",
     "contact.form.message": "Mensaje",
+    "contact.form.message.placeholder": "Su mensaje",
     "contact.form.send": "Enviar Mensaje",
     "contact.form.sending": "Enviando...",
     "contact.form.success.title": "Mensaje Enviado Exitosamente",
     "contact.form.success.message": "¡Gracias por contactarnos! Nos pondremos en contacto con usted pronto.",
     "contact.form.success.button": "Enviar Otro Mensaje",
+    "contact.form.error.general": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.",
     "contact.info.title": "Información de Contacto",
     "contact.info.subtitle": "Comuníquese con nosotros a través de cualquiera de los siguientes canales.",
     "contact.info.address": "Dirección",
     "contact.info.phone": "Teléfono",
     "contact.info.email": "Correo Electrónico",
     "contact.info.hours": "Horario",
+    "contact.info.hours.weekdays": "Lunes - Viernes",
+    "contact.map.title": "Ubicación de Terpenos - Centro Comercial Multicentro",
     "contact.faq.title": "Preguntas Frecuentes",
     "contact.faq.subtitle": "Encuentre respuestas a preguntas comunes sobre nuestros productos y servicios.",
+    "contact.faq.q1": "¿En qué áreas de investigación se especializa Terpenos?",
+    "contact.faq.a1":
+      "Terpenos se especializa en biología molecular, bioquímica, química analítica y campos relacionados. Nuestro enfoque interdisciplinario nos permite abordar desafíos científicos complejos en diversos dominios.",
+    "contact.faq.q2": "¿Ofrecen servicios de investigación personalizados?",
+    "contact.faq.a2":
+      "Sí, proporcionamos servicios de investigación adaptados para satisfacer las necesidades específicas de los clientes. Nuestro equipo puede diseñar y ejecutar proyectos de investigación desde el concepto hasta la finalización, entregando resultados y análisis completos.",
+    "contact.faq.q3": "¿Cuál es su tiempo de respuesta típico para análisis de laboratorio?",
+    "contact.faq.a3":
+      "Los tiempos de respuesta varían según la complejidad del análisis, pero nos esforzamos por entregar resultados de manera eficiente sin comprometer la calidad. Los análisis estándar generalmente toman de 5 a 7 días hábiles.",
+    "contact.faq.q4": "¿Envían productos internacionalmente?",
+    "contact.faq.a4":
+      "Sí, enviamos nuestros productos a todo el mundo. Los tiempos y costos de envío internacional varían según el destino. Contáctenos para obtener información específica sobre su ubicación.",
+    "contact.faq.q5": "¿Puedo programar una consulta con su equipo científico?",
+    "contact.faq.a5":
+      "Absolutamente. Ofrecemos consultas con nuestros expertos científicos para discutir sus necesidades de investigación, desafíos y posibles soluciones. Contáctenos para organizar una reunión.",
+    "contact.faq.q6": "¿Ofrecen capacitación para su equipo analítico?",
+    "contact.faq.a6":
+      "Sí, proporcionamos capacitación integral para todos nuestros equipos y software. La capacitación puede realizarse en el sitio o de forma remota, según su preferencia y requisitos.",
 
     "footer.description": "Soluciones e investigación científica innovadoras para un futuro mejor.",
     "footer.links.title": "Enlaces Rápidos",
@@ -659,23 +746,54 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "contact.form.title": "Envoyez-Nous un Message",
     "contact.form.description": "Remplissez le formulaire ci-dessous et nous vous répondrons dès que possible.",
     "contact.form.name": "Nom",
+    "contact.form.name.placeholder": "Votre nom",
     "contact.form.email": "Email",
+    "contact.form.email.placeholder": "Votre email",
     "contact.form.inquiryType": "Type de Demande",
+    "contact.form.inquiryType.placeholder": "Sélectionnez le type de demande",
+    "contact.form.inquiryType.general": "Demande Générale",
+    "contact.form.inquiryType.products": "Produits",
+    "contact.form.inquiryType.services": "Services",
+    "contact.form.inquiryType.partnership": "Partenariat",
+    "contact.form.inquiryType.careers": "Carrières",
     "contact.form.subject": "Sujet",
+    "contact.form.subject.placeholder": "Sujet de votre message",
     "contact.form.message": "Message",
+    "contact.form.message.placeholder": "Votre message",
     "contact.form.send": "Envoyer le Message",
     "contact.form.sending": "Envoi en cours...",
     "contact.form.success.title": "Message Envoyé avec Succès",
     "contact.form.success.message": "Merci de nous avoir contactés! Nous vous répondrons bientôt.",
     "contact.form.success.button": "Envoyer un Autre Message",
+    "contact.form.error.general": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
     "contact.info.title": "Informations de Contact",
     "contact.info.subtitle": "Contactez-nous par l'un des canaux suivants.",
     "contact.info.address": "Adresse",
     "contact.info.phone": "Téléphone",
     "contact.info.email": "Email",
     "contact.info.hours": "Heures",
+    "contact.info.hours.weekdays": "Lundi - Vendredi",
+    "contact.map.title": "Emplacement de Terpenos - Centre Commercial Multicentro",
     "contact.faq.title": "Questions Fréquemment Posées",
     "contact.faq.subtitle": "Trouvez des réponses aux questions courantes sur nos produits et services.",
+    "contact.faq.q1": "Dans quels domaines de recherche Terpenos se spécialise-t-il?",
+    "contact.faq.a1":
+      "Terpenos se spécialise dans la biologie moléculaire, la biochimie, la chimie analytique et les domaines connexes. Notre approche interdisciplinaire nous permet de relever des défis scientifiques complexes dans divers domaines.",
+    "contact.faq.q2": "Proposez-vous des services de recherche personnalisés?",
+    "contact.faq.a2":
+      "Oui, nous fournissons des services de recherche adaptés pour répondre aux besoins spécifiques des clients. Notre équipe peut concevoir et exécuter des projets de recherche du concept à l'achèvement, en fournissant des résultats et des analyses complets.",
+    "contact.faq.q3": "Quel est votre délai habituel pour l'analyse en laboratoire?",
+    "contact.faq.a3":
+      "Les délais varient en fonction de la complexité de l'analyse, mais nous nous efforçons de fournir des résultats aussi efficacement que possible sans compromettre la qualité. Les analyses standard prennent généralement 5 à 7 jours ouvrables.",
+    "contact.faq.q4": "Expédiez-vous des produits à l'international?",
+    "contact.faq.a4":
+      "Oui, nous expédions nos produits dans le monde entier. Les délais et les coûts d'expédition internationaux varient selon la destination. Veuillez nous contacter pour des informations spécifiques concernant votre emplacement.",
+    "contact.faq.q5": "Puis-je planifier une consultation avec votre équipe scientifique?",
+    "contact.faq.a5":
+      "Absolument. Nous proposons des consultations avec nos experts scientifiques pour discuter de vos besoins de recherche, de vos défis et des solutions potentielles. Veuillez nous contacter pour organiser une réunion.",
+    "contact.faq.q6": "Proposez-vous une formation pour votre équipement analytique?",
+    "contact.faq.a6":
+      "Oui, nous fournissons une formation complète pour tous nos équipements et logiciels. La formation peut être effectuée sur site ou à distance, selon vos préférences et vos exigences.",
 
     "footer.description": "Solutions et recherche scientifiques innovantes pour un avenir meilleur.",
     "footer.links.title": "Liens Rapides",
@@ -814,9 +932,6 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "team.join.button": "Offene Stellen ansehen",
 
     "products.hero.title": "Produkte & Dienstleistungen",
-    "team.join.button": "Offene Stellen ansehen",
-
-    "products.hero.title": "Produkte & Dienstleistungen",
     "products.hero.subtitle": "Innovative wissenschaftliche Lösungen, maßgeschneidert für Ihre Bedürfnisse.",
     "products.tabs.products": "Produkte",
     "products.tabs.services": "Dienstleistungen",
@@ -844,23 +959,54 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "contact.form.description":
       "Füllen Sie das untenstehende Formular aus, und wir werden uns so schnell wie möglich bei Ihnen melden.",
     "contact.form.name": "Name",
+    "contact.form.name.placeholder": "Ihr Name",
     "contact.form.email": "E-Mail",
+    "contact.form.email.placeholder": "Ihre E-Mail",
     "contact.form.inquiryType": "Anfrageart",
+    "contact.form.inquiryType.placeholder": "Anfrageart auswählen",
+    "contact.form.inquiryType.general": "Allgemeine Anfrage",
+    "contact.form.inquiryType.products": "Produkte",
+    "contact.form.inquiryType.services": "Dienstleistungen",
+    "contact.form.inquiryType.partnership": "Partnerschaft",
+    "contact.form.inquiryType.careers": "Karriere",
     "contact.form.subject": "Betreff",
+    "contact.form.subject.placeholder": "Betreff Ihrer Nachricht",
     "contact.form.message": "Nachricht",
+    "contact.form.message.placeholder": "Ihre Nachricht",
     "contact.form.send": "Nachricht senden",
     "contact.form.sending": "Wird gesendet...",
     "contact.form.success.title": "Nachricht erfolgreich gesendet",
     "contact.form.success.message": "Vielen Dank für Ihre Kontaktaufnahme! Wir werden uns in Kürze bei Ihnen melden.",
     "contact.form.success.button": "Eine weitere Nachricht senden",
+    "contact.form.error.general": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
     "contact.info.title": "Kontaktinformationen",
     "contact.info.subtitle": "Erreichen Sie uns über einen der folgenden Kanäle.",
     "contact.info.address": "Adresse",
     "contact.info.phone": "Telefon",
     "contact.info.email": "E-Mail",
     "contact.info.hours": "Öffnungszeiten",
+    "contact.info.hours.weekdays": "Montag - Freitag",
+    "contact.map.title": "Terpenos Standort - Multicentro Einkaufszentrum",
     "contact.faq.title": "Häufig gestellte Fragen",
     "contact.faq.subtitle": "Finden Sie Antworten auf häufige Fragen zu unseren Produkten und Dienstleistungen.",
+    "contact.faq.q1": "In welchen Forschungsbereichen ist Terpenos spezialisiert?",
+    "contact.faq.a1":
+      "Terpenos ist auf Molekularbiologie, Biochemie, analytische Chemie und verwandte Bereiche spezialisiert. Unser interdisziplinärer Ansatz ermöglicht es uns, komplexe wissenschaftliche Herausforderungen in verschiedenen Bereichen zu bewältigen.",
+    "contact.faq.q2": "Bieten Sie maßgeschneiderte Forschungsdienstleistungen an?",
+    "contact.faq.a2":
+      "Ja, wir bieten maßgeschneiderte Forschungsdienstleistungen an, um spezifische Kundenbedürfnisse zu erfüllen. Unser Team kann Forschungsprojekte vom Konzept bis zur Fertigstellung entwerfen und durchführen und umfassende Ergebnisse und Analysen liefern.",
+    "contact.faq.q3": "Wie lange dauert eine typische Laboranalyse?",
+    "contact.faq.a3":
+      "Die Bearbeitungszeiten variieren je nach Komplexität der Analyse, aber wir bemühen uns, Ergebnisse so effizient wie möglich zu liefern, ohne die Qualität zu beeinträchtigen. Standardanalysen dauern in der Regel 5-7 Werktage.",
+    "contact.faq.q4": "Versenden Sie Produkte international?",
+    "contact.faq.a4":
+      "Ja, wir versenden unsere Produkte weltweit. Internationale Versandzeiten und -kosten variieren je nach Zielort. Bitte kontaktieren Sie uns für spezifische Informationen bezüglich Ihres Standorts.",
+    "contact.faq.q5": "Kann ich eine Beratung mit Ihrem wissenschaftlichen Team vereinbaren?",
+    "contact.faq.a5":
+      "Absolut. Wir bieten Beratungen mit unseren wissenschaftlichen Experten an, um Ihre Forschungsbedürfnisse, Herausforderungen und potenzielle Lösungen zu besprechen. Bitte kontaktieren Sie uns, um ein Treffen zu vereinbaren.",
+    "contact.faq.q6": "Bieten Sie Schulungen für Ihre Analysegeräte an?",
+    "contact.faq.a6":
+      "Ja, wir bieten umfassende Schulungen für alle unsere Geräte und Software an. Die Schulung kann vor Ort oder aus der Ferne durchgeführt werden, je nach Ihren Präferenzen und Anforderungen.",
 
     "footer.description": "Innovative wissenschaftliche Lösungen und Forschung für eine bessere Zukunft.",
     "footer.links.title": "Schnelllinks",
