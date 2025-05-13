@@ -10,9 +10,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
+import { submitContactForm, type ContactFormData } from "../actions/contact-form"
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
     subject: "",
@@ -22,6 +23,7 @@ export default function ContactPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitResult, setSubmitResult] = useState<{ success: boolean; message: string } | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -32,22 +34,36 @@ export default function ContactPage() {
     setFormData((prev) => ({ ...prev, inquiryType: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setIsSubmitted(true)
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-        inquiryType: "",
+    try {
+      // Submit the form data to the server action
+      const result = await submitContactForm(formData)
+
+      setSubmitResult(result)
+
+      if (result.success) {
+        setIsSubmitted(true)
+        // Reset form data on success
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+          inquiryType: "",
+        })
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error)
+      setSubmitResult({
+        success: false,
+        message: "An unexpected error occurred. Please try again later.",
       })
-    }, 1500)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -99,13 +115,20 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <h3 className="text-xl font-bold">Message Sent Successfully</h3>
-                    <p className="text-muted-foreground">Thank you for reaching out! We'll get back to you shortly.</p>
+                    <p className="text-muted-foreground">
+                      {submitResult?.message || "Thank you for reaching out! We'll get back to you shortly."}
+                    </p>
                     <Button variant="outline" onClick={() => setIsSubmitted(false)}>
                       Send Another Message
                     </Button>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">
+                    {submitResult && !submitResult.success && (
+                      <div className="p-3 bg-red-100 text-red-600 rounded-md dark:bg-red-900/20 dark:text-red-400">
+                        {submitResult.message}
+                      </div>
+                    )}
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="name">Name</Label>
