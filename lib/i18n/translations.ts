@@ -102,6 +102,58 @@ export type TranslationKey =
   | "footer.resources.title"
   | "footer.contact.title"
   | "footer.copyright"
+  | "blog.cannabis_oil.title"
+  | "blog.cannabis_oil.excerpt"
+  | "blog.cannabis_oil.history.p1"
+  | "blog.cannabis_oil.history.p2"
+  | "blog.cannabis_oil.history.p3"
+  | "blog.cannabis_oil.recipe.title"
+  | "blog.cannabis_oil.recipe.ingredients.title"
+  | "blog.cannabis_oil.recipe.ingredients.list"
+  | "blog.cannabis_oil.recipe.ingredients.terpenes.intro"
+  | "blog.cannabis_oil.recipe.ingredients.terpenes.limonene"
+  | "blog.cannabis_oil.recipe.ingredients.terpenes.linalool"
+  | "blog.cannabis_oil.recipe.ingredients.terpenes.myrcene"
+  | "blog.cannabis_oil.recipe.utensils.title"
+  | "blog.cannabis_oil.recipe.utensils.list"
+  | "blog.cannabis_oil.recipe.instructions.title"
+  | "blog.cannabis_oil.recipe.instructions.decarb.title"
+  | "blog.cannabis_oil.recipe.instructions.decarb.steps"
+  | "blog.cannabis_oil.recipe.instructions.infusion.title"
+  | "blog.cannabis_oil.recipe.instructions.infusion.steps"
+  | "blog.cannabis_oil.recipe.instructions.terpenes.title"
+  | "blog.cannabis_oil.recipe.instructions.terpenes.steps"
+  | "blog.cannabis_oil.recipe.instructions.straining.title"
+  | "blog.cannabis_oil.recipe.instructions.straining.steps"
+  | "blog.cannabis_oil.recipe.instructions.storage.title"
+  | "blog.cannabis_oil.recipe.instructions.storage.steps"
+  | "blog.cannabis_oil.recipe.usage.title"
+  | "blog.cannabis_oil.recipe.usage.text"
+  | "blog.cannabis_oil.recipe.notes.title"
+  | "blog.cannabis_oil.recipe.notes.dosage"
+  | "blog.cannabis_oil.recipe.notes.terpenes"
+  | "blog.cannabis_oil.recipe.conclusion"
+  | "blog.cannabis_oil.disclaimer"
+  | "blog.cannabis_oil.closing.p1"
+  | "blog.cannabis_oil.closing.p2"
+  | "blog.cannabis_oil.tags.traditional"
+  | "blog.cannabis_oil.tags.recipes"
+  | "blog.cannabis_oil.tags.terpenes"
+  | "blog.cannabis_oil.tags.cannabis"
+  | "blog.back_to_blog"
+  | "blog.share_article"
+  | "blog.link_copied"
+  | "blog.related_articles"
+  | "blog.read_more"
+  | "blog.featured_article"
+  | "blog.latest_articles"
+  | "blog.no_posts_found"
+  | "blog.read_full_article"
+  | "blog.in_this_article"
+  | "blog.cannabis_oil.outline.history"
+  | "blog.cannabis_oil.outline.traditional_uses"
+  | "blog.cannabis_oil.outline.modern_applications"
+  | "blog.cannabis_oil.outline.recipe"
 
 export const translations: Record<Language, Record<TranslationKey, string>> = {
   en: {
@@ -228,6 +280,78 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "footer.resources.title": "Resources",
     "footer.contact.title": "Contact",
     "footer.copyright": "All rights reserved.",
+    "blog.cannabis_oil.title": "The Long Tradition of Cannabis-Infused Oils with a Recipe",
+    "blog.cannabis_oil.excerpt":
+      "Explore the ancient history and modern applications of cannabis-infused oils, along with a detailed recipe for making your own infusion with specific terpenes.",
+    "blog.cannabis_oil.history.p1":
+      'The practice of infusing cannabis with oils is a time-honored tradition that spans centuries and cultures, reflecting a deep understanding of the plant\'s medicinal and therapeutic potential. Ancient civilizations, such as those in China and India, were among the first to explore the benefits of cannabis-infused oils. In traditional Chinese medicine, cannabis was used as a key ingredient in various remedies, with records dating back to 2737 BCE in its use for treating ailments such as pain and inflammation. Similarly, in India, cannabis has been an integral part of Ayurvedic medicine, where it is known as "bhang" and used in oils and pastes to treat a variety of conditions, including digestive issues and skin diseases.',
+    "blog.cannabis_oil.history.p2":
+      "The Middle East also has a rich history of cannabis use, particularly in regions like Persia (modern-day Iran), where cannabis-infused oils were utilized for their analgesic and anti-inflammatory properties. Islamic physicians during the medieval period, such as Avicenna, documented the therapeutic applications of cannabis in their medical texts, highlighting its role in pain relief and muscle relaxation. These ancient practices eventually spread to other parts of the world, including Africa and Europe, where cannabis-infused oils were incorporated into folk medicine traditions for their soothing and healing effects.",
+    "blog.cannabis_oil.history.p3":
+      "In more recent history, the use of cannabis-infused oils has seen a resurgence, driven by growing interest in natural and holistic health remedies. The storied traditions of cannabis infusion methods have been revived and refined, combining ancient wisdom with modern scientific understanding. Today, cannabis-infused oils are widely recognized for their versatility and efficacy, continuing a legacy of healing that has transcended time and geography.",
+    "blog.cannabis_oil.recipe.title": "Cannabis-Infused Oil Recipe with Terpenes",
+    "blog.cannabis_oil.recipe.ingredients.title": "Ingredients:",
+    "blog.cannabis_oil.recipe.ingredients.list":
+      "1 cup of coconut oil or olive oil (according to your preference)\n10 grams of cannabis flowers (decarboxylated)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.intro": "Terpenes (optional, according to preference):",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.limonene":
+      "2 drops of Limonene (for a citrus aroma and energizing effects)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.linalool":
+      "2 drops of Linalool (for a floral aroma and relaxing effects)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.myrcene":
+      "2 drops of Myrcene (for an earthy aroma and sedative effects)",
+    "blog.cannabis_oil.recipe.utensils.title": "Utensils:",
+    "blog.cannabis_oil.recipe.utensils.list":
+      "Coffee grinder or herb grinder\nBaking tray\nParchment paper\nDouble boiler or a pot and a heat-resistant container\nFine mesh strainer or cheesecloth\nGlass jar for storage",
+    "blog.cannabis_oil.recipe.instructions.title": "Instructions:",
+    "blog.cannabis_oil.recipe.instructions.decarb.title": "Decarboxylation of Cannabis:",
+    "blog.cannabis_oil.recipe.instructions.decarb.steps":
+      "1. Preheat the oven to 115°C (240°F).\n2. Grind the cannabis flowers with the coffee grinder or herb grinder.\n3. Place the ground cannabis on a baking tray lined with parchment paper.\n4. Bake the cannabis for 30-40 minutes, stirring every 10 minutes to ensure even decarboxylation. This process activates the psychoactive compounds in the cannabis.",
+    "blog.cannabis_oil.recipe.instructions.infusion.title": "Infusion of the Oil:",
+    "blog.cannabis_oil.recipe.instructions.infusion.steps":
+      "1. Fill the bottom part of the double boiler with water and bring it to a low simmer.\n2. Place the oil (coconut or olive) in the top part of the double boiler.\n3. Add the decarboxylated cannabis to the oil.\n4. Keep the mixture on low heat for 2-3 hours, stirring occasionally. Ensure the oil does not boil.",
+    "blog.cannabis_oil.recipe.instructions.terpenes.title": "Addition of Terpenes (Optional):",
+    "blog.cannabis_oil.recipe.instructions.terpenes.steps":
+      "1. If you want to add specific terpenes, add them to the warm oil after the infusion process, stirring well to mix evenly.",
+    "blog.cannabis_oil.recipe.instructions.straining.title": "Straining:",
+    "blog.cannabis_oil.recipe.instructions.straining.steps":
+      "1. Once the infusion is complete, strain the mixture through a fine mesh strainer or cheesecloth to separate the oil from the cannabis residue.\n2. Squeeze the residue well to extract as much oil as possible.",
+    "blog.cannabis_oil.recipe.instructions.storage.title": "Storage:",
+    "blog.cannabis_oil.recipe.instructions.storage.steps":
+      "1. Pour the infused oil into a clean glass jar.\n2. Store in a cool, dark place. The cannabis oil can last up to two months if stored properly.",
+    "blog.cannabis_oil.recipe.usage.title": "Usage:",
+    "blog.cannabis_oil.recipe.usage.text":
+      "You can use this infused oil in various culinary recipes, such as salad dressings, sautéed dishes, or even as a substitute for oil in baked goods. It can also serve as a base for homemade creams or balms.",
+    "blog.cannabis_oil.recipe.notes.title": "Notes:",
+    "blog.cannabis_oil.recipe.notes.dosage":
+      "Dosage: It's important to remember that the potency of the oil depends on the concentration of THC and CBD in the cannabis flower used. Start with a small amount and adjust according to your needs and tolerance.",
+    "blog.cannabis_oil.recipe.notes.terpenes":
+      "Terpenes: Adding terpenes is optional and can be adjusted according to your preferred aroma and desired effects.",
+    "blog.cannabis_oil.recipe.conclusion": "I hope you enjoy preparing and using this cannabis-infused oil!",
+    "blog.cannabis_oil.disclaimer":
+      "This recipe is intended solely for personal consumption and is not meant to cure any illness or health issue. The use of cannabis-infused oils should be carried out responsibly and in accordance with local and national cannabis laws. Always consult with a healthcare professional before using cannabis products, especially if you have pre-existing medical conditions or are taking medications.",
+    "blog.cannabis_oil.closing.p1":
+      'This recipe combines traditional infusion methods with modern understanding of terpenes, allowing you to customize the aromatic and therapeutic profile of your cannabis-infused oil. The addition of specific terpenes enhances not only the sensory experience but also potentially the therapeutic effects through what is known as the "entourage effect" – the synergistic interaction between cannabinoids and terpenes.',
+    "blog.cannabis_oil.closing.p2":
+      "As you embark on creating your own cannabis-infused oils, you're participating in a tradition that connects you to healers and herbalists across millennia, while also embracing contemporary knowledge about plant medicine and wellness.",
+    "blog.cannabis_oil.tags.traditional": "Traditional Medicine",
+    "blog.cannabis_oil.tags.recipes": "Recipes",
+    "blog.cannabis_oil.tags.terpenes": "Terpenes",
+    "blog.cannabis_oil.tags.cannabis": "Cannabis",
+    "blog.back_to_blog": "Back to Blog",
+    "blog.share_article": "Share Article",
+    "blog.link_copied": "Link copied to clipboard!",
+    "blog.related_articles": "Related Articles",
+    "blog.read_more": "Read More",
+    "blog.featured_article": "Featured Article",
+    "blog.latest_articles": "Latest Articles",
+    "blog.no_posts_found": "No blog posts found matching your search.",
+    "blog.read_full_article": "Read Full Article",
+    "blog.in_this_article": "In this article",
+    "blog.cannabis_oil.outline.history": "Ancient History of Cannabis-Infused Oils",
+    "blog.cannabis_oil.outline.traditional_uses": "Traditional Uses Across Cultures",
+    "blog.cannabis_oil.outline.modern_applications": "Modern Applications",
+    "blog.cannabis_oil.outline.recipe": "Recipe with Terpene Additions",
   },
 
   es: {
@@ -357,6 +481,79 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "footer.resources.title": "Recursos",
     "footer.contact.title": "Contacto",
     "footer.copyright": "Todos los derechos reservados.",
+    "blog.cannabis_oil.title": "La Larga Tradición de los Aceites Infusionados con Cannabis con una Receta",
+    "blog.cannabis_oil.excerpt":
+      "Explora la historia antigua y las aplicaciones modernas de los aceites infusionados con cannabis, junto con una receta detallada para hacer tu propia infusión con terpenos específicos.",
+    "blog.cannabis_oil.history.p1":
+      'La práctica de infusionar cannabis con aceites es una tradición ancestral que abarca siglos y culturas, reflejando una comprensión profunda del potencial medicinal y terapéutico de la planta. Las civilizaciones antiguas, como las de China e India, fueron de las primeras en explorar los beneficios de los aceites infusionados con cannabis. En la medicina tradicional china, el cannabis se utilizaba como ingrediente clave en varios remedios, con registros que datan del año 2737 a.C. en su uso para tratar dolencias como el dolor y la inflamación. De manera similar, en la India, el cannabis ha sido parte integral de la medicina ayurvédica, donde se conoce como "bhang" y se utiliza en aceites y pastas para tratar una variedad de condiciones, incluyendo problemas digestivos y enfermedades de la piel.',
+    "blog.cannabis_oil.history.p2":
+      "El Medio Oriente también tiene una rica historia de uso del cannabis, particularmente en regiones como Persia (actual Irán), donde los aceites infusionados con cannabis se utilizaban por sus propiedades analgésicas y antiinflamatorias. Los médicos islámicos durante el período medieval, como Avicena, documentaron las aplicaciones terapéuticas del cannabis en sus textos médicos, destacando su papel en el alivio del dolor y la relajación muscular. Estas prácticas antiguas eventualmente se extendieron a otras partes del mundo, incluyendo África y Europa, donde los aceites infusionados con cannabis se incorporaron a las tradiciones de medicina popular por sus efectos calmantes y curativos.",
+    "blog.cannabis_oil.history.p3":
+      "En la historia más reciente, el uso de aceites infusionados con cannabis ha experimentado un resurgimiento, impulsado por el creciente interés en remedios naturales y holísticos para la salud. Las tradiciones históricas de los métodos de infusión de cannabis han sido revividas y refinadas, combinando la sabiduría antigua con el entendimiento científico moderno. Hoy en día, los aceites infusionados con cannabis son ampliamente reconocidos por su versatilidad y eficacia, continuando un legado de curación que ha trascendido el tiempo y la geografía.",
+    "blog.cannabis_oil.recipe.title": "Receta de Aceite Infusionado con Cannabis y Terpenos",
+    "blog.cannabis_oil.recipe.ingredients.title": "Ingredientes:",
+    "blog.cannabis_oil.recipe.ingredients.list":
+      "1 taza de aceite de coco o aceite de oliva (según tu preferencia)\n10 gramos de flores de cannabis (descarboxiladas)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.intro": "Terpenos (opcional, según preferencia):",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.limonene":
+      "2 gotas de Limoneno (para un aroma cítrico y efectos energizantes)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.linalool":
+      "2 gotas de Linalool (para un aroma floral y efectos relajantes)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.myrcene":
+      "2 gotas de Mirceno (para un aroma terroso y efectos sedantes)",
+    "blog.cannabis_oil.recipe.utensils.title": "Utensilios:",
+    "blog.cannabis_oil.recipe.utensils.list":
+      "Molinillo de café o molinillo de hierbas\nBandeja para hornear\nPapel pergamino\nBaño maría o una olla y un recipiente resistente al calor\nColador de malla fina o tela de queso\nFrasco de vidrio para almacenamiento",
+    "blog.cannabis_oil.recipe.instructions.title": "Instrucciones:",
+    "blog.cannabis_oil.recipe.instructions.decarb.title": "Descarboxilación del Cannabis:",
+    "blog.cannabis_oil.recipe.instructions.decarb.steps":
+      "1. Precalienta el horno a 115°C (240°F).\n2. Muele las flores de cannabis con el molinillo de café o molinillo de hierbas.\n3. Coloca el cannabis molido en una bandeja para hornear forrada con papel pergamino.\n4. Hornea el cannabis durante 30-40 minutos, revolviendo cada 10 minutos para asegurar una descarboxilación uniforme. Este proceso activa los compuestos psicoactivos en el cannabis.",
+    "blog.cannabis_oil.recipe.instructions.infusion.title": "Infusión del Aceite:",
+    "blog.cannabis_oil.recipe.instructions.infusion.steps":
+      "1. Llena la parte inferior del baño maría con agua y llévala a fuego lento.\n2. Coloca el aceite (de coco o de oliva) en la parte superior del baño maría.\n3. Añade el cannabis descarboxilado al aceite.\n4. Mantén la mezcla a fuego lento durante 2-3 horas, revolviendo ocasionalmente. Asegúrate de que el aceite no hierva.",
+    "blog.cannabis_oil.recipe.instructions.terpenes.title": "Adición de Terpenos (Opcional):",
+    "blog.cannabis_oil.recipe.instructions.terpenes.steps":
+      "1. Si deseas añadir terpenos específicos, agrégalos al aceite tibio después del proceso de infusión, revolviendo bien para mezclar uniformemente.",
+    "blog.cannabis_oil.recipe.instructions.straining.title": "Colado:",
+    "blog.cannabis_oil.recipe.instructions.straining.steps":
+      "1. Una vez que la infusión esté completa, cuela la mezcla a través de un colador de malla fina o tela de queso para separar el aceite de los residuos de cannabis.\n2. Exprime bien los residuos para extraer la mayor cantidad de aceite posible.",
+    "blog.cannabis_oil.recipe.instructions.storage.title": "Almacenamiento:",
+    "blog.cannabis_oil.recipe.instructions.storage.steps":
+      "1. Vierte el aceite infusionado en un frasco de vidrio limpio.\n2. Almacena en un lugar fresco y oscuro. El aceite de cannabis puede durar hasta dos meses si se almacena adecuadamente.",
+    "blog.cannabis_oil.recipe.usage.title": "Uso:",
+    "blog.cannabis_oil.recipe.usage.text":
+      "Puedes usar este aceite infusionado en varias recetas culinarias, como aderezos para ensaladas, platos salteados, o incluso como sustituto del aceite en productos horneados. También puede servir como base para cremas o bálsamos caseros.",
+    "blog.cannabis_oil.recipe.notes.title": "Notas:",
+    "blog.cannabis_oil.recipe.notes.dosage":
+      "Dosificación: Es importante recordar que la potencia del aceite depende de la concentración de THC y CBD en la flor de cannabis utilizada. Comienza con una pequeña cantidad y ajusta según tus necesidades y tolerancia.",
+    "blog.cannabis_oil.recipe.notes.terpenes":
+      "Terpenos: La adición de terpenos es opcional y puede ajustarse según tu aroma preferido y los efectos deseados.",
+    "blog.cannabis_oil.recipe.conclusion":
+      "¡Espero que disfrutes preparando y usando este aceite infusionado con cannabis!",
+    "blog.cannabis_oil.disclaimer":
+      "Esta receta está destinada únicamente para consumo personal y no pretende curar ninguna enfermedad o problema de salud. El uso de aceites infusionados con cannabis debe llevarse a cabo de manera responsable y de acuerdo con las leyes locales y nacionales sobre cannabis. Siempre consulta con un profesional de la salud antes de usar productos de cannabis, especialmente si tienes condiciones médicas preexistentes o estás tomando medicamentos.",
+    "blog.cannabis_oil.closing.p1":
+      'Esta receta combina métodos tradicionales de infusión con la comprensión moderna de los terpenos, permitiéndote personalizar el perfil aromático y terapéutico de tu aceite infusionado con cannabis. La adición de terpenos específicos mejora no solo la experiencia sensorial sino también potencialmente los efectos terapéuticos a través de lo que se conoce como el "efecto séquito" – la interacción sinérgica entre cannabinoides y terpenos.',
+    "blog.cannabis_oil.closing.p2":
+      "Al embarcarte en la creación de tus propios aceites infusionados con cannabis, estás participando en una tradición que te conecta con sanadores y herbolarios a través de milenios, mientras abrazas el conocimiento contemporáneo sobre medicina vegetal y bienestar.",
+    "blog.cannabis_oil.tags.traditional": "Medicina Tradicional",
+    "blog.cannabis_oil.tags.recipes": "Recetas",
+    "blog.cannabis_oil.tags.terpenes": "Terpenos",
+    "blog.cannabis_oil.tags.cannabis": "Cannabis",
+    "blog.back_to_blog": "Volver al Blog",
+    "blog.share_article": "Compartir Artículo",
+    "blog.link_copied": "¡Enlace copiado al portapapeles!",
+    "blog.related_articles": "Artículos Relacionados",
+    "blog.read_more": "Leer Más",
+    "blog.featured_article": "Artículo Destacado",
+    "blog.latest_articles": "Artículos Recientes",
+    "blog.no_posts_found": "No se encontraron artículos que coincidan con tu búsqueda.",
+    "blog.read_full_article": "Leer Artículo Completo",
+    "blog.in_this_article": "En este artículo",
+    "blog.cannabis_oil.outline.history": "Historia Antigua de los Aceites Infusionados con Cannabis",
+    "blog.cannabis_oil.outline.traditional_uses": "Usos Tradicionales a Través de las Culturas",
+    "blog.cannabis_oil.outline.modern_applications": "Aplicaciones Modernas",
+    "blog.cannabis_oil.outline.recipe": "Receta con Adiciones de Terpenos",
   },
 
   fr: {
@@ -485,6 +682,79 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "footer.resources.title": "Ressources",
     "footer.contact.title": "Contact",
     "footer.copyright": "Tous droits réservés.",
+    "blog.cannabis_oil.title": "La Longue Tradition des Huiles Infusées au Cannabis avec une Recette",
+    "blog.cannabis_oil.excerpt":
+      "Explorez l'histoire ancienne et les applications modernes des huiles infusées au cannabis, ainsi qu'une recette détaillée pour réaliser votre propre infusion avec des terpènes spécifiques.",
+    "blog.cannabis_oil.history.p1":
+      "La pratique d'infuser du cannabis dans des huiles est une tradition séculaire qui s'étend sur des siècles et des cultures, reflétant une compréhension profonde du potentiel médicinal et thérapeutique de la plante. Les civilisations anciennes, comme celles de Chine et d'Inde, ont été parmi les premières à explorer les bienfaits des huiles infusées au cannabis. Dans la médecine traditionnelle chinoise, le cannabis était utilisé comme ingrédient clé dans divers remèdes, avec des archives remontant à 2737 av. J.-C. pour le traitement de maux tels que la douleur et l'inflammation. De même, en Inde, le cannabis fait partie intégrante de la médecine ayurvédique, où il est connu sous le nom de \"bhang\" et utilisé dans des huiles et des pâtes pour traiter diverses affections, notamment les problèmes digestifs et les maladies de peau.",
+    "blog.cannabis_oil.history.p2":
+      "Le Moyen-Orient a également une riche histoire d'utilisation du cannabis, particulièrement dans des régions comme la Perse (l'Iran actuel), où les huiles infusées au cannabis étaient utilisées pour leurs propriétés analgésiques et anti-inflammatoires. Les médecins islamiques pendant la période médiévale, comme Avicenne, ont documenté les applications thérapeutiques du cannabis dans leurs textes médicaux, soulignant son rôle dans le soulagement de la douleur et la relaxation musculaire. Ces pratiques anciennes se sont finalement répandues dans d'autres parties du monde, y compris l'Afrique et l'Europe, où les huiles infusées au cannabis ont été incorporées dans les traditions de médecine populaire pour leurs effets apaisants et curatifs.",
+    "blog.cannabis_oil.history.p3":
+      "Dans l'histoire plus récente, l'utilisation d'huiles infusées au cannabis a connu une résurgence, motivée par un intérêt croissant pour les remèdes naturels et holistiques. Les traditions historiques des méthodes d'infusion du cannabis ont été ravivées et affinées, combinant la sagesse ancienne avec la compréhension scientifique moderne. Aujourd'hui, les huiles infusées au cannabis sont largement reconnues pour leur polyvalence et leur efficacité, poursuivant un héritage de guérison qui a transcendé le temps et la géographie.",
+    "blog.cannabis_oil.recipe.title": "Recette d'Huile Infusée au Cannabis avec Terpènes",
+    "blog.cannabis_oil.recipe.ingredients.title": "Ingrédients:",
+    "blog.cannabis_oil.recipe.ingredients.list":
+      "1 tasse d'huile de coco ou d'huile d'olive (selon votre préférence)\n10 grammes de fleurs de cannabis (décarboxylées)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.intro": "Terpènes (facultatif, selon préférence):",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.limonene":
+      "2 gouttes de Limonène (pour un arôme d'agrumes et des effets énergisants)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.linalool":
+      "2 gouttes de Linalol (pour un arôme floral et des effets relaxants)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.myrcene":
+      "2 gouttes de Myrcène (pour un arôme terreux et des effets sédatifs)",
+    "blog.cannabis_oil.recipe.utensils.title": "Ustensiles:",
+    "blog.cannabis_oil.recipe.utensils.list":
+      "Moulin à café ou moulin à herbes\nPlaque de cuisson\nPapier sulfurisé\nBain-marie ou une casserole et un récipient résistant à la chaleur\nPassoire à mailles fines ou étamine\nBocal en verre pour le stockage",
+    "blog.cannabis_oil.recipe.instructions.title": "Instructions:",
+    "blog.cannabis_oil.recipe.instructions.decarb.title": "Décarboxylation du Cannabis:",
+    "blog.cannabis_oil.recipe.instructions.decarb.steps":
+      "1. Préchauffez le four à 115°C (240°F).\n2. Broyez les fleurs de cannabis avec le moulin à café ou le moulin à herbes.\n3. Placez le cannabis moulu sur une plaque de cuisson recouverte de papier sulfurisé.\n4. Faites cuire le cannabis pendant 30-40 minutes, en remuant toutes les 10 minutes pour assurer une décarboxylation uniforme. Ce processus active les composés psychoactifs du cannabis.",
+    "blog.cannabis_oil.recipe.instructions.infusion.title": "Infusion de l'Huile:",
+    "blog.cannabis_oil.recipe.instructions.infusion.steps":
+      "1. Remplissez la partie inférieure du bain-marie avec de l'eau et portez-la à frémissement.\n2. Placez l'huile (de coco ou d'olive) dans la partie supérieure du bain-marie.\n3. Ajoutez le cannabis décarboxylé à l'huile.\n4. Maintenez le mélange à feu doux pendant 2-3 heures, en remuant occasionnellement. Assurez-vous de que l'huile ne bout pas.",
+    "blog.cannabis_oil.recipe.instructions.terpenes.title": "Ajout de Terpènes (Facultatif):",
+    "blog.cannabis_oil.recipe.instructions.terpenes.steps":
+      "1. Si vous souhaitez ajouter des terpènes spécifiques, ajoutez-les à l'huile tiède après le processus d'infusion, en remuant bien pour mélanger uniformément.",
+    "blog.cannabis_oil.recipe.instructions.straining.title": "Filtration:",
+    "blog.cannabis_oil.recipe.instructions.straining.steps":
+      "1. Une fois l'infusion terminée, filtrez le mélange à travers une passoire à mailles fines ou une étamine pour séparer l'huile des résidus de cannabis.\n2. Pressez bien les résidus pour extraire autant d'huile que possible.",
+    "blog.cannabis_oil.recipe.instructions.storage.title": "Conservation:",
+    "blog.cannabis_oil.recipe.instructions.storage.steps":
+      "1. Versez l'huile infusée dans un bocal en verre propre.\n2. Conservez dans un endroit frais et sombre. L'huile de cannabis peut se conserver jusqu'à deux mois si elle est stockée correctement.",
+    "blog.cannabis_oil.recipe.usage.title": "Utilisation:",
+    "blog.cannabis_oil.recipe.usage.text":
+      "Vous pouvez utiliser cette huile infusée dans diverses recettes culinaires, comme les vinaigrettes, les plats sautés, ou même comme substitut d'huile dans les produits de boulangerie. Elle peut également servir de base pour des crèmes ou des baumes maison.",
+    "blog.cannabis_oil.recipe.notes.title": "Notes:",
+    "blog.cannabis_oil.recipe.notes.dosage":
+      "Dosage: Il est important de se rappeler que la puissance de l'huile dépend de la concentration de THC et CBD dans la fleur de cannabis utilisée. Commencez par une petite quantité et ajustez selon vos besoins et votre tolérance.",
+    "blog.cannabis_oil.recipe.notes.terpenes":
+      "Terpènes: L'ajout de terpènes est facultatif et peut être ajusté selon votre arôme préféré et les effets désirés.",
+    "blog.cannabis_oil.recipe.conclusion":
+      "J'espère que vous apprécierez la préparation et l'utilisation de cette huile infusée au cannabis!",
+    "blog.cannabis_oil.disclaimer":
+      "Cette recette est destinée uniquement à la consommation personnelle et n'est pas destinée à guérir une maladie ou un problème de santé. L'utilisation d'huiles infusées au cannabis doit être effectuée de manière responsable et conformément aux lois locales et nationales sur le cannabis. Consultez toujours un professionnel de la santé avant d'utiliser des produits à base de cannabis, surtout si vous avez des conditions médicales préexistantes ou si vous prenez des médicaments.",
+    "blog.cannabis_oil.closing.p1":
+      "Cette recette combine des méthodes d'infusion traditionnelles avec une compréhension moderne des terpènes, vous permettant de personnaliser le profil aromatique et thérapeutique de votre huile infusée au cannabis. L'ajout de terpènes spécifiques améliore non seulement l'expérience sensorielle mais aussi potentiellement les effets thérapeutiques grâce à ce qu'on appelle \"l'effet d'entourage\" – l'interaction synergique entre cannabinoïdes et terpènes.",
+    "blog.cannabis_oil.closing.p2":
+      "En vous lançant dans la création de vos propres huiles infusées au cannabis, vous participez à une tradition qui vous relie aux guérisseurs et herboristes à travers les millénaires, tout en embrassant les connaissances contemporaines sur la médecine des plantes et le bien-être.",
+    "blog.cannabis_oil.tags.traditional": "Médecine Traditionnelle",
+    "blog.cannabis_oil.tags.recipes": "Recettes",
+    "blog.cannabis_oil.tags.terpenes": "Terpènes",
+    "blog.cannabis_oil.tags.cannabis": "Cannabis",
+    "blog.back_to_blog": "Retour au Blog",
+    "blog.share_article": "Partager l'Article",
+    "blog.link_copied": "Lien copié dans le presse-papiers !",
+    "blog.related_articles": "Articles Connexes",
+    "blog.read_more": "Lire Plus",
+    "blog.featured_article": "Article en Vedette",
+    "blog.latest_articles": "Derniers Articles",
+    "blog.no_posts_found": "Aucun article trouvé correspondant à votre recherche.",
+    "blog.read_full_article": "Lire l'Article Complet",
+    "blog.in_this_article": "Dans cet article",
+    "blog.cannabis_oil.outline.history": "Histoire Ancienne des Huiles Infusées au Cannabis",
+    "blog.cannabis_oil.outline.traditional_uses": "Utilisations Traditionnelles à Travers les Cultures",
+    "blog.cannabis_oil.outline.modern_applications": "Applications Modernes",
+    "blog.cannabis_oil.outline.recipe": "Recette avec Ajouts de Terpènes",
   },
 
   de: {
@@ -526,27 +796,6 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
       "Im Herzen von Quito, Ecuador, liegt eine Pionierarbeit in der Cannabis-Industrie: Terpenos.com. Gegründet im Jahr 2021, ist unsere Reise nicht nur eine Geschichte der Unternehmensgründung, sondern eine tiefgreifende Erzählung, die sich mit der Geschichte und Entwicklung von Cannabis als Medizin verflicht. Unsere Wurzeln reichen tief in die frühen Tage der Cannabis-Legalisierungskampagnen in Berkeley und Oakland, Kalifornien, wo unsere Gründer nicht nur Zuschauer, sondern aktive Freiwillige und Befürworter waren. Ihr Engagement für die Sache führte sie an die Seite einflussreicher Organisationen wie Oaksterdam und Harborside, wo sie die Herausforderungen und Triumphe, die die Branche geprägt haben, aus erster Hand miterlebten.",
     "about.story.p2":
       "Unsere Geschichte begann jedoch nicht mit der Gründung von Terpenos.com. Es ist die Fortsetzung eines jahrzehntelangen Erbes von Exzellenz und Innovation in den Bereichen Pharmazie und Lebensmittelherstellung. Unsere Gründer brachten eine Fülle von Erfahrungen mit, nachdem sie mit erstklassigen Herstellern von Eigenmarken für Lebensmittel und Pharmazeutika zusammengearbeitet hatten, wo sie maßgeblich an der Implementierung von Weltklasse-Systemen beteiligt waren. Diese unschätzbare Erfahrung legte den Grundstein für das, was Terpenos.com werden sollte – ein Marktführer im Cannabis-Bereich, der sich den höchsten Standards für Qualität und Sicherheit verschrieben hat.",
-    "about.story.p3":
-      "Heute steht Terpenos.com als vollständig lizenzierter Importeur von Cannabis-abgeleiteten Molekülen, der von Ecuador aus mit einer Satellitenpräsenz in Kalifornien operiert. Unser Labor ist führend in der Entwicklung und Aufrechterhaltung von Prozessen, die die pharmazeutische und lebensmittelgerechte Qualität unserer Formulierungen und Rohstoffe garantieren. Wir sind spezialisiert auf Terpene, CBD und andere legale Cannabinoide und bedienen Kunden, die unübertroffene Reinheit und Wirksamkeit suchen. Unsere Geschichte ist ein Zeugnis für die Überzeugung, dass Cannabis Medizin ist, eine Überzeugung, die uns von den frühen Tagen der Legalisierungskampagnen bis zur Spitze der Branche heute angetrieben hat. Bei Terpenos.com sind wir mehr als nur ein Unternehmen; wir sind Teil einer globalen Bewegung in Richtung Wellness, Innovation und dem unermüdlichen Streben nach Exzellenz im Cannabis-Bereich.",
-
-    "about.values.title": "Unsere Werte",
-    "about.values.subtitle": "Die Prinzipien, die unsere Arbeit leiten und unsere Kultur definieren.",
-    "about.values.integrity": "Wissenschaftliche Integrität",
-    "about.values.integrity.desc":
-      "Wir halten die höchsten Standards wissenschaftlicher Strenge und ethischen Verhaltens in all unserer Arbeit ein.",
-    "about.values.innovation": "Innovation",
-    "about.values.innovation.desc":
-      "Wir fördern eine Kultur der Kreativität und kontinuierlichen Verbesserung, um den wissenschaftlichen Fortschritt voranzutreiben.",
-    "about.values.collaboration": "Zusammenarbeit",
-    "about.values.collaboration.desc":
-      "Wir glauben an die Kraft der Teamarbeit und Partnerschaften, um komplexe Herausforderungen zu lösen.",
-    "about.values.impact": "Wirkung",
-    "about.values.impact.desc":
-      "Wir engagieren uns für Forschung, die einen bedeutenden Unterschied in der Welt macht.",
-
-    "about.approach.title": "Unser Ansatz",
-    "about.approach.p1":
-      "Bei Terpenos.com ist unser Ansatz in der Wissenschaft verwurzelt, von Zweck geleitet und von Innovation angetrieben. Von unserem hochmodernen Labor in Ecuador bis zu unserer strategischen Präsenz in Kalifornien wenden wir strenge Standards auf jeden Schritt unseres Prozesses an und stellen sicher, dass jedes Molekül, das wir importieren oder formulieren, pharmazeutischen und lebensmittelgerechten Maßstäben entspricht.",
     "about.approach.p2":
       "Wir arbeiten mit mehreren FDA-zertifizierten Laboren in den Vereinigten Staaten zusammen, um die Sicherheit, Reinheit und Konsistenz unserer Produkte zu validieren. Diese Kooperationen verstärken unser Engagement für Qualitätssicherung und globale Compliance und überbrücken Wissenschaft und Vertrauen über Grenzen hinweg.",
     "about.approach.p3":
@@ -562,6 +811,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
       "Wir suchen stets talentierte Wissenschaftler, Forscher und Fachleute, die unserem Team beitreten. Bei Terpenos haben Sie die Möglichkeit, an bahnbrechender Forschung zu arbeiten, mit brillanten Köpfen zusammenzuarbeiten und einen bedeutenden Einfluss zu nehmen.",
     "team.join.p2":
       "Wir bieten ein stimulierendes Arbeitsumfeld, wettbewerbsfähige Vorteile und Möglichkeiten für berufliches Wachstum und Entwicklung.",
+    "team.join.button": "Offene Stellen ansehen",
+
+    "products.hero.title": "Produkte & Dienstleistungen",
     "team.join.button": "Offene Stellen ansehen",
 
     "products.hero.title": "Produkte & Dienstleistungen",
@@ -615,5 +867,78 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "footer.resources.title": "Ressourcen",
     "footer.contact.title": "Kontakt",
     "footer.copyright": "Alle Rechte vorbehalten.",
+    "blog.cannabis_oil.title": "Die lange Tradition der Cannabis-infundierten Öle mit einem Rezept",
+    "blog.cannabis_oil.excerpt":
+      "Entdecken Sie die alte Geschichte und moderne Anwendungen von Cannabis-infundierten Ölen, zusammen mit einem detaillierten Rezept zur Herstellung Ihrer eigenen Infusion mit spezifischen Terpenen.",
+    "blog.cannabis_oil.history.p1":
+      'Die Praxis, Cannabis mit Ölen zu infundieren, ist eine altehrwürdige Tradition, die Jahrhunderte und Kulturen überspannt und ein tiefes Verständnis des medizinischen und therapeutischen Potenzials der Pflanze widerspiegelt. Alte Zivilisationen, wie die in China und Indien, gehörten zu den ersten, die die Vorteile von Cannabis-infundierten Ölen erforschten. In der traditionellen chinesischen Medizin wurde Cannabis als Schlüsselbestandteil in verschiedenen Heilmitteln verwendet, mit Aufzeichnungen, die bis ins Jahr 2737 v. Chr. zurückreichen, für die Behandlung von Beschwerden wie Schmerzen und Entzündungen. Ähnlich ist Cannabis in Indien ein integraler Bestandteil der ayurvedischen Medizin, wo es als "Bhang" bekannt ist und in Ölen und Pasten zur Behandlung verschiedener Erkrankungen, einschließlich Verdauungsproblemen und Hautkrankheiten, verwendet wird.',
+    "blog.cannabis_oil.history.p2":
+      "Der Nahe Osten hat ebenfalls eine reiche Geschichte der Cannabis-Nutzung, insbesondere in Regionen wie Persien (heutiger Iran), wo Cannabis-infundierte Öle wegen ihrer schmerzlindernden und entzündungshemmenden Eigenschaften eingesetzt wurden. Islamische Ärzte während des Mittelalters, wie Avicenna, dokumentierten die therapeutischen Anwendungen von Cannabis in ihren medizinischen Texten und hoben seine Rolle bei der Schmerzlinderung und Muskelentspannung hervor. Diese alten Praktiken verbreiteten sich schließlich in andere Teile der Welt, einschließlich Afrika und Europa, wo Cannabis-infundierte Öle wegen ihrer beruhigenden und heilenden Wirkungen in die Volksmedizin-Traditionen aufgenommen wurden.",
+    "blog.cannabis_oil.history.p3":
+      "In der jüngeren Geschichte hat die Verwendung von Cannabis-infundierten Ölen eine Renaissance erlebt, angetrieben durch das wachsende Interesse an natürlichen und ganzheitlichen Gesundheitsmitteln. Die überlieferten Traditionen der Cannabis-Infusionsmethoden wurden wiederbelebt und verfeinert, wobei altes Wissen mit modernem wissenschaftlichem Verständnis kombiniert wurde. Heute werden Cannabis-infundierte Öle weithin für ihre Vielseitigkeit und Wirksamkeit anerkannt und setzen ein Erbe der Heilung fort, das Zeit und Geographie überschritten hat.",
+    "blog.cannabis_oil.recipe.title": "Cannabis-infundiertes Öl-Rezept mit Terpenen",
+    "blog.cannabis_oil.recipe.ingredients.title": "Zutaten:",
+    "blog.cannabis_oil.recipe.ingredients.list":
+      "1 Tasse Kokosöl oder Olivenöl (je nach Vorliebe)\n10 Gramm Cannabis-Blüten (decarboxyliert)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.intro": "Terpene (optional, je nach Vorliebe):",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.limonene":
+      "2 Tropfen Limonen (für ein zitrusartiges Aroma und energetisierende Wirkung)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.linalool":
+      "2 Tropfen Linalool (für ein blumiges Aroma und entspannende Wirkung)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.myrcene":
+      "2 Tropfen Myrcen (für ein erdiges Aroma und sedierende Wirkung)",
+    "blog.cannabis_oil.recipe.utensils.title": "Utensilien:",
+    "blog.cannabis_oil.recipe.utensils.list":
+      "Kaffeemühle oder Kräutermühle\nBackblech\nBackpapier\nWasserbad oder ein Topf und ein hitzebeständiger Behälter\nFeinmaschiges Sieb oder Käsetuch\nGlasbehälter zur Aufbewahrung",
+    "blog.cannabis_oil.recipe.instructions.title": "Anleitung:",
+    "blog.cannabis_oil.recipe.instructions.decarb.title": "Decarboxylierung des Cannabis:",
+    "blog.cannabis_oil.recipe.instructions.decarb.steps":
+      "1. Heizen Sie den Ofen auf 115°C (240°F) vor.\n2. Mahlen Sie die Cannabis-Blüten mit der Kaffeemühle oder Kräutermühle.\n3. Legen Sie das gemahlene Cannabis auf ein mit Backpapier ausgelegtes Backblech.\n4. Backen Sie das Cannabis für 30-40 Minuten und rühren Sie alle 10 Minuten um, um eine gleichmäßige Decarboxylierung zu gewährleisten. Dieser Prozess aktiviert die psychoaktiven Verbindungen im Cannabis.",
+    "blog.cannabis_oil.recipe.instructions.infusion.title": "Infusion des Öls:",
+    "blog.cannabis_oil.recipe.instructions.infusion.steps":
+      "1. Füllen Sie den unteren Teil des Wasserbads mit Wasser und bringen Sie es zum leichten Köcheln.\n2. Geben Sie das Öl (Kokos- oder Olivenöl) in den oberen Teil des Wasserbads.\n3. Fügen Sie das decarboxylierte Cannabis zum Öl hinzu.\n4. Halten Sie die Mischung für 2-3 Stunden auf niedriger Hitze und rühren Sie gelegentlich um. Stellen Sie sicher, dass das Öl nicht kocht.",
+    "blog.cannabis_oil.recipe.instructions.terpenes.title": "Zugabe von Terpenen (Optional):",
+    "blog.cannabis_oil.recipe.instructions.terpenes.steps":
+      "1. Wenn Sie spezifische Terpene hinzufügen möchten, geben Sie diese nach dem Infusionsprozess zum warmen Öl hinzu und rühren Sie gut um, um eine gleichmäßige Mischung zu erzielen.",
+    "blog.cannabis_oil.recipe.instructions.straining.title": "Abseihen:",
+    "blog.cannabis_oil.recipe.instructions.straining.steps":
+      "1. Sobald die Infusion abgeschlossen ist, seihen Sie die Mischung durch ein feinmaschiges Sieb oder Käsetuch, um das Öl von den Cannabis-Rückständen zu trennen.\n2. Drücken Sie die Rückstände gut aus, um so viel Öl wie möglich zu extrahieren.",
+    "blog.cannabis_oil.recipe.instructions.storage.title": "Aufbewahrung:",
+    "blog.cannabis_oil.recipe.instructions.storage.steps":
+      "1. Gießen Sie das infundierte Öl in einen sauberen Glasbehälter.\n2. Bewahren Sie es an einem kühlen, dunklen Ort auf. Das Cannabis-Öl kann bei richtiger Lagerung bis zu zwei Monate haltbar sein.",
+    "blog.cannabis_oil.recipe.usage.title": "Verwendung:",
+    "blog.cannabis_oil.recipe.usage.text":
+      "Sie können dieses infundierte Öl in verschiedenen kulinarischen Rezepten verwenden, wie Salatdressings, sautierten Gerichten oder sogar als Ölersatz in Backwaren. Es kann auch als Basis für hausgemachte Cremes oder Balsame dienen.",
+    "blog.cannabis_oil.recipe.notes.title": "Hinweise:",
+    "blog.cannabis_oil.recipe.notes.dosage":
+      "Dosierung: Es ist wichtig zu beachten, dass die Stärke des Öls von der Konzentration von THC und CBD in der verwendeten Cannabis-Blüte abhängt. Beginnen Sie mit einer kleinen Menge und passen Sie sie entsprechend Ihren Bedürfnissen und Ihrer Toleranz an.",
+    "blog.cannabis_oil.recipe.notes.terpenes":
+      "Terpene: Die Zugabe von Terpenen ist optional und kann je nach bevorzugtem Aroma und gewünschter Wirkung angepasst werden.",
+    "blog.cannabis_oil.recipe.conclusion":
+      "Ich hoffe, Sie genießen die Zubereitung und Verwendung dieses Cannabis-infundierten Öls!",
+    "blog.cannabis_oil.disclaimer":
+      "Dieses Rezept ist ausschließlich für den persönlichen Gebrauch bestimmt und soll keine Krankheit oder gesundheitliches Problem heilen. Die Verwendung von Cannabis-infundierten Ölen sollte verantwortungsvoll und in Übereinstimmung mit lokalen und nationalen Cannabis-Gesetzen erfolgen. Konsultieren Sie immer einen Gesundheitsexperten, bevor Sie Cannabis-Produkte verwenden, besonders wenn Sie bereits bestehende medizinische Zustände haben oder Medikamente einnehmen.",
+    "blog.cannabis_oil.closing.p1":
+      'Dieses Rezept kombiniert traditionelle Infusionsmethoden mit modernem Verständnis von Terpenen und ermöglicht es Ihnen, das aromatische und therapeutische Profil Ihres Cannabis-infundierten Öls anzupassen. Die Zugabe spezifischer Terpene verbessert nicht nur das sensorische Erlebnis, sondern potenziell auch die therapeutischen Wirkungen durch den sogenannten "Entourage-Effekt" – die synergistische Interaktion zwischen Cannabinoiden und Terpenen.',
+    "blog.cannabis_oil.closing.p2":
+      "Indem Sie sich auf die Herstellung Ihrer eigenen Cannabis-infundierten Öle einlassen, nehmen Sie an einer Tradition teil, die Sie mit Heilern und Kräuterkundigen über Jahrtausende hinweg verbindet, während Sie gleichzeitig zeitgenössisches Wissen über Pflanzenmedizin und Wellness einbeziehen.",
+    "blog.cannabis_oil.tags.traditional": "Traditionelle Medizin",
+    "blog.cannabis_oil.tags.recipes": "Rezepte",
+    "blog.cannabis_oil.tags.terpenes": "Terpene",
+    "blog.cannabis_oil.tags.cannabis": "Cannabis",
+    "blog.back_to_blog": "Zurück zum Blog",
+    "blog.share_article": "Artikel teilen",
+    "blog.link_copied": "Link in die Zwischenablage kopiert!",
+    "blog.related_articles": "Verwandte Artikel",
+    "blog.read_more": "Weiterlesen",
+    "blog.featured_article": "Empfohlener Artikel",
+    "blog.latest_articles": "Neueste Artikel",
+    "blog.no_posts_found": "Keine Blogbeiträge gefunden, die Ihrer Suche entsprechen.",
+    "blog.read_full_article": "Vollständigen Artikel Lesen",
+    "blog.in_this_article": "In diesem Artikel",
+    "blog.cannabis_oil.outline.history": "Alte Geschichte der Cannabis-infundierten Öle",
+    "blog.cannabis_oil.outline.traditional_uses": "Traditionelle Verwendungen in verschiedenen Kulturen",
+    "blog.cannabis_oil.outline.modern_applications": "Moderne Anwendungen",
+    "blog.cannabis_oil.outline.recipe": "Rezept mit Terpen-Zusätzen",
   },
 }

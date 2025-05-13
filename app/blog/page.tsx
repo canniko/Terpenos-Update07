@@ -15,15 +15,15 @@ import { Badge } from "@/components/ui/badge"
 const blogPosts = [
   {
     id: 1,
-    title: "Advances in Molecular Analysis Techniques",
-    excerpt: "Exploring the latest breakthroughs in molecular analysis and their implications for scientific research.",
-    date: "April 15, 2023",
-    author: "Dr. Elena Rodriguez",
-    authorImage: "/diverse-avatars.png",
-    category: "Research",
-    image: "/laboratory-equipment.png",
-    slug: "advances-in-molecular-analysis",
-    readTime: "8 min read",
+    title: "Cannabis Oil: A Traditional Recipe",
+    excerpt: "Explore the history and traditional uses of cannabis-infused oils, along with a simple recipe.",
+    date: "May 10, 2023",
+    author: "Alex Garcia",
+    authorImage: "/images/alex-garcia.jpeg",
+    category: "Traditional",
+    image: "/cannabis-infused-oil.jpeg",
+    slug: "cannabis-infused-oils-tradition-recipe",
+    readTime: "10 min read",
     featured: true,
   },
   {
@@ -31,8 +31,8 @@ const blogPosts = [
     title: "The Future of Scientific Instrumentation",
     excerpt: "How emerging technologies are transforming laboratory equipment and research capabilities.",
     date: "March 22, 2023",
-    author: "Dr. Michael Chen",
-    authorImage: "/diverse-group-avatars.png",
+    author: "Alex Garcia",
+    authorImage: "/images/alex-garcia.jpeg",
     category: "Technology",
     image: "/placeholder.svg?height=400&width=600",
     slug: "future-of-scientific-instrumentation",
@@ -44,8 +44,8 @@ const blogPosts = [
     title: "Sustainable Practices in Laboratory Settings",
     excerpt: "Implementing eco-friendly approaches to scientific research without compromising quality.",
     date: "February 10, 2023",
-    author: "Dr. Sarah Johnson",
-    authorImage: "/diverse-group-avatars.png",
+    author: "Alex Garcia",
+    authorImage: "/images/alex-garcia.jpeg",
     category: "Sustainability",
     image: "/sustainable-laboratory.png",
     slug: "sustainable-laboratory-practices",
@@ -57,8 +57,8 @@ const blogPosts = [
     title: "Data Analysis Methods for Complex Datasets",
     excerpt: "Innovative approaches to extracting meaningful insights from large and complex scientific data.",
     date: "January 28, 2023",
-    author: "Dr. Aisha Patel",
-    authorImage: "/diverse-group-avatars.png",
+    author: "Alex Garcia",
+    authorImage: "/images/alex-garcia.jpeg",
     category: "Data Science",
     image: "/data-analysis-visual.png",
     slug: "data-analysis-complex-datasets",
@@ -70,8 +70,8 @@ const blogPosts = [
     title: "Collaborative Research in the Digital Age",
     excerpt: "How digital tools and platforms are enabling unprecedented collaboration in scientific research.",
     date: "December 15, 2022",
-    author: "Prof. James Wilson",
-    authorImage: "/diverse-group-avatars.png",
+    author: "Alex Garcia",
+    authorImage: "/images/alex-garcia.jpeg",
     category: "Collaboration",
     image: "/placeholder.svg?height=400&width=600",
     slug: "collaborative-research-digital-age",
@@ -83,8 +83,8 @@ const blogPosts = [
     title: "Quality Control in Scientific Research",
     excerpt: "Best practices for maintaining rigorous quality standards throughout the research process.",
     date: "November 5, 2022",
-    author: "Dr. Carlos Mendez",
-    authorImage: "/diverse-group-avatars.png",
+    author: "Alex Garcia",
+    authorImage: "/images/alex-garcia.jpeg",
     category: "Best Practices",
     image: "/laboratory-quality-control.png",
     slug: "quality-control-scientific-research",
@@ -166,7 +166,7 @@ export default function BlogPage() {
               {/* Featured Article */}
               {featuredPost && (
                 <div className="border-b border-gray-200 pb-16">
-                  <h2 className="text-2xl font-bold mb-8 text-terpenos-forest-green">Featured Article</h2>
+                  <h2 className="text-2xl font-bold mb-8 text-terpenos-forest-green">{t("blog.featured_article")}</h2>
                   <div className="grid md:grid-cols-5 gap-8 items-start">
                     <div className="md:col-span-3">
                       <Link href={`/blog/${featuredPost.slug}`} className="block">
@@ -189,8 +189,8 @@ export default function BlogPage() {
                       <p className="text-muted-foreground text-lg mb-6">{featuredPost.excerpt}</p>
                       <div className="flex items-center gap-4">
                         <Avatar>
-                          <AvatarImage src={featuredPost.authorImage || "/placeholder.svg"} alt={featuredPost.author} />
-                          <AvatarFallback>{featuredPost.author[0]}</AvatarFallback>
+                          <AvatarImage src="/images/alex-garcia.jpeg" alt={featuredPost.author} />
+                          <AvatarFallback>AG</AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="font-medium">{featuredPost.author}</p>
@@ -207,17 +207,17 @@ export default function BlogPage() {
                     <div className="md:col-span-2 space-y-6">
                       <div className="flex items-center gap-2 mb-2">
                         <BookOpen className="h-5 w-5 text-terpenos-green" />
-                        <h3 className="font-semibold text-lg">In this article</h3>
+                        <h3 className="font-semibold text-lg">{t("blog.in_this_article")}</h3>
                       </div>
                       <div className="space-y-4 text-muted-foreground">
-                        <p>• Next-Generation Sequencing Technologies</p>
-                        <p>• Single-Cell Analysis</p>
-                        <p>• CRISPR-Based Diagnostic Tools</p>
-                        <p>• Implications for Scientific Research</p>
+                        <p>• {t("blog.cannabis_oil.outline.history")}</p>
+                        <p>• {t("blog.cannabis_oil.outline.traditional_uses")}</p>
+                        <p>• {t("blog.cannabis_oil.outline.modern_applications")}</p>
+                        <p>• {t("blog.cannabis_oil.outline.recipe")}</p>
                       </div>
                       <Link href={`/blog/${featuredPost.slug}`}>
                         <Button className="mt-4 w-full">
-                          Read Full Article
+                          {t("blog.read_full_article")}
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </Link>
@@ -228,7 +228,7 @@ export default function BlogPage() {
 
               {/* Regular Articles */}
               <div>
-                <h2 className="text-2xl font-bold mb-8 text-terpenos-forest-green">Latest Articles</h2>
+                <h2 className="text-2xl font-bold mb-8 text-terpenos-forest-green">{t("blog.latest_articles")}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                   {regularPosts.map((post) => (
                     <article key={post.id} className="flex flex-col space-y-4">
@@ -254,8 +254,8 @@ export default function BlogPage() {
                       </div>
                       <div className="flex items-center gap-3 mt-auto pt-4">
                         <Avatar className="h-8 w-8">
-                          <AvatarImage src={post.authorImage || "/placeholder.svg"} alt={post.author} />
-                          <AvatarFallback>{post.author[0]}</AvatarFallback>
+                          <AvatarImage src="/images/alex-garcia.jpeg" alt={post.author} />
+                          <AvatarFallback>AG</AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="text-sm font-medium">{post.author}</p>
@@ -273,7 +273,7 @@ export default function BlogPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-lg text-terpenos-charcoal">No blog posts found matching your search.</p>
+              <p className="text-lg text-terpenos-charcoal">{t("blog.no_posts_found")}</p>
             </div>
           )}
         </div>

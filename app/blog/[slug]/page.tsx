@@ -5,46 +5,169 @@ import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { ArrowLeft, Calendar, User, Tag, Clock, Share2, ArrowRight } from "lucide-react"
+import { ArrowLeft, Calendar, Tag, Clock, Share2, ArrowRight } from "lucide-react"
 import { useLanguage } from "@/lib/i18n/context"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 // Sample blog post data - in a real app, this would come from a CMS or API
 const blogPostsData = [
   {
     id: 1,
-    title: "Advances in Molecular Analysis Techniques",
-    excerpt: "Exploring the latest breakthroughs in molecular analysis and their implications for scientific research.",
+    title: "The Long Tradition of Cannabis-Infused Oils with a Recipe",
+    excerpt:
+      "Explore the ancient history and modern applications of cannabis-infused oils, along with a detailed recipe for making your own infusion with specific terpenes.",
     content: `
-      <p>The field of molecular analysis has seen remarkable advancements in recent years, revolutionizing how scientists approach research across various disciplines. These innovations have not only enhanced the precision and efficiency of analytical methods but have also opened new avenues for scientific exploration.</p>
-      
-      <h2>Next-Generation Sequencing Technologies</h2>
-      <p>One of the most significant breakthroughs in molecular analysis has been the development of next-generation sequencing (NGS) technologies. Unlike traditional sequencing methods, NGS allows for the parallel sequencing of millions of DNA fragments, dramatically reducing both the time and cost associated with genomic analysis.</p>
-      <p>Recent improvements in NGS platforms have further enhanced their capabilities, with some systems now able to generate terabases of data in a single run. This has made whole-genome sequencing more accessible to researchers and has facilitated large-scale genomic studies that were previously unfeasible.</p>
-      
-      <h2>Single-Cell Analysis</h2>
-      <p>Another revolutionary advancement is the emergence of single-cell analysis techniques. Traditional molecular methods often require bulk samples, which can mask the heterogeneity present within cell populations. Single-cell analysis overcomes this limitation by enabling the examination of individual cells, providing unprecedented insights into cellular diversity and behavior.</p>
-      <p>Applications of single-cell analysis span various fields, from cancer research to developmental biology. In oncology, for instance, these techniques have revealed the complex cellular composition of tumors, helping researchers understand the mechanisms of drug resistance and develop more effective therapeutic strategies.</p>
-      
-      <h2>CRISPR-Based Diagnostic Tools</h2>
-      <p>The CRISPR-Cas system, renowned for its gene-editing capabilities, has also been adapted for molecular diagnostics. CRISPR-based diagnostic tools, such as SHERLOCK and DETECTR, offer highly sensitive and specific detection of nucleic acids, making them valuable for identifying pathogens and genetic mutations.</p>
-      <p>These tools have shown particular promise in point-of-care diagnostics, where their simplicity, speed, and cost-effectiveness provide advantages over traditional diagnostic methods. During the COVID-19 pandemic, for example, CRISPR-based tests were developed for the rapid detection of SARS-CoV-2, demonstrating their potential in addressing global health challenges.</p>
-      
-      <h2>Implications for Scientific Research</h2>
-      <p>The advancements in molecular analysis techniques have profound implications for scientific research. They have not only enhanced our understanding of biological systems but have also accelerated the pace of discovery across multiple disciplines.</p>
-      <p>In medicine, these technologies are driving the development of precision therapies tailored to individual patients based on their genetic profiles. In environmental science, they are enabling the comprehensive analysis of complex ecosystems, from soil microbiomes to marine environments.</p>
-      <p>Moreover, the integration of molecular analysis with other cutting-edge technologies, such as artificial intelligence and nanotechnology, is creating new synergies and expanding the frontiers of scientific inquiry.</p>
-      
-      <h2>Conclusion</h2>
-      <p>As molecular analysis techniques continue to evolve, they will undoubtedly play an increasingly central role in scientific research. By providing deeper insights into the molecular basis of life, these advancements are not only enhancing our understanding of the natural world but are also addressing some of the most pressing challenges facing humanity, from disease to environmental sustainability.</p>
-      <p>The future of molecular analysis looks promising, with ongoing innovations poised to further transform the scientific landscape and open new possibilities for discovery and application.</p>
+      <p>
+        The practice of infusing cannabis with oils is a time-honored tradition that spans centuries and
+        cultures, reflecting a deep understanding of the plant's medicinal and therapeutic potential. Ancient
+        civilizations, such as those in China and India, were among the first to explore the benefits of
+        cannabis-infused oils. In traditional Chinese medicine, cannabis was used as a key ingredient in various
+        remedies, with records dating back to 2737 BCE in its use for treating ailments such as pain and
+        inflammation. Similarly, in India, cannabis has been an integral part of Ayurvedic medicine, where it is
+        known as "bhang" and used in oils and pastes to treat a variety of conditions, including digestive
+        issues and skin diseases.
+      </p>
+
+      <p>
+        The Middle East also has a rich history of cannabis use, particularly in regions like Persia (modern-day
+        Iran), where cannabis-infused oils were utilized for their analgesic and anti-inflammatory properties.
+        Islamic physicians during the medieval period, such as Avicenna, documented the therapeutic applications
+        of cannabis in their medical texts, highlighting its role in pain relief and muscle relaxation. These
+        ancient practices eventually spread to other parts of the world, including Africa and Europe, where
+        cannabis-infused oils were incorporated into folk medicine traditions for their soothing and healing
+        effects.
+      </p>
+
+      <p>
+        In more recent history, the use of cannabis-infused oils has seen a resurgence, driven by growing
+        interest in natural and holistic health remedies. The storied traditions of cannabis infusion methods
+        have been revived and refined, combining ancient wisdom with modern scientific understanding. Today,
+        cannabis-infused oils are widely recognized for their versatility and efficacy, continuing a legacy of
+        healing that has transcended time and geography.
+      </p>
+
+      <h2>Cannabis-Infused Oil Recipe with Terpenes</h2>
+
+      <h3>Ingredients:</h3>
+      <ul>
+        <li>1 cup of coconut oil or olive oil (according to your preference)</li>
+        <li>10 grams of cannabis flowers (decarboxylated)</li>
+        <li>
+          Terpenes (optional, according to preference):
+          <ul>
+            <li>2 drops of Limonene (for a citrus aroma and energizing effects)</li>
+            <li>2 drops of Linalool (for a floral aroma and relaxing effects)</li>
+            <li>2 drops of Myrcene (for an earthy aroma and sedative effects)</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Utensils:</h3>
+      <ul>
+        <li>Coffee grinder or herb grinder</li>
+        <li>Baking tray</li>
+        <li>Parchment paper</li>
+        <li>Double boiler or a pot and a heat-resistant container</li>
+        <li>Fine mesh strainer or cheesecloth</li>
+        <li>Glass jar for storage</li>
+      </ul>
+
+      <h3>Instructions:</h3>
+
+      <h4>Decarboxylation of Cannabis:</h4>
+      <ol>
+        <li>Preheat the oven to 115°C (240°F).</li>
+        <li>Grind the cannabis flowers with the coffee grinder or herb grinder.</li>
+        <li>Place the ground cannabis on a baking tray lined with parchment paper.</li>
+        <li>
+          Bake the cannabis for 30-40 minutes, stirring every 10 minutes to ensure even decarboxylation. This
+          process activates the psychoactive compounds in the cannabis.
+        </li>
+      </ol>
+
+      <h4>Infusion of the Oil:</h4>
+      <ol>
+        <li>Fill the bottom part of the double boiler with water and bring it to a low simmer.</li>
+        <li>Place the oil (coconut or olive) in the top part of the double boiler.</li>
+        <li>Add the decarboxylated cannabis to the oil.</li>
+        <li>
+          Keep the mixture on low heat for 2-3 hours, stirring occasionally. Ensure the oil does not boil.
+        </li>
+      </ol>
+
+      <h4>Addition of Terpenes (Optional):</h4>
+      <ol>
+        <li>
+          If you want to add specific terpenes, add them to the warm oil after the infusion process, stirring
+          well to mix evenly.
+        </li>
+      </ol>
+
+      <h4>Straining:</h4>
+      <ol>
+        <li>
+          Once the infusion is complete, strain the mixture through a fine mesh strainer or cheesecloth to
+          separate the oil from the cannabis residue.
+        </li>
+        <li>Squeeze the residue well to extract as much oil as possible.</li>
+      </ol>
+
+      <h4>Storage:</h4>
+      <ol>
+        <li>Pour the infused oil into a clean glass jar.</li>
+        <li>Store in a cool, dark place. The cannabis oil can last up to two months if stored properly.</li>
+      </ol>
+
+      <h3>Usage:</h3>
+      <p>
+        You can use this infused oil in various culinary recipes, such as salad dressings, sautéed dishes, or
+        even as a substitute for oil in baked goods. It can also serve as a base for homemade creams or balms.
+      </p>
+
+      <h3>Notes:</h3>
+      <ul>
+        <li>
+          <strong>Dosage:</strong> It's important to remember that the potency of the oil depends on the
+          concentration of THC and CBD in the cannabis flower used. Start with a small amount and adjust
+          according to your needs and tolerance.
+        </li>
+        <li>
+          <strong>Terpenes:</strong> Adding terpenes is optional and can be adjusted according to your preferred
+          aroma and desired effects.
+        </li>
+      </ul>
+
+      <p>I hope you enjoy preparing and using this cannabis-infused oil!</p>
+
+      <div class="bg-terpenos-light-green p-6 rounded-lg mt-8 mb-8">
+        <p class="text-terpenos-forest-green font-medium italic">
+          This recipe is intended solely for personal consumption and is not meant to cure any illness or health
+          issue. The use of cannabis-infused oils should be carried out responsibly and in accordance with local
+          and national cannabis laws. Always consult with a healthcare professional before using cannabis
+          products, especially if you have pre-existing medical conditions or are taking medications.
+        </p>
+      </div>
+
+      <p>
+        This recipe combines traditional infusion methods with modern understanding of terpenes, allowing you to
+        customize the aromatic and therapeutic profile of your cannabis-infused oil. The addition of specific
+        terpenes enhances not only the sensory experience but also potentially the therapeutic effects through
+        what is known as the "entourage effect" – the synergistic interaction between cannabinoids and terpenes.
+      </p>
+
+      <p>
+        As you embark on creating your own cannabis-infused oils, you're participating in a tradition that
+        connects you to healers and herbalists across millennia, while also embracing contemporary knowledge
+        about plant medicine and wellness.
+      </p>
     `,
-    date: "April 15, 2023",
-    author: "Dr. Elena Rodriguez",
-    category: "Research",
-    readTime: "8 min read",
-    image: "/laboratory-equipment.png",
-    slug: "advances-in-molecular-analysis",
-    tags: ["Molecular Analysis", "Research", "Technology", "Science"],
+    date: "May 10, 2023",
+    author: "Alex Garcia",
+    category: "Traditional Medicine",
+    readTime: "10 min read",
+    image: "/cannabis-infused-oil.jpeg",
+    slug: "cannabis-infused-oils-tradition-recipe",
+    tags: ["Traditional Medicine", "Recipes", "Terpenes", "Cannabis"],
   },
   {
     id: 2,
@@ -78,10 +201,10 @@ const blogPostsData = [
       <p>While these advancements bring exciting possibilities, they also present challenges, including the need for specialized training, data management strategies, and considerations around accessibility and equity in research. Addressing these challenges will be crucial to fully realizing the potential of next-generation scientific instrumentation.</p>
     `,
     date: "March 22, 2023",
-    author: "Dr. Michael Chen",
+    author: "Alex Garcia",
     category: "Technology",
     readTime: "10 min read",
-    image: "/placeholder.svg?key=7y81e",
+    image: "/placeholder.svg?height=400&width=600",
     slug: "future-of-scientific-instrumentation",
     tags: ["Instrumentation", "Technology", "Automation", "Research"],
   },
@@ -122,7 +245,7 @@ const blogPostsData = [
       <p>As we face global environmental challenges, the scientific community has both an opportunity and a responsibility to lead by example, demonstrating that cutting-edge research and environmental stewardship can and should go hand in hand.</p>
     `,
     date: "February 10, 2023",
-    author: "Dr. Sarah Johnson",
+    author: "Alex Garcia",
     category: "Sustainability",
     readTime: "9 min read",
     image: "/sustainable-laboratory.png",
@@ -170,7 +293,7 @@ const blogPostsData = [
       <p>By embracing these innovative approaches and continuing to develop new methods, researchers can harness the full potential of complex datasets to advance scientific knowledge and address pressing challenges across disciplines.</p>
     `,
     date: "January 28, 2023",
-    author: "Dr. Aisha Patel",
+    author: "Alex Garcia",
     category: "Data Science",
     readTime: "12 min read",
     image: "/data-analysis-visual.png",
@@ -217,10 +340,10 @@ const blogPostsData = [
       <p>As these tools continue to evolve, they will likely play an increasingly central role in addressing complex scientific challenges that require diverse expertise and perspectives. By embracing digital collaboration while thoughtfully addressing its challenges, the scientific community can harness its full potential to accelerate discovery and innovation.</p>
     `,
     date: "December 15, 2022",
-    author: "Prof. James Wilson",
+    author: "Alex Garcia",
     category: "Collaboration",
     readTime: "11 min read",
-    image: "/placeholder.svg?key=vnms6",
+    image: "/placeholder.svg?height=400&width=600",
     slug: "collaborative-research-digital-age",
     tags: ["Collaboration", "Digital Tools", "Open Science", "Research"],
   },
@@ -264,7 +387,7 @@ const blogPostsData = [
       <p>As scientific research continues to evolve, quality control practices must adapt to new methodologies, technologies, and collaborative approaches. By maintaining a commitment to quality at every stage of the research process, scientists can enhance the integrity of their work and contribute to the advancement of knowledge in their fields.</p>
     `,
     date: "November 5, 2022",
-    author: "Dr. Carlos Mendez",
+    author: "Alex Garcia",
     category: "Best Practices",
     readTime: "10 min read",
     image: "/laboratory-quality-control.png",
@@ -286,14 +409,22 @@ export default function BlogPostPage() {
     const foundPost = blogPostsData.find((p) => p.slug === slug)
 
     if (foundPost) {
-      setPost(foundPost)
+      // Create a translated version of the post
+      const translatedPost = {
+        ...foundPost,
+        title: slug === "cannabis-infused-oils-tradition-recipe" ? t("blog.cannabis_oil.title") : foundPost.title,
+        excerpt: slug === "cannabis-infused-oils-tradition-recipe" ? t("blog.cannabis_oil.excerpt") : foundPost.excerpt,
+        // For other posts, we keep the original content
+        // For the cannabis oil post, we'll handle the content translation in the render method
+      }
+      setPost(translatedPost)
     } else {
       // Redirect to blog listing if post not found
       router.push("/blog")
     }
 
     setLoading(false)
-  }, [params.slug, router])
+  }, [params.slug, router, t])
 
   if (loading) {
     return (
@@ -332,18 +463,19 @@ export default function BlogPostPage() {
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter mb-4">{post.title}</h1>
 
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
-              <div className="flex items-center">
-                <User className="mr-2 h-4 w-4" />
-                {post.author}
-              </div>
-              <div className="flex items-center">
-                <Calendar className="mr-2 h-4 w-4" />
-                {post.date}
-              </div>
-              <div className="flex items-center">
-                <Clock className="mr-2 h-4 w-4" />
-                {post.readTime}
+            <div className="flex items-center gap-4 mb-6">
+              <Avatar>
+                <AvatarImage src="/images/alex-garcia.jpeg" alt={post.author} />
+                <AvatarFallback>AG</AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="font-medium">{post.author}</p>
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <Calendar className="mr-2 h-4 w-4" />
+                  {post.date}
+                  <Clock className="ml-4 mr-2 h-4 w-4" />
+                  {post.readTime}
+                </div>
               </div>
             </div>
 
@@ -357,7 +489,115 @@ export default function BlogPostPage() {
         <div className="container px-4 md:px-6">
           <div className="max-w-3xl mx-auto">
             <article className="prose prose-lg dark:prose-invert max-w-none">
-              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              {post.slug === "cannabis-infused-oils-tradition-recipe" ? (
+                <>
+                  <p>{t("blog.cannabis_oil.history.p1")}</p>
+                  <p>{t("blog.cannabis_oil.history.p2")}</p>
+                  <p>{t("blog.cannabis_oil.history.p3")}</p>
+
+                  <h2>{t("blog.cannabis_oil.recipe.title")}</h2>
+
+                  <h3>{t("blog.cannabis_oil.recipe.ingredients.title")}</h3>
+                  <ul>
+                    {t("blog.cannabis_oil.recipe.ingredients.list")
+                      .split("\n")
+                      .map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    <li>
+                      {t("blog.cannabis_oil.recipe.ingredients.terpenes.intro")}
+                      <ul>
+                        <li>{t("blog.cannabis_oil.recipe.ingredients.terpenes.limonene")}</li>
+                        <li>{t("blog.cannabis_oil.recipe.ingredients.terpenes.linalool")}</li>
+                        <li>{t("blog.cannabis_oil.recipe.ingredients.terpenes.myrcene")}</li>
+                      </ul>
+                    </li>
+                  </ul>
+
+                  <h3>{t("blog.cannabis_oil.recipe.utensils.title")}</h3>
+                  <ul>
+                    {t("blog.cannabis_oil.recipe.utensils.list")
+                      .split("\n")
+                      .map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                  </ul>
+
+                  <h3>{t("blog.cannabis_oil.recipe.instructions.title")}</h3>
+
+                  <h4>{t("blog.cannabis_oil.recipe.instructions.decarb.title")}</h4>
+                  <ol>
+                    {t("blog.cannabis_oil.recipe.instructions.decarb.steps")
+                      .split("\n")
+                      .map((step, index) => (
+                        <li key={index}>{step.substring(step.indexOf(".") + 1).trim()}</li>
+                      ))}
+                  </ol>
+
+                  <h4>{t("blog.cannabis_oil.recipe.instructions.infusion.title")}</h4>
+                  <ol>
+                    {t("blog.cannabis_oil.recipe.instructions.infusion.steps")
+                      .split("\n")
+                      .map((step, index) => (
+                        <li key={index}>{step.substring(step.indexOf(".") + 1).trim()}</li>
+                      ))}
+                  </ol>
+
+                  <h4>{t("blog.cannabis_oil.recipe.instructions.terpenes.title")}</h4>
+                  <ol>
+                    {t("blog.cannabis_oil.recipe.instructions.terpenes.steps")
+                      .split("\n")
+                      .map((step, index) => (
+                        <li key={index}>{step.substring(step.indexOf(".") + 1).trim()}</li>
+                      ))}
+                  </ol>
+
+                  <h4>{t("blog.cannabis_oil.recipe.instructions.straining.title")}</h4>
+                  <ol>
+                    {t("blog.cannabis_oil.recipe.instructions.straining.steps")
+                      .split("\n")
+                      .map((step, index) => (
+                        <li key={index}>{step.substring(step.indexOf(".") + 1).trim()}</li>
+                      ))}
+                  </ol>
+
+                  <h4>{t("blog.cannabis_oil.recipe.instructions.storage.title")}</h4>
+                  <ol>
+                    {t("blog.cannabis_oil.recipe.instructions.storage.steps")
+                      .split("\n")
+                      .map((step, index) => (
+                        <li key={index}>{step.substring(step.indexOf(".") + 1).trim()}</li>
+                      ))}
+                  </ol>
+
+                  <h3>{t("blog.cannabis_oil.recipe.usage.title")}</h3>
+                  <p>{t("blog.cannabis_oil.recipe.usage.text")}</p>
+
+                  <h3>{t("blog.cannabis_oil.recipe.notes.title")}</h3>
+                  <ul>
+                    <li>
+                      <strong>{t("blog.cannabis_oil.recipe.notes.dosage").split(":")[0]}:</strong>{" "}
+                      {t("blog.cannabis_oil.recipe.notes.dosage").split(":")[1].trim()}
+                    </li>
+                    <li>
+                      <strong>{t("blog.cannabis_oil.recipe.notes.terpenes").split(":")[0]}:</strong>{" "}
+                      {t("blog.cannabis_oil.recipe.notes.terpenes").split(":")[1].trim()}
+                    </li>
+                  </ul>
+
+                  <p>{t("blog.cannabis_oil.recipe.conclusion")}</p>
+
+                  <div className="bg-terpenos-light-green p-6 rounded-lg mt-8 mb-8">
+                    <p className="text-terpenos-forest-green font-medium italic">{t("blog.cannabis_oil.disclaimer")}</p>
+                  </div>
+
+                  <p>{t("blog.cannabis_oil.closing.p1")}</p>
+
+                  <p>{t("blog.cannabis_oil.closing.p2")}</p>
+                </>
+              ) : (
+                <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              )}
             </article>
 
             {/* Share and Navigation */}
@@ -365,7 +605,7 @@ export default function BlogPostPage() {
               <div className="flex justify-between items-center">
                 <Button variant="outline" size="sm" onClick={() => router.push("/blog")} className="flex items-center">
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to Blog
+                  {t("blog.back_to_blog")}
                 </Button>
 
                 <Button
@@ -374,18 +614,18 @@ export default function BlogPostPage() {
                   className="flex items-center"
                   onClick={() => {
                     navigator.clipboard.writeText(window.location.href)
-                    alert("Link copied to clipboard!")
+                    alert(t("blog.link_copied"))
                   }}
                 >
                   <Share2 className="mr-2 h-4 w-4" />
-                  Share Article
+                  {t("blog.share_article")}
                 </Button>
               </div>
             </div>
 
             {/* Related Posts */}
             <div className="mt-12">
-              <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
+              <h2 className="text-2xl font-bold mb-6">{t("blog.related_articles")}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {blogPostsData
                   .filter(
@@ -410,7 +650,7 @@ export default function BlogPostPage() {
                       <CardFooter className="p-4 pt-0">
                         <Link href={`/blog/${relatedPost.slug}`}>
                           <Button variant="outline" size="sm">
-                            Read More
+                            {t("blog.read_more")}
                             <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         </Link>
