@@ -1,4 +1,4 @@
-export type Language = "en" | "es" | "fr" | "de"
+export type Language = "en" | "es" | "pt" | "de"
 
 export type TranslationKey =
   | "nav.home"
@@ -58,6 +58,12 @@ export type TranslationKey =
   | "team.join.p1"
   | "team.join.p2"
   | "team.join.button"
+  | "team.member.alejandro.role"
+  | "team.member.alejandro.bio"
+  | "team.member.juan.role"
+  | "team.member.juan.bio"
+  | "team.member.alex.role"
+  | "team.member.alex.bio"
   | "products.hero.title"
   | "products.hero.subtitle"
   | "products.tabs.products"
@@ -152,8 +158,8 @@ export type TranslationKey =
   | "blog.cannabis_oil.recipe.instructions.straining.steps"
   | "blog.cannabis_oil.recipe.instructions.storage.title"
   | "blog.cannabis_oil.recipe.instructions.storage.steps"
-  | "blog.cannabis_oil.recipe.usage.title"
-  | "blog.cannabis_oil.recipe.usage.text"
+  | "blog.cannabis_oil.recipe.instructions.usage.title"
+  | "blog.cannabis_oil.recipe.instructions.usage.text"
   | "blog.cannabis_oil.recipe.notes.title"
   | "blog.cannabis_oil.recipe.notes.dosage"
   | "blog.cannabis_oil.recipe.notes.terpenes"
@@ -255,6 +261,15 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "team.join.p2":
       "We offer a stimulating work environment, competitive benefits, and opportunities for professional growth and development.",
     "team.join.button": "View Open Positions",
+    "team.member.alejandro.role": "Chief Scientific Officer",
+    "team.member.alejandro.bio":
+      "Alejandro leads our research initiatives with over 10 years of experience in biotechnology. He leads all science and production.",
+    "team.member.juan.role": "Chief Executive Officer",
+    "team.member.juan.bio":
+      "With an Masters in Business Administration and successful exits, Juan brings a commercial powerhouse to the team. He leads sales and operations.",
+    "team.member.alex.role": "CMO/Big Brain",
+    "team.member.alex.bio":
+      "Alex is the interim CMO and provides support and guidance to the team as chairman of the board of directors. He has founded multiple successful companies before and consults for research and innovation laboratories in the United States.",
 
     "products.hero.title": "Products & Services",
     "products.hero.subtitle": "Innovative scientific solutions tailored to your needs.",
@@ -375,8 +390,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "blog.cannabis_oil.recipe.instructions.storage.title": "Storage:",
     "blog.cannabis_oil.recipe.instructions.storage.steps":
       "1. Pour the infused oil into a clean glass jar.\n2. Store in a cool, dark place. The cannabis oil can last up to two months if stored properly.",
-    "blog.cannabis_oil.recipe.usage.title": "Usage:",
-    "blog.cannabis_oil.recipe.usage.text":
+    "blog.cannabis_oil.recipe.instructions.usage.title": "Usage:",
+    "blog.cannabis_oil.recipe.instructions.usage.text":
       "You can use this infused oil in various culinary recipes, such as salad dressings, sautéed dishes, or even as a substitute for oil in baked goods. It can also serve as a base for homemade creams or balms.",
     "blog.cannabis_oil.recipe.notes.title": "Notes:",
     "blog.cannabis_oil.recipe.notes.dosage":
@@ -485,6 +500,15 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "team.join.p2":
       "Ofrecemos un entorno de trabajo estimulante, beneficios competitivos y oportunidades para el crecimiento y desarrollo profesional.",
     "team.join.button": "Ver Posiciones Abiertas",
+    "team.member.alejandro.role": "Director Científico Principal",
+    "team.member.alejandro.bio":
+      "Alejandro lidera nuestras iniciativas de investigación con más de 10 años de experiencia en biotecnología. Dirige toda la ciencia y producción.",
+    "team.member.juan.role": "Director Ejecutivo Principal",
+    "team.member.juan.bio":
+      "Con una Maestría en Administración de Empresas y salidas exitosas, Juan aporta una potencia comercial al equipo. Lidera ventas y operaciones.",
+    "team.member.alex.role": "CMO/Cerebro Principal",
+    "team.member.alex.bio":
+      "Alex es el CMO interino y proporciona apoyo y orientación al equipo como presidente del consejo de administración. Ha fundado múltiples empresas exitosas antes y consulta para laboratorios de investigación e innovación en los Estados Unidos.",
 
     "products.hero.title": "Productos y Servicios",
     "products.hero.subtitle": "Soluciones científicas innovadoras adaptadas a sus necesidades.",
@@ -607,8 +631,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "blog.cannabis_oil.recipe.instructions.storage.title": "Almacenamiento:",
     "blog.cannabis_oil.recipe.instructions.storage.steps":
       "1. Vierte el aceite infusionado en un frasco de vidrio limpio.\n2. Almacena en un lugar fresco y oscuro. El aceite de cannabis puede durar hasta dos meses si se almacena adecuadamente.",
-    "blog.cannabis_oil.recipe.usage.title": "Uso:",
-    "blog.cannabis_oil.recipe.usage.text":
+    "blog.cannabis_oil.recipe.instructions.usage.title": "Uso:",
+    "blog.cannabis_oil.recipe.instructions.usage.text":
       "Puedes usar este aceite infusionado en varias recetas culinarias, como aderezos para ensaladas, platos salteados, o incluso como sustituto del aceite en productos horneados. También puede servir como base para cremas o bálsamos caseros.",
     "blog.cannabis_oil.recipe.notes.title": "Notas:",
     "blog.cannabis_oil.recipe.notes.dosage":
@@ -643,236 +667,244 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "blog.cannabis_oil.outline.recipe": "Receta con Adiciones de Terpenos",
   },
 
-  fr: {
-    "nav.home": "Accueil",
-    "nav.about": "À Propos",
-    "nav.team": "Notre Équipe",
-    "nav.products": "Produits et Services",
+  pt: {
+    "nav.home": "Início",
+    "nav.about": "Sobre Nós",
+    "nav.team": "Nossa Equipe",
+    "nav.products": "Produtos e Serviços",
     "nav.blog": "Blog",
-    "nav.contact": "Contact",
+    "nav.contact": "Contato",
 
-    "home.hero.title": "Faire Progresser la Science par la Recherche et l'Innovation",
+    "home.hero.title": "Avançando a Ciência através de Pesquisa e Inovação",
     "home.hero.subtitle":
-      "Terpenos est à l'avant-garde de la découverte scientifique, fournissant des solutions de pointe et de la recherche pour un avenir meilleur.",
-    "home.hero.cta.explore": "Explorer Nos Solutions",
-    "home.hero.cta.contact": "Contactez-Nous",
+      "A Terpenos está na vanguarda da descoberta científica, fornecendo soluções de ponta e pesquisa para um futuro melhor.",
+    "home.hero.cta.explore": "Explorar Nossas Soluções",
+    "home.hero.cta.contact": "Entre em Contato",
 
-    "home.features.title": "Excellence Scientifique",
+    "home.features.title": "Excelência Científica",
     "home.features.subtitle":
-      "Découvrez comment notre approche innovante de la science transforme les industries et fait progresser la recherche.",
-    "home.features.research": "Recherche",
-    "home.features.research.desc": "Recherche scientifique pionnière pour résoudre des défis complexes.",
-    "home.features.analysis": "Analyse",
-    "home.features.analysis.desc": "Techniques analytiques avancées pour des résultats précis.",
-    "home.features.innovation": "Innovation",
-    "home.features.innovation.desc": "Développement de solutions scientifiques de nouvelle génération.",
-    "home.features.quality": "Qualité",
-    "home.features.quality.desc": "Engagement envers l'excellence et l'intégrité scientifique.",
+      "Descubra como nossa abordagem inovadora da ciência está transformando indústrias e avançando a pesquisa.",
+    "home.features.research": "Pesquisa",
+    "home.features.research.desc": "Pesquisa científica pioneira para resolver desafios complexos.",
+    "home.features.analysis": "Análise",
+    "home.features.analysis.desc": "Técnicas analíticas avançadas para resultados precisos.",
+    "home.features.innovation": "Inovação",
+    "home.features.innovation.desc": "Desenvolvendo soluções científicas de próxima geração.",
+    "home.features.quality": "Qualidade",
+    "home.features.quality.desc": "Compromisso com a excelência e integridade científica.",
 
-    "home.cta.title": "Prêt à Collaborer?",
-    "home.cta.subtitle": "Rejoignez-nous pour repousser les limites de la découverte scientifique et de l'innovation.",
-    "home.cta.button1": "Prenez Contact",
-    "home.cta.button2": "Explorer Nos Services",
+    "home.cta.title": "Pronto para Colaborar?",
+    "home.cta.subtitle": "Junte-se a nós para expandir os limites da descoberta científica e inovação.",
+    "home.cta.button1": "Entre em Contato",
+    "home.cta.button2": "Explorar Nossos Serviços",
 
-    "about.hero.title": "À Propos de Terpenos",
-    "about.hero.subtitle": "Recherche scientifique pionnière et innovation pour un avenir meilleur.",
-    "about.story.title": "Notre Histoire",
+    "about.hero.title": "Sobre a Terpenos",
+    "about.hero.subtitle": "Pesquisa científica pioneira e inovação para um futuro melhor.",
+    "about.story.title": "Nossa História",
     "about.story.p1":
-      "Au cœur de Quito, en Équateur, se trouve une force pionnière dans l'industrie du cannabis : Terpenos.com. Fondée en 2021, notre parcours n'est pas seulement une histoire de création d'entreprise, mais un récit profond qui s'entremêle avec l'histoire et l'évolution du cannabis en tant que médicament. Nos racines plongent dans les premiers jours des campagnes de légalisation du cannabis à Berkeley et Oakland, en Californie, où nos fondateurs n'étaient pas de simples spectateurs, mais des bénévoles actifs et des défenseurs. Leur dévouement à la cause les a amenés à collaborer avec des organisations influentes telles qu'Oaksterdam et Harborside, témoignant de première main des défis et des triomphes qui ont façonné l'industrie.",
+      "No coração de Quito, Equador, encontra-se uma força pioneira na indústria da cannabis—Terpenos.com. Estabelecida em 2021, nossa jornada não é apenas uma história de criação de negócios, mas uma narrativa profunda que se entrelaça com a história e evolução da cannabis como medicina. Nossas raízes mergulham profundamente nos primeiros dias das campanhas de legalização da cannabis em Berkeley e Oakland, Califórnia, onde nossos fundadores não foram apenas espectadores, mas voluntários ativos e defensores. Sua dedicação à causa os levou ao lado de organizações influentes como Oaksterdam e Harborside, testemunhando em primeira mão os desafios e triunfos que moldaram a indústria.",
     "about.story.p2":
-      "Cependant, notre histoire n'a pas commencé avec la fondation de Terpenos.com. C'est la continuation d'un héritage d'excellence et d'innovation de dix ans dans les secteurs pharmaceutique et alimentaire. Nos fondateurs ont apporté avec eux une riche expérience, ayant travaillé avec des fabricants de premier plan d'aliments et de produits pharmaceutiques sous marque privée, où ils ont joué un rôle déterminant dans la mise en œuvre de systèmes de classe mondiale. Cette expérience inestimable a jeté les bases de ce que Terpenos.com allait devenir : un leader dans le domaine du cannabis, dédié aux plus hauts standards de qualité et de sécurité.",
+      "Nossa história, no entanto, não começou com a fundação da Terpenos.com. É uma continuação de um legado de uma década de excelência e inovação nos setores farmacêutico e de fabricação de alimentos. Nossos fundadores trouxeram consigo uma riqueza de experiência, tendo trabalhado com fabricantes de alimentos e farmacêuticos de marca própria de primeira linha, onde foram fundamentais na implementação de sistemas de classe mundial. Esta experiência inestimável estabeleceu as bases para o que a Terpenos.com se tornaria—um líder no espaço da cannabis, dedicado aos mais altos padrões de qualidade e segurança.",
     "about.story.p3":
-      "Aujourd'hui, Terpenos.com est un importateur agréé de molécules dérivées du cannabis, opérant depuis l'Équateur avec une présence satellite en Californie. Notre laboratoire est à la pointe du développement et du maintien de processus qui garantissent la qualité pharmaceutique et alimentaire de nos formulations et matières premières. Nous nous spécialisons dans les terpènes, le CBD et autres cannabinoïdes légaux, répondant aux besoins des clients qui recherchent une pureté et une efficacité inégalées. Notre histoire témoigne de la conviction que le cannabis est un médicament, une conviction qui nous a portés des premiers jours des campagnes de légalisation jusqu'à la pointe de l'industrie aujourd'hui. Chez Terpenos.com, nous sommes plus qu'une entreprise ; nous faisons partie d'un mouvement mondial vers le bien-être, l'innovation et la poursuite inlassable de l'excellence dans le domaine du cannabis.",
+      "Hoje, a Terpenos.com se destaca como uma importadora totalmente licenciada de moléculas derivadas da cannabis, operando a partir do Equador com presença satélite na Califórnia. Nosso laboratório está na vanguarda do desenvolvimento e manutenção de processos que garantem a qualidade farmacêutica e alimentar de nossas formulações e matérias-primas. Especializamo-nos em terpenos, CBD e outros canabinoides legais, atendendo clientes que buscam pureza e eficácia incomparáveis. Nossa história é um testemunho da crença de que a cannabis é medicina, uma crença que nos impulsionou desde os primeiros dias das campanhas de legalização até a vanguarda da indústria hoje. Na Terpenos.com, somos mais do que apenas uma empresa; somos parte de um movimento global em direção ao bem-estar, inovação e busca incansável pela excelência no domínio da cannabis.",
 
-    "about.values.title": "Nos Valeurs",
-    "about.values.subtitle": "Les principes qui guident notre travail et définissent notre culture.",
-    "about.values.integrity": "Intégrité Scientifique",
+    "about.values.title": "Nossos Valores",
+    "about.values.subtitle": "Os princípios que guiam nosso trabalho e definem nossa cultura.",
+    "about.values.integrity": "Integridade Científica",
     "about.values.integrity.desc":
-      "Nous respectons les normes les plus élevées de rigueur scientifique et de conduite éthique dans tout notre travail.",
-    "about.values.innovation": "Innovation",
+      "Mantemos os mais altos padrões de rigor científico e conduta ética em todo nosso trabalho.",
+    "about.values.innovation": "Inovação",
     "about.values.innovation.desc":
-      "Nous favorisons une culture de créativité et d'amélioration continue pour stimuler le progrès scientifique.",
-    "about.values.collaboration": "Collaboration",
+      "Fomentamos uma cultura de criatividade e melhoria contínua para impulsionar o progresso científico.",
+    "about.values.collaboration": "Colaboração",
     "about.values.collaboration.desc":
-      "Nous croyons au pouvoir du travail d'équipe et des partenariats pour résoudre des défis complexes.",
-    "about.values.impact": "Impact",
-    "about.values.impact.desc":
-      "Nous nous engageons dans la recherche qui fait une différence significative dans le monde.",
+      "Acreditamos no poder do trabalho em equipe e parcerias para resolver desafios complexos.",
+    "about.values.impact": "Impacto",
+    "about.values.impact.desc": "Estamos comprometidos com pesquisa que faz uma diferença significativa no mundo.",
 
-    "about.approach.title": "Notre Approche",
+    "about.approach.title": "Nossa Abordagem",
     "about.approach.p1":
-      "Chez Terpenos.com, notre approche est ancrée dans la science, guidée par un objectif et alimentée par l'innovation. De notre laboratoire de pointe en Équateur à notre présence stratégique en Californie, nous appliquons des normes rigoureuses à chaque étape de notre processus, garantissant que chaque molécule que nous importons ou formulons répond aux critères pharmaceutiques et alimentaires.",
+      "Na Terpenos.com, nossa abordagem está enraizada na ciência, guiada por propósito e alimentada pela inovação. Do nosso laboratório de última geração no Equador à nossa presença estratégica na Califórnia, aplicamos padrões rigorosos a cada etapa do nosso processo—garantindo que cada molécula que importamos ou formulamos atenda aos padrões farmacêuticos e alimentares.",
     "about.approach.p2":
-      "Nous collaborons avec plusieurs laboratoires certifiés par la FDA aux États-Unis pour valider la sécurité, la pureté et la cohérence de nos produits. Ces collaborations renforcent notre engagement envers l'assurance qualité et la conformité mondiale, établissant des ponts entre la science et la confiance au-delà des frontières.",
+      "Fazemos parceria com múltiplos laboratórios certificados pela FDA nos Estados Unidos para validar a segurança, pureza e consistência de nossos produtos. Essas colaborações reforçam nosso compromisso com a garantia de qualidade e conformidade global, construindo pontes entre ciência e confiança através das fronteiras.",
     "about.approach.p3":
-      "Nous ne travaillons pas simplement avec le cannabis, nous travaillons avec intention. Spécialisés dans les terpènes, le CBD et les cannabinoïdes légaux, nous collaborons avec des entreprises pharmaceutiques, des laboratoires alimentaires et des marques de bien-être qui exigent pureté, traçabilité et efficacité.",
+      "Não apenas trabalhamos com cannabis—trabalhamos com intenção. Especializando-nos em terpenos, CBD e canabinoides legais, colaboramos com empresas farmacêuticas, laboratórios de alimentos e marcas de bem-estar que exigem pureza, rastreabilidade e eficácia.",
     "about.approach.p4":
-      "Notre travail est fondé sur la conviction que le cannabis est un médicament. Cette conviction nous pousse à maintenir les plus hauts niveaux d'intégrité, de transparence et de qualité dans une industrie qui définit encore son avenir. Que nous formulions des profils de terpènes sur mesure ou importions des ingrédients actifs, nous agissons en tant que gardiens d'une plante que nous respectons profondément.",
-    "about.approach.p5": "C'est plus que du commerce. C'est une mission. C'est notre approche.",
+      "Nosso trabalho é fundamentado na crença de que a cannabis é medicina. Essa convicção nos impulsiona a manter os mais altos níveis de integridade, transparência e qualidade em uma indústria ainda definindo seu futuro. Seja formulando perfis de terpenos sob medida ou importando ingredientes ativos, agimos como guardiões de uma planta que respeitamos profundamente.",
+    "about.approach.p5": "Isso é mais do que comércio. É uma missão. É nossa abordagem.",
 
-    "team.hero.title": "Notre Équipe",
-    "team.hero.subtitle": "Rencontrez les esprits brillants derrière nos innovations scientifiques.",
-    "team.join.title": "Rejoignez Notre Équipe",
+    "team.hero.title": "Nossa Equipe",
+    "team.hero.subtitle": "Conheça as mentes brilhantes por trás de nossas inovações científicas.",
+    "team.join.title": "Junte-se à Nossa Equipe",
     "team.join.p1":
-      "Nous recherchons toujours des scientifiques, des chercheurs et des professionnels talentueux pour rejoindre notre équipe. Chez Terpenos, vous aurez l'opportunité de travailler sur des recherches de pointe, de collaborer avec des esprits brillants et d'avoir un impact significatif.",
+      "Estamos sempre procurando cientistas, pesquisadores e profissionais talentosos para se juntarem à nossa equipe. Na Terpenos, você terá a oportunidade de trabalhar em pesquisa de ponta, colaborar com mentes brilhantes e causar um impacto significativo.",
     "team.join.p2":
-      "Nous offrons un environnement de travail stimulant, des avantages compétitifs et des opportunités de croissance et de développement professionnel.",
-    "team.join.button": "Voir les Postes Ouverts",
+      "Oferecemos um ambiente de trabalho estimulante, benefícios competitivos e oportunidades para crescimento e desenvolvimento profissional.",
+    "team.join.button": "Ver Vagas Abertas",
+    "team.member.alejandro.role": "Diretor Científico Principal",
+    "team.member.alejandro.bio":
+      "Alejandro lidera nossas iniciativas de pesquisa com mais de 10 anos de experiência em biotecnologia. Ele lidera toda a ciência e produção.",
+    "team.member.juan.role": "Diretor Executivo Principal",
+    "team.member.juan.bio":
+      "Com um Mestrado em Administração de Empresas e saídas bem-sucedidas, Juan traz uma potência comercial para a equipe. Ele lidera vendas e operações.",
+    "team.member.alex.role": "CMO/Cérebro Principal",
+    "team.member.alex.bio":
+      "Alex é o CMO interino e fornece apoio e orientação à equipe como presidente do conselho de administração. Ele fundou múltiplas empresas bem-sucedidas antes e consulta para laboratórios de pesquisa e inovação nos Estados Unidos.",
 
-    "products.hero.title": "Produits et Services",
-    "products.hero.subtitle": "Solutions scientifiques innovantes adaptées à vos besoins.",
-    "products.tabs.products": "Produits",
-    "products.tabs.services": "Services",
-    "products.case.title": "Études de Cas",
+    "products.hero.title": "Produtos e Serviços",
+    "products.hero.subtitle": "Soluções científicas inovadoras adaptadas às suas necessidades.",
+    "products.tabs.products": "Produtos",
+    "products.tabs.services": "Serviços",
+    "products.case.title": "Estudos de Caso",
     "products.case.subtitle":
-      "Découvrez comment nos produits et services ont aidé des organisations à atteindre leurs objectifs scientifiques.",
-    "products.cta.title": "Prêt à Commencer?",
+      "Veja como nossos produtos e serviços ajudaram organizações a alcançar seus objetivos científicos.",
+    "products.cta.title": "Pronto para Começar?",
     "products.cta.subtitle":
-      "Contactez-nous aujourd'hui pour discuter de la façon dont nos produits et services peuvent soutenir vos efforts scientifiques.",
-    "products.cta.button1": "Contactez-Nous",
-    "products.cta.button2": "En Savoir Plus Sur Nous",
+      "Entre em contato conosco hoje para discutir como nossos produtos e serviços podem apoiar seus esforços científicos.",
+    "products.cta.button1": "Entre em Contato",
+    "products.cta.button2": "Saiba Mais Sobre Nós",
 
-    "blog.hero.title": "Notre Blog",
-    "blog.hero.subtitle": "Perspectives, découvertes et points de vue de notre équipe scientifique.",
-    "blog.search.placeholder": "Rechercher des articles...",
-    "blog.newsletter.title": "Restez Informé",
+    "blog.hero.title": "Nosso Blog",
+    "blog.hero.subtitle": "Insights, descobertas e perspectivas de nossa equipe científica.",
+    "blog.search.placeholder": "Buscar artigos...",
+    "blog.newsletter.title": "Mantenha-se Atualizado",
     "blog.newsletter.subtitle":
-      "Abonnez-vous à notre newsletter pour recevoir les dernières perspectives et mises à jour scientifiques.",
-    "blog.newsletter.button": "S'abonner",
-    "blog.newsletter.privacy": "Nous respectons votre vie privée. Désabonnez-vous à tout moment.",
+      "Inscreva-se em nossa newsletter para receber os últimos insights e atualizações científicas.",
+    "blog.newsletter.button": "Inscrever-se",
+    "blog.newsletter.privacy": "Respeitamos sua privacidade. Cancele a inscrição a qualquer momento.",
 
-    "contact.hero.title": "Contactez-Nous",
-    "contact.hero.subtitle": "Nous aimerions avoir de vos nouvelles. Prenez contact avec notre équipe.",
-    "contact.form.title": "Envoyez-Nous un Message",
-    "contact.form.description": "Remplissez le formulaire ci-dessous et nous vous répondrons dès que possible.",
-    "contact.form.name": "Nom",
-    "contact.form.name.placeholder": "Votre nom",
-    "contact.form.email": "Email",
-    "contact.form.email.placeholder": "Votre email",
-    "contact.form.inquiryType": "Type de Demande",
-    "contact.form.inquiryType.placeholder": "Sélectionnez le type de demande",
-    "contact.form.inquiryType.general": "Demande Générale",
-    "contact.form.inquiryType.products": "Produits",
-    "contact.form.inquiryType.services": "Services",
-    "contact.form.inquiryType.partnership": "Partenariat",
-    "contact.form.inquiryType.careers": "Carrières",
-    "contact.form.subject": "Sujet",
-    "contact.form.subject.placeholder": "Sujet de votre message",
-    "contact.form.message": "Message",
-    "contact.form.message.placeholder": "Votre message",
-    "contact.form.send": "Envoyer le Message",
-    "contact.form.sending": "Envoi en cours...",
-    "contact.form.success.title": "Message Envoyé avec Succès",
-    "contact.form.success.message": "Merci de nous avoir contactés! Nous vous répondrons bientôt.",
-    "contact.form.success.button": "Envoyer un Autre Message",
-    "contact.form.error.general": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
-    "contact.info.title": "Informations de Contact",
-    "contact.info.subtitle": "Contactez-nous par l'un des canaux suivants.",
-    "contact.info.address": "Adresse",
-    "contact.info.phone": "Téléphone",
-    "contact.info.email": "Email",
-    "contact.info.hours": "Heures",
-    "contact.info.hours.weekdays": "Lundi - Vendredi",
-    "contact.map.title": "Emplacement de Terpenos - Centre Commercial Multicentro",
-    "contact.faq.title": "Questions Fréquemment Posées",
-    "contact.faq.subtitle": "Trouvez des réponses aux questions courantes sur nos produits et services.",
-    "contact.faq.q1": "Dans quels domaines de recherche Terpenos se spécialise-t-il?",
+    "contact.hero.title": "Entre em Contato",
+    "contact.hero.subtitle": "Adoraríamos ouvir de você. Entre em contato com nossa equipe.",
+    "contact.form.title": "Envie-nos uma Mensagem",
+    "contact.form.description": "Preencha o formulário abaixo e entraremos em contato o mais breve possível.",
+    "contact.form.name": "Nome",
+    "contact.form.name.placeholder": "Seu nome",
+    "contact.form.email": "E-mail",
+    "contact.form.email.placeholder": "Seu e-mail",
+    "contact.form.inquiryType": "Tipo de Consulta",
+    "contact.form.inquiryType.placeholder": "Selecione o tipo de consulta",
+    "contact.form.inquiryType.general": "Consulta Geral",
+    "contact.form.inquiryType.products": "Produtos",
+    "contact.form.inquiryType.services": "Serviços",
+    "contact.form.inquiryType.partnership": "Parceria",
+    "contact.form.inquiryType.careers": "Carreiras",
+    "contact.form.subject": "Assunto",
+    "contact.form.subject.placeholder": "Assunto da sua mensagem",
+    "contact.form.message": "Mensagem",
+    "contact.form.message.placeholder": "Sua mensagem",
+    "contact.form.send": "Enviar Mensagem",
+    "contact.form.sending": "Enviando...",
+    "contact.form.success.title": "Mensagem Enviada com Sucesso",
+    "contact.form.success.message": "Obrigado por entrar em contato! Retornaremos em breve.",
+    "contact.form.success.button": "Enviar Outra Mensagem",
+    "contact.form.error.general": "Ocorreu um erro inesperado. Tente novamente mais tarde.",
+    "contact.info.title": "Informações de Contato",
+    "contact.info.subtitle": "Entre em contato conosco através de qualquer um dos seguintes canais.",
+    "contact.info.address": "Endereço",
+    "contact.info.phone": "Telefone",
+    "contact.info.email": "E-mail",
+    "contact.info.hours": "Horário",
+    "contact.info.hours.weekdays": "Segunda - Sexta",
+    "contact.map.title": "Localização da Terpenos - Centro Comercial Multicentro",
+    "contact.faq.title": "Perguntas Frequentes",
+    "contact.faq.subtitle": "Encontre respostas para perguntas comuns sobre nossos produtos e serviços.",
+    "contact.faq.q1": "Em quais áreas de pesquisa a Terpenos se especializa?",
     "contact.faq.a1":
-      "Terpenos se spécialise dans la biologie moléculaire, la biochimie, la chimie analytique et les domaines connexes. Notre approche interdisciplinaire nous permet de relever des défis scientifiques complexes dans divers domaines.",
-    "contact.faq.q2": "Proposez-vous des services de recherche personnalisés?",
+      "A Terpenos se especializa em biologia molecular, bioquímica, química analítica e campos relacionados. Nossa abordagem interdisciplinar nos permite enfrentar desafios científicos complexos em vários domínios.",
+    "contact.faq.q2": "Vocês oferecem serviços de pesquisa personalizados?",
     "contact.faq.a2":
-      "Oui, nous fournissons des services de recherche adaptés pour répondre aux besoins spécifiques des clients. Notre équipe peut concevoir et exécuter des projets de recherche du concept à l'achèvement, en fournissant des résultats et des analyses complets.",
-    "contact.faq.q3": "Quel est votre délai habituel pour l'analyse en laboratoire?",
+      "Sim, fornecemos serviços de pesquisa sob medida para atender necessidades específicas dos clientes. Nossa equipe pode projetar e executar projetos de pesquisa do conceito à conclusão, entregando resultados e análises abrangentes.",
+    "contact.faq.q3": "Qual é o tempo típico de resposta para análise laboratorial?",
     "contact.faq.a3":
-      "Les délais varient en fonction de la complexité de l'analyse, mais nous nous efforçons de fournir des résultats aussi efficacement que possible sans compromettre la qualité. Les analyses standard prennent généralement 5 à 7 jours ouvrables.",
-    "contact.faq.q4": "Expédiez-vous des produits à l'international?",
+      "Os tempos de resposta variam dependendo da complexidade da análise, mas nos esforçamos para entregar resultados de forma eficiente sem comprometer a qualidade. Análises padrão geralmente levam de 5 a 7 dias úteis.",
+    "contact.faq.q4": "Vocês enviam produtos internacionalmente?",
     "contact.faq.a4":
-      "Oui, nous expédions nos produits dans le monde entier. Les délais et les coûts d'expédition internationaux varient selon la destination. Veuillez nous contacter pour des informations spécifiques concernant votre emplacement.",
-    "contact.faq.q5": "Puis-je planifier une consultation avec votre équipe scientifique?",
+      "Sim, enviamos nossos produtos mundialmente. Tempos e custos de envio internacional variam por destino. Entre em contato conosco para informações específicas sobre sua localização.",
+    "contact.faq.q5": "Posso agendar uma consulta com sua equipe científica?",
     "contact.faq.a5":
-      "Absolument. Nous proposons des consultations avec nos experts scientifiques pour discuter de vos besoins de recherche, de vos défis et des solutions potentielles. Veuillez nous contacter pour organiser une réunion.",
-    "contact.faq.q6": "Proposez-vous une formation pour votre équipement analytique?",
+      "Absolutamente. Oferecemos consultas com nossos especialistas científicos para discutir suas necessidades de pesquisa, desafios e soluções potenciais. Entre em contato conosco para marcar uma reunião.",
+    "contact.faq.q6": "Vocês oferecem treinamento para seus equipamentos analíticos?",
     "contact.faq.a6":
-      "Oui, nous fournissons une formation complète pour tous nos équipements et logiciels. La formation peut être effectuée sur site ou à distance, selon vos préférences et vos exigences.",
+      "Sim, fornecemos treinamento abrangente para todos os nossos equipamentos e software. O treinamento pode ser conduzido no local ou remotamente, dependendo de sua preferência e requisitos.",
 
-    "footer.description": "Solutions et recherche scientifiques innovantes pour un avenir meilleur.",
-    "footer.links.title": "Liens Rapides",
-    "footer.resources.title": "Ressources",
-    "footer.contact.title": "Contact",
-    "footer.copyright": "Tous droits réservés.",
-    "blog.cannabis_oil.title": "La Longue Tradition des Huiles Infusées au Cannabis avec une Recette",
+    "footer.description": "Soluções e pesquisa científicas inovadoras para um futuro melhor.",
+    "footer.links.title": "Links Rápidos",
+    "footer.resources.title": "Recursos",
+    "footer.contact.title": "Contato",
+    "footer.copyright": "Todos os direitos reservados.",
+    "blog.cannabis_oil.title": "A Longa Tradição dos Óleos Infundidos com Cannabis com uma Receita",
     "blog.cannabis_oil.excerpt":
-      "Explorez l'histoire ancienne et les applications modernes des huiles infusées au cannabis, ainsi qu'une recette détaillée pour réaliser votre propre infusion avec des terpènes spécifiques.",
+      "Explore a história antiga e aplicações modernas dos óleos infundidos com cannabis, junto com uma receita detalhada para fazer sua própria infusão com terpenos específicos.",
     "blog.cannabis_oil.history.p1":
-      "La pratique d'infuser du cannabis dans des huiles est une tradition séculaire qui s'étend sur des siècles et des cultures, reflétant une compréhension profonde du potentiel médicinal et thérapeutique de la plante. Les civilisations anciennes, comme celles de Chine et d'Inde, ont été parmi les premières à explorer les bienfaits des huiles infusées au cannabis. Dans la médecine traditionnelle chinoise, le cannabis était utilisé comme ingrédient clé dans divers remèdes, avec des archives remontant à 2737 av. J.-C. pour le traitement de maux tels que la douleur et l'inflammation. De même, en Inde, le cannabis fait partie intégrante de la médecine ayurvédique, où il est connu sous le nom de \"bhang\" et utilisé dans des huiles et des pâtes pour traiter diverses affections, notamment les problèmes digestifs et les maladies de peau.",
+      'A prática de infundir cannabis com óleos é uma tradição secular que abrange séculos e culturas, refletindo uma compreensão profunda do potencial medicinal e terapêutico da planta. Civilizações antigas, como as da China e Índia, estavam entre as primeiras a explorar os benefícios dos óleos infundidos com cannabis. Na medicina tradicional chinesa, a cannabis era usada como ingrediente-chave em vários remédios, com registros datando de 2737 a.C. em seu uso para tratar doenças como dor e inflamação. Similarmente, na Índia, a cannabis tem sido parte integral da medicina ayurvédica, onde é conhecida como "bhang" e usada em óleos e pastas para tratar uma variedade de condições, incluindo problemas digestivos e doenças de pele.',
     "blog.cannabis_oil.history.p2":
-      "Le Moyen-Orient a également une riche histoire d'utilisation du cannabis, particulièrement dans des régions comme la Perse (l'Iran actuel), où les huiles infusées au cannabis étaient utilisées pour leurs propriétés analgésiques et anti-inflammatoires. Les médecins islamiques pendant la période médiévale, comme Avicenne, ont documenté les applications thérapeutiques du cannabis dans leurs textes médicaux, soulignant son rôle dans le soulagement de la douleur et la relaxation musculaire. Ces pratiques anciennes se sont finalement répandues dans d'autres parties du monde, y compris l'Afrique et l'Europe, où les huiles infusées au cannabis ont été incorporées dans les traditions de médecine populaire pour leurs effets apaisants et curatifs.",
+      "O Oriente Médio também tem uma rica história de uso da cannabis, particularmente em regiões como a Pérsia (atual Irã), onde óleos infundidos com cannabis eram utilizados por suas propriedades analgésicas e anti-inflamatórias. Médicos islâmicos durante o período medieval, como Avicena, documentaram as aplicações terapêuticas da cannabis em seus textos médicos, destacando seu papel no alívio da dor e relaxamento muscular. Essas práticas antigas eventualmente se espalharam para outras partes do mundo, incluindo África e Europa, onde óleos infundidos com cannabis foram incorporados às tradições de medicina popular por seus efeitos calmantes e curativos.",
     "blog.cannabis_oil.history.p3":
-      "Dans l'histoire plus récente, l'utilisation d'huiles infusées au cannabis a connu une résurgence, motivée par un intérêt croissant pour les remèdes naturels et holistiques. Les traditions historiques des méthodes d'infusion du cannabis ont été ravivées et affinées, combinant la sagesse ancienne avec la compréhension scientifique moderne. Aujourd'hui, les huiles infusées au cannabis sont largement reconnues pour leur polyvalence et leur efficacité, poursuivant un héritage de guérison qui a transcendé le temps et la géographie.",
-    "blog.cannabis_oil.recipe.title": "Recette d'Huile Infusée au Cannabis avec Terpènes",
-    "blog.cannabis_oil.recipe.ingredients.title": "Ingrédients:",
+      "Na história mais recente, o uso de óleos infundidos com cannabis tem visto um ressurgimento, impulsionado pelo crescente interesse em remédios naturais e holísticos para a saúde. As tradições históricas dos métodos de infusão de cannabis foram revividas e refinadas, combinando sabedoria antiga com compreensão científica moderna. Hoje, óleos infundidos com cannabis são amplamente reconhecidos por sua versatilidade e eficácia, continuando um legado de cura que transcendeu tempo e geografia.",
+    "blog.cannabis_oil.recipe.title": "Receita de Óleo Infundido com Cannabis e Terpenos",
+    "blog.cannabis_oil.recipe.ingredients.title": "Ingredientes:",
     "blog.cannabis_oil.recipe.ingredients.list":
-      "1 tasse d'huile de coco ou d'huile d'olive (selon votre préférence)\n10 grammes de fleurs de cannabis (décarboxylées)",
-    "blog.cannabis_oil.recipe.ingredients.terpenes.intro": "Terpènes (facultatif, selon préférence):",
+      "1 xícara de óleo de coco ou azeite de oliva (conforme sua preferência)\n10 gramas de flores de cannabis (descarboxiladas)",
+    "blog.cannabis_oil.recipe.ingredients.terpenes.intro": "Terpenos (opcional, conforme preferência):",
     "blog.cannabis_oil.recipe.ingredients.terpenes.limonene":
-      "2 gouttes de Limonène (pour un arôme d'agrumes et des effets énergisants)",
+      "2 gotas de Limoneno (para aroma cítrico e efeitos energizantes)",
     "blog.cannabis_oil.recipe.ingredients.terpenes.linalool":
-      "2 gouttes de Linalol (pour un arôme floral et des effets relaxants)",
+      "2 gotas de Linalol (para aroma floral e efeitos relaxantes)",
     "blog.cannabis_oil.recipe.ingredients.terpenes.myrcene":
-      "2 gouttes de Myrcène (pour un arôme terreux et des effets sédatifs)",
-    "blog.cannabis_oil.recipe.utensils.title": "Ustensiles:",
+      "2 gotas de Mirceno (para aroma terroso e efeitos sedativos)",
+    "blog.cannabis_oil.recipe.utensils.title": "Utensílios:",
     "blog.cannabis_oil.recipe.utensils.list":
-      "Moulin à café ou moulin à herbes\nPlaque de cuisson\nPapier sulfurisé\nBain-marie ou une casserole et un récipient résistant à la chaleur\nPassoire à mailles fines ou étamine\nBocal en verre pour le stockage",
-    "blog.cannabis_oil.recipe.instructions.title": "Instructions:",
-    "blog.cannabis_oil.recipe.instructions.decarb.title": "Décarboxylation du Cannabis:",
+      "Moedor de café ou moedor de ervas\nAssadeira\nPapel manteiga\nBanho-maria ou panela e recipiente resistente ao calor\nPeneira de malha fina ou pano de queijo\nPote de vidro para armazenamento",
+    "blog.cannabis_oil.recipe.instructions.title": "Instruções:",
+    "blog.cannabis_oil.recipe.instructions.decarb.title": "Descarboxilação da Cannabis:",
     "blog.cannabis_oil.recipe.instructions.decarb.steps":
-      "1. Préchauffez le four à 115°C (240°F).\n2. Broyez les fleurs de cannabis avec le moulin à café ou le moulin à herbes.\n3. Placez le cannabis moulu sur une plaque de cuisson recouverte de papier sulfurisé.\n4. Faites cuire le cannabis pendant 30-40 minutes, en remuant toutes les 10 minutes pour assurer une décarboxylation uniforme. Ce processus active les composés psychoactifs du cannabis.",
-    "blog.cannabis_oil.recipe.instructions.infusion.title": "Infusion de l'Huile:",
+      "1. Pré-aqueça o forno a 115°C (240°F).\n2. Moa as flores de cannabis com o moedor de café ou moedor de ervas.\n3. Coloque a cannabis moída em uma assadeira forrada com papel manteiga.\n4. Asse a cannabis por 30-40 minutos, mexendo a cada 10 minutos para garantir descarboxilação uniforme. Este processo ativa os compostos psicoativos na cannabis.",
+    "blog.cannabis_oil.recipe.instructions.infusion.title": "Infusão do Óleo:",
     "blog.cannabis_oil.recipe.instructions.infusion.steps":
-      "1. Remplissez la partie inférieure du bain-marie avec de l'eau et portez-la à frémissement.\n2. Placez l'huile (de coco ou d'olive) dans la partie supérieure du bain-marie.\n3. Ajoutez le cannabis décarboxylé à l'huile.\n4. Maintenez le mélange à feu doux pendant 2-3 heures, en remuant occasionnellement. Assurez-vous de que l'huile ne bout pas.",
-    "blog.cannabis_oil.recipe.instructions.terpenes.title": "Ajout de Terpènes (Facultatif):",
+      "1. Encha a parte inferior do banho-maria com água e leve a fogo baixo.\n2. Coloque o óleo (coco ou oliva) na parte superior do banho-maria.\n3. Adicione a cannabis descarboxilada ao óleo.\n4. Mantenha a mistura em fogo baixo por 2-3 horas, mexendo ocasionalmente. Certifique-se de que o óleo não ferva.",
+    "blog.cannabis_oil.recipe.instructions.terpenes.title": "Adição de Terpenos (Opcional):",
     "blog.cannabis_oil.recipe.instructions.terpenes.steps":
-      "1. Si vous souhaitez ajouter des terpènes spécifiques, ajoutez-les à l'huile tiède après le processus d'infusion, en remuant bien pour mélanger uniformément.",
-    "blog.cannabis_oil.recipe.instructions.straining.title": "Filtration:",
+      "1. Se quiser adicionar terpenos específicos, adicione-os ao óleo morno após o processo de infusão, mexendo bem para misturar uniformemente.",
+    "blog.cannabis_oil.recipe.instructions.straining.title": "Coagem:",
     "blog.cannabis_oil.recipe.instructions.straining.steps":
-      "1. Une fois l'infusion terminée, filtrez le mélange à travers une passoire à mailles fines ou une étamine pour séparer l'huile des résidus de cannabis.\n2. Pressez bien les résidus pour extraire autant d'huile que possible.",
-    "blog.cannabis_oil.recipe.instructions.storage.title": "Conservation:",
+      "1. Uma vez que a infusão esteja completa, coe a mistura através de uma peneira de malha fina ou pano de queijo para separar o óleo dos resíduos de cannabis.\n2. Aperte bem os resíduos para extrair o máximo de óleo possível.",
+    "blog.cannabis_oil.recipe.instructions.storage.title": "Armazenamento:",
     "blog.cannabis_oil.recipe.instructions.storage.steps":
-      "1. Versez l'huile infusée dans un bocal en verre propre.\n2. Conservez dans un endroit frais et sombre. L'huile de cannabis peut se conserver jusqu'à deux mois si elle est stockée correctement.",
-    "blog.cannabis_oil.recipe.usage.title": "Utilisation:",
+      "1. Despeje o óleo infundido em um pote de vidro limpo.\n2. Armazene em local fresco e escuro. O óleo de cannabis pode durar até dois meses se armazenado adequadamente.",
+    "blog.cannabis_oil.recipe.instructions.usage.title": "Uso:",
     "blog.cannabis_oil.recipe.usage.text":
-      "Vous pouvez utiliser cette huile infusée dans diverses recettes culinaires, comme les vinaigrettes, les plats sautés, ou même comme substitut d'huile dans les produits de boulangerie. Elle peut également servir de base pour des crèmes ou des baumes maison.",
-    "blog.cannabis_oil.recipe.notes.title": "Notes:",
+      "Você pode usar este óleo infundido em várias receitas culinárias, como molhos para salada, pratos refogados, ou mesmo como substituto de óleo em produtos assados. Também pode servir como base para cremes ou bálsamos caseiros.",
+    "blog.cannabis_oil.recipe.notes.title": "Notas:",
     "blog.cannabis_oil.recipe.notes.dosage":
-      "Dosage: Il est important de se rappeler que la puissance de l'huile dépend de la concentration de THC et CBD dans la fleur de cannabis utilisée. Commencez par une petite quantité et ajustez selon vos besoins et votre tolérance.",
+      "Dosagem: É importante lembrar que a potência do óleo depende da concentração de THC e CBD na flor de cannabis usada. Comece com uma pequena quantidade e ajuste conforme suas necessidades e tolerância.",
     "blog.cannabis_oil.recipe.notes.terpenes":
-      "Terpènes: L'ajout de terpènes est facultatif et peut être ajusté selon votre arôme préféré et les effets désirés.",
+      "Terpenos: Adicionar terpenos é opcional e pode ser ajustado conforme seu aroma preferido e efeitos desejados.",
     "blog.cannabis_oil.recipe.conclusion":
-      "J'espère que vous apprécierez la préparation et l'utilisation de cette huile infusée au cannabis!",
+      "Espero que você aproveite preparar e usar este óleo infundido com cannabis!",
     "blog.cannabis_oil.disclaimer":
-      "Cette recette est destinée uniquement à la consommation personnelle et n'est pas destinée à guérir une maladie ou un problème de santé. L'utilisation d'huiles infusées au cannabis doit être effectuée de manière responsable et conformément aux lois locales et nationales sur le cannabis. Consultez toujours un professionnel de la santé avant d'utiliser des produits à base de cannabis, surtout si vous avez des conditions médicales préexistantes ou si vous prenez des médicaments.",
+      "Esta receita é destinada apenas para consumo pessoal e não pretende curar qualquer doença ou problema de saúde. O uso de óleos infundidos com cannabis deve ser realizado responsavelmente e de acordo com as leis locais e nacionais sobre cannabis. Sempre consulte um profissional de saúde antes de usar produtos de cannabis, especialmente se você tem condições médicas preexistentes ou está tomando medicamentos.",
     "blog.cannabis_oil.closing.p1":
-      "Cette recette combine des méthodes d'infusion traditionnelles avec une compréhension moderne des terpènes, vous permettant de personnaliser le profil aromatique et thérapeutique de votre huile infusée au cannabis. L'ajout de terpènes spécifiques améliore non seulement l'expérience sensorielle mais aussi potentiellement les effets thérapeutiques grâce à ce qu'on appelle \"l'effet d'entourage\" – l'interaction synergique entre cannabinoïdes et terpènes.",
+      'Esta receita combina métodos tradicionais de infusão com compreensão moderna de terpenos, permitindo que você personalize o perfil aromático e terapêutico do seu óleo infundido com cannabis. A adição de terpenos específicos melhora não apenas a experiência sensorial, mas também potencialmente os efeitos terapêuticos através do que é conhecido como "efeito entourage" – a interação sinérgica entre canabinoides e terpenos.',
     "blog.cannabis_oil.closing.p2":
-      "En vous lançant dans la création de vos propres huiles infusées au cannabis, vous participez à une tradition qui vous relie aux guérisseurs et herboristes à travers les millénaires, tout en embrassant les connaissances contemporaines sur la médecine des plantes et le bien-être.",
-    "blog.cannabis_oil.tags.traditional": "Médecine Traditionnelle",
-    "blog.cannabis_oil.tags.recipes": "Recettes",
-    "blog.cannabis_oil.tags.terpenes": "Terpènes",
+      "Ao embarcar na criação de seus próprios óleos infundidos com cannabis, você está participando de uma tradição que o conecta a curandeiros e herbalistas através de milênios, enquanto também abraça o conhecimento contemporâneo sobre medicina vegetal e bem-estar.",
+    "blog.cannabis_oil.tags.traditional": "Medicina Tradicional",
+    "blog.cannabis_oil.tags.recipes": "Receitas",
+    "blog.cannabis_oil.tags.terpenes": "Terpenos",
     "blog.cannabis_oil.tags.cannabis": "Cannabis",
-    "blog.back_to_blog": "Retour au Blog",
-    "blog.share_article": "Partager l'Article",
-    "blog.link_copied": "Lien copié dans le presse-papiers !",
-    "blog.related_articles": "Articles Connexes",
-    "blog.read_more": "Lire Plus",
-    "blog.featured_article": "Article en Vedette",
-    "blog.latest_articles": "Derniers Articles",
-    "blog.no_posts_found": "Aucun article trouvé correspondant à votre recherche.",
-    "blog.read_full_article": "Lire l'Article Complet",
-    "blog.in_this_article": "Dans cet article",
-    "blog.cannabis_oil.outline.history": "Histoire Ancienne des Huiles Infusées au Cannabis",
-    "blog.cannabis_oil.outline.traditional_uses": "Utilisations Traditionnelles à Travers les Cultures",
-    "blog.cannabis_oil.outline.modern_applications": "Applications Modernes",
-    "blog.cannabis_oil.outline.recipe": "Recette avec Ajouts de Terpènes",
+    "blog.back_to_blog": "Voltar ao Blog",
+    "blog.share_article": "Compartilhar Artigo",
+    "blog.link_copied": "Link copiado para a área de transferência!",
+    "blog.related_articles": "Artigos Relacionados",
+    "blog.read_more": "Ler Mais",
+    "blog.featured_article": "Artigo em Destaque",
+    "blog.latest_articles": "Artigos Recentes",
+    "blog.no_posts_found": "Nenhum post do blog encontrado correspondendo à sua busca.",
+    "blog.read_full_article": "Ler Artigo Completo",
+    "blog.in_this_article": "Neste artigo",
+    "blog.cannabis_oil.outline.history": "História Antiga dos Óleos Infundidos com Cannabis",
+    "blog.cannabis_oil.outline.traditional_uses": "Usos Tradicionais Através das Culturas",
+    "blog.cannabis_oil.outline.modern_applications": "Aplicações Modernas",
+    "blog.cannabis_oil.outline.recipe": "Receita com Adições de Terpenos",
   },
 
   de: {
@@ -930,6 +962,15 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "team.join.p2":
       "Wir bieten ein stimulierendes Arbeitsumfeld, wettbewerbsfähige Vorteile und Möglichkeiten für berufliches Wachstum und Entwicklung.",
     "team.join.button": "Offene Stellen ansehen",
+    "team.member.alejandro.role": "Leitender Wissenschaftlicher Direktor",
+    "team.member.alejandro.bio":
+      "Alejandro leitet unsere Forschungsinitiativen mit über 10 Jahren Erfahrung in der Biotechnologie. Er leitet alle Wissenschafts- und Produktionsbereiche.",
+    "team.member.juan.role": "Hauptgeschäftsführer",
+    "team.member.juan.bio":
+      "Mit einem Master in Betriebswirtschaft und erfolgreichen Exits bringt Juan eine kommerzielle Kraftquelle ins Team. Er leitet Vertrieb und Betrieb.",
+    "team.member.alex.role": "CMO/Großes Gehirn",
+    "team.member.alex.bio":
+      "Alex ist der Interim-CMO und bietet dem Team als Vorsitzender des Verwaltungsrats Unterstützung und Führung. Er hat zuvor mehrere erfolgreiche Unternehmen gegründet und berät Forschungs- und Innovationslabore in den Vereinigten Staaten.",
 
     "products.hero.title": "Produkte & Dienstleistungen",
     "products.hero.subtitle": "Innovative wissenschaftliche Lösungen, maßgeschneidert für Ihre Bedürfnisse.",
@@ -1052,7 +1093,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     "blog.cannabis_oil.recipe.instructions.storage.title": "Aufbewahrung:",
     "blog.cannabis_oil.recipe.instructions.storage.steps":
       "1. Gießen Sie das infundierte Öl in einen sauberen Glasbehälter.\n2. Bewahren Sie es an einem kühlen, dunklen Ort auf. Das Cannabis-Öl kann bei richtiger Lagerung bis zu zwei Monate haltbar sein.",
-    "blog.cannabis_oil.recipe.usage.title": "Verwendung:",
+    "blog.cannabis_oil.recipe.instructions.usage.title": "Verwendung:",
     "blog.cannabis_oil.recipe.usage.text":
       "Sie können dieses infundierte Öl in verschiedenen kulinarischen Rezepten verwenden, wie Salatdressings, sautierten Gerichten oder sogar als Ölersatz in Backwaren. Es kann auch als Basis für hausgemachte Cremes oder Balsame dienen.",
     "blog.cannabis_oil.recipe.notes.title": "Hinweise:",

@@ -11,11 +11,11 @@ import { useLanguage } from "@/lib/i18n/context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 
-// Blog post data
+// Blog post data - keeping only the Cannabis Oil blog
 const blogPosts = [
   {
     id: 1,
-    title: "Cannabis Oil: A Traditional Recipe",
+    title: "Cannabis Oil: A Traditional Recipe", // This will be translated when displayed
     excerpt: "Explore the history and traditional uses of cannabis-infused oils, along with a simple recipe.",
     date: "May 10, 2023",
     author: "Alex Garcia",
@@ -25,71 +25,6 @@ const blogPosts = [
     slug: "cannabis-infused-oils-tradition-recipe",
     readTime: "10 min read",
     featured: true,
-  },
-  {
-    id: 2,
-    title: "The Future of Scientific Instrumentation",
-    excerpt: "How emerging technologies are transforming laboratory equipment and research capabilities.",
-    date: "March 22, 2023",
-    author: "Alex Garcia",
-    authorImage: "/images/alex-garcia.jpeg",
-    category: "Technology",
-    image: "/placeholder.svg?height=400&width=600",
-    slug: "future-of-scientific-instrumentation",
-    readTime: "10 min read",
-    featured: false,
-  },
-  {
-    id: 3,
-    title: "Sustainable Practices in Laboratory Settings",
-    excerpt: "Implementing eco-friendly approaches to scientific research without compromising quality.",
-    date: "February 10, 2023",
-    author: "Alex Garcia",
-    authorImage: "/images/alex-garcia.jpeg",
-    category: "Sustainability",
-    image: "/sustainable-laboratory.png",
-    slug: "sustainable-laboratory-practices",
-    readTime: "9 min read",
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "Data Analysis Methods for Complex Datasets",
-    excerpt: "Innovative approaches to extracting meaningful insights from large and complex scientific data.",
-    date: "January 28, 2023",
-    author: "Alex Garcia",
-    authorImage: "/images/alex-garcia.jpeg",
-    category: "Data Science",
-    image: "/data-analysis-visual.png",
-    slug: "data-analysis-complex-datasets",
-    readTime: "12 min read",
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Collaborative Research in the Digital Age",
-    excerpt: "How digital tools and platforms are enabling unprecedented collaboration in scientific research.",
-    date: "December 15, 2022",
-    author: "Alex Garcia",
-    authorImage: "/images/alex-garcia.jpeg",
-    category: "Collaboration",
-    image: "/placeholder.svg?height=400&width=600",
-    slug: "collaborative-research-digital-age",
-    readTime: "11 min read",
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Quality Control in Scientific Research",
-    excerpt: "Best practices for maintaining rigorous quality standards throughout the research process.",
-    date: "November 5, 2022",
-    author: "Alex Garcia",
-    authorImage: "/images/alex-garcia.jpeg",
-    category: "Best Practices",
-    image: "/laboratory-quality-control.png",
-    slug: "quality-control-scientific-research",
-    readTime: "10 min read",
-    featured: false,
   },
 ]
 
@@ -109,7 +44,6 @@ export default function BlogPage() {
     : blogPosts
 
   const featuredPost = filteredPosts.find((post) => post.featured)
-  const regularPosts = filteredPosts.filter((post) => !post.featured)
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -165,7 +99,7 @@ export default function BlogPage() {
             <div className="space-y-16">
               {/* Featured Article */}
               {featuredPost && (
-                <div className="border-b border-gray-200 pb-16">
+                <div className="pb-16">
                   <h2 className="text-2xl font-bold mb-8 text-terpenos-forest-green">{t("blog.featured_article")}</h2>
                   <div className="grid md:grid-cols-5 gap-8 items-start">
                     <div className="md:col-span-3">
@@ -183,10 +117,16 @@ export default function BlogPage() {
                       </Badge>
                       <Link href={`/blog/${featuredPost.slug}`} className="block group">
                         <h3 className="text-3xl font-bold mb-4 group-hover:text-terpenos-green transition-colors">
-                          {featuredPost.title}
+                          {featuredPost.slug === "cannabis-infused-oils-tradition-recipe"
+                            ? t("blog.cannabis_oil.title")
+                            : featuredPost.title}
                         </h3>
                       </Link>
-                      <p className="text-muted-foreground text-lg mb-6">{featuredPost.excerpt}</p>
+                      <p className="text-muted-foreground text-lg mb-6">
+                        {featuredPost.slug === "cannabis-infused-oils-tradition-recipe"
+                          ? t("blog.cannabis_oil.excerpt")
+                          : featuredPost.excerpt}
+                      </p>
                       <div className="flex items-center gap-4">
                         <Avatar>
                           <AvatarImage src="/images/alex-garcia.jpeg" alt={featuredPost.author} />
@@ -225,51 +165,6 @@ export default function BlogPage() {
                   </div>
                 </div>
               )}
-
-              {/* Regular Articles */}
-              <div>
-                <h2 className="text-2xl font-bold mb-8 text-terpenos-forest-green">{t("blog.latest_articles")}</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                  {regularPosts.map((post) => (
-                    <article key={post.id} className="flex flex-col space-y-4">
-                      <Link href={`/blog/${post.slug}`} className="block">
-                        <div className="aspect-[16/9] overflow-hidden rounded-lg mb-4">
-                          <img
-                            src={post.image || "/placeholder.svg"}
-                            alt={post.title}
-                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                          />
-                        </div>
-                      </Link>
-                      <div className="flex-1 space-y-4">
-                        <Badge variant="outline" className="bg-terpenos-light-green text-terpenos-forest-green">
-                          {post.category}
-                        </Badge>
-                        <Link href={`/blog/${post.slug}`} className="block group">
-                          <h3 className="text-xl font-bold group-hover:text-terpenos-green transition-colors">
-                            {post.title}
-                          </h3>
-                        </Link>
-                        <p className="text-muted-foreground line-clamp-3">{post.excerpt}</p>
-                      </div>
-                      <div className="flex items-center gap-3 mt-auto pt-4">
-                        <Avatar className="h-8 w-8">
-                          <AvatarImage src="/images/alex-garcia.jpeg" alt={post.author} />
-                          <AvatarFallback>AG</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="text-sm font-medium">{post.author}</p>
-                          <div className="flex items-center text-xs text-muted-foreground">
-                            <span>{post.date}</span>
-                            <span className="mx-1">·</span>
-                            <span>{post.readTime}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </div>
             </div>
           ) : (
             <div className="text-center py-12">

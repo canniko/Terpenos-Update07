@@ -9,7 +9,7 @@ import type { Language } from "@/lib/i18n/translations"
 const languages: { code: Language; name: string }[] = [
   { code: "en", name: "English" },
   { code: "es", name: "Español" },
-  { code: "fr", name: "Français" },
+  { code: "pt", name: "Português" },
   { code: "de", name: "Deutsch" },
 ]
 

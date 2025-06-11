@@ -10,8 +10,8 @@ const teamMembers = [
   {
     id: 1,
     name: "Alejandro Paz",
-    role: "Chief Scientific Officer",
-    bio: "Alejandro leads our research initiatives with over 10 years of experience in biotechnology. He leads all science and production.",
+    roleKey: "team.member.alejandro.role",
+    bioKey: "team.member.alejandro.bio",
     image: "/images/alejandro-paz.jpeg",
     linkedin: "https://www.linkedin.com/in/alejandro-paz-davalos/",
     email: "alejandro@terpenos.com",
@@ -19,8 +19,8 @@ const teamMembers = [
   {
     id: 2,
     name: "Juan Cano",
-    role: "Chief Executive Officer",
-    bio: "With an Masters in Business Administration and successful exits, Juan brings a commercial powerhouse to the team. He leads sales and operations.",
+    roleKey: "team.member.juan.role",
+    bioKey: "team.member.juan.bio",
     image: "/images/juan-cano.jpeg",
     linkedin: "https://www.linkedin.com/in/juan-jose-cano-a142a353/",
     email: "jcano@terpenos.com",
@@ -28,8 +28,8 @@ const teamMembers = [
   {
     id: 3,
     name: "Alex Garcia",
-    role: "CMO/Big Brain",
-    bio: "Alex is the interim CMO and provides support and guidance to the team as chairman of the board of directors. He has founded multiple successful companies before and consults for research and innovation laboratories in the United States.",
+    roleKey: "team.member.alex.role",
+    bioKey: "team.member.alex.bio",
     image: "/images/alex-garcia.jpeg",
     linkedin: "https://www.linkedin.com/in/alex-garcia-ennube/",
     email: "alex@terpenos.com",
@@ -72,9 +72,9 @@ export default function TeamPage() {
                   <div className="space-y-4">
                     <div>
                       <h3 className="text-xl font-bold">{member.name}</h3>
-                      <p className="text-sm text-muted-foreground">{member.role}</p>
+                      <p className="text-sm text-muted-foreground">{t(member.roleKey as any)}</p>
                     </div>
-                    <p className="text-sm text-muted-foreground">{member.bio}</p>
+                    <p className="text-sm text-muted-foreground">{t(member.bioKey as any)}</p>
                     <div className="flex space-x-4">
                       <Link
                         href={member.linkedin}
