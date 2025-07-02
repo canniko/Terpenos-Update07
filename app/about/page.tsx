@@ -59,29 +59,29 @@ export default function AboutPage() {
               <div className="rounded-full bg-terpenos-light-green p-3">
                 <Beaker className="h-6 w-6 text-terpenos-green" />
               </div>
-              <h3 className="text-xl font-bold">{t("about.values.integrity")}</h3>
-              <p className="text-center text-sm text-muted-foreground">{t("about.values.integrity.desc")}</p>
+              <h3 className="text-xl font-bold text-gray-900">{t("about.values.integrity")}</h3>
+              <p className="text-center text-sm text-gray-700">{t("about.values.integrity.desc")}</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border border-terpenos-green p-6 shadow-md bg-white">
               <div className="rounded-full bg-terpenos-light-green p-3">
                 <Lightbulb className="h-6 w-6 text-terpenos-green" />
               </div>
-              <h3 className="text-xl font-bold">{t("about.values.innovation")}</h3>
-              <p className="text-center text-sm text-muted-foreground">{t("about.values.innovation.desc")}</p>
+              <h3 className="text-xl font-bold text-gray-900">{t("about.values.innovation")}</h3>
+              <p className="text-center text-sm text-gray-700">{t("about.values.innovation.desc")}</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border border-terpenos-green p-6 shadow-md bg-white">
               <div className="rounded-full bg-terpenos-light-green p-3">
                 <Users className="h-6 w-6 text-terpenos-green" />
               </div>
-              <h3 className="text-xl font-bold">{t("about.values.collaboration")}</h3>
-              <p className="text-center text-sm text-muted-foreground">{t("about.values.collaboration.desc")}</p>
+              <h3 className="text-xl font-bold text-gray-900">{t("about.values.collaboration")}</h3>
+              <p className="text-center text-sm text-gray-700">{t("about.values.collaboration.desc")}</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border border-terpenos-green p-6 shadow-md bg-white">
               <div className="rounded-full bg-terpenos-light-green p-3">
                 <Target className="h-6 w-6 text-terpenos-green" />
               </div>
-              <h3 className="text-xl font-bold">{t("about.values.impact")}</h3>
-              <p className="text-center text-sm text-muted-foreground">{t("about.values.impact.desc")}</p>
+              <h3 className="text-xl font-bold text-gray-900">{t("about.values.impact")}</h3>
+              <p className="text-center text-sm text-gray-700">{t("about.values.impact.desc")}</p>
             </div>
           </div>
         </div>

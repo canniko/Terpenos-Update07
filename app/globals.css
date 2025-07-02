@@ -4,28 +4,48 @@
 
 @layer base {
   :root {
-    --background: 60 30% 98%;
-    --foreground: 0 0% 20%;
-    --border: 90 30% 84%;
-    --input: 90 30% 84%;
-    --ring: 133 59% 30%;
-    --radius: 0.5rem;
-
-    /* Destructive colors */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 30% 98%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 16%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 16%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 120 100% 50%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 75%;
+    --muted-foreground: 0 0% 75%;
+    --accent: 195 100% 50%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 120 100% 50%;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 0 0% 10%;
-    --foreground: 60 30% 98%;
-    --border: 142 59% 15%;
-    --input: 142 59% 15%;
-    --ring: 133 59% 30%;
-
-    /* Destructive colors */
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 30% 98%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 16%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 16%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 120 100% 50%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 75%;
+    --muted-foreground: 0 0% 75%;
+    --accent: 195 100% 50%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 120 100% 50%;
   }
 }
 
@@ -33,48 +53,143 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    background-color: #0A0A0A;
+  }
+  
   body {
-    @apply bg-terpenos-offwhite text-terpenos-charcoal;
+    @apply bg-brand-background text-brand-text font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: #0A0A0A;
   }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-montserrat font-bold text-terpenos-black;
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight text-white;
   }
-  a {
-    @apply text-terpenos-green hover:text-terpenos-forest-green transition-colors;
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl;
+  }
+
+  p {
+    @apply text-base text-gray-300 leading-relaxed;
+  }
+
+  /* Ensure all text is visible */
+  .text-brand-text {
+    @apply text-white;
+  }
+
+  .text-brand-muted {
+    @apply text-gray-300;
   }
 }
 
-/* Hexagon pattern for backgrounds */
-.hexagon-pattern {
-  background-color: #faf9f6;
+@layer components {
+  .btn-primary {
+    @apply bg-brand-green text-black px-6 py-3 rounded-full uppercase text-sm tracking-wider font-medium
+           hover:bg-brand-hover hover:shadow-neon 
+           transition-all duration-200 ease-in-out
+           focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 focus:ring-offset-brand-background;
+  }
+
+  .btn-secondary {
+    @apply bg-brand-accent text-black px-6 py-3 rounded-full uppercase text-sm tracking-wider font-medium
+           hover:bg-opacity-90 hover:shadow-cyan 
+           transition-all duration-200 ease-in-out
+           focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2 focus:ring-offset-brand-background;
+  }
+
+  .btn-outline {
+    @apply border-2 border-brand-border bg-brand-surface text-white px-6 py-3 rounded-full uppercase text-sm tracking-wider font-medium
+           hover:bg-brand-alt hover:border-brand-green hover:shadow-soft 
+           transition-all duration-200 ease-in-out
+           focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 focus:ring-offset-brand-background;
+  }
+
+  .card-modern {
+    @apply bg-brand-surface p-6 rounded-xl shadow-medium hover:shadow-bold hover:scale-[1.02] 
+           transition-all duration-200 ease-in-out border border-brand-border;
+  }
+
+  .card-bold {
+    @apply bg-brand-surface p-6 rounded-xl shadow-bold hover:shadow-glow hover:scale-[1.02] 
+           transition-all duration-300 ease-in-out border border-brand-border;
+  }
+
+  .card-neon {
+    @apply bg-brand-surface p-6 rounded-xl shadow-neon hover:shadow-glow hover:scale-[1.02] 
+           transition-all duration-300 ease-in-out border border-brand-green;
+  }
+
+  .section-padding {
+    @apply px-6 py-12 md:py-16;
+  }
+
+  .container-padding {
+    @apply px-4 md:px-6;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-green to-brand-accent bg-clip-text text-transparent;
+  }
+
+  .bg-gradient-brand {
+    @apply bg-gradient-to-br from-brand-background via-brand-alt to-brand-surface;
+  }
+
+  .nav-link {
+    @apply text-white hover:text-brand-green transition-all duration-200 font-medium;
+  }
+
+  .nav-link-active {
+    @apply text-brand-green font-semibold;
+  }
+
+  .section-label {
+    @apply uppercase text-sm tracking-wider text-brand-green font-medium;
+  }
+
+  .section-title {
+    @apply text-3xl font-bold tracking-tight text-white;
+  }
+
+  .section-subtitle {
+    @apply text-base text-gray-300 leading-relaxed;
+  }
+
+  .geometric-bg {
+    @apply bg-geometric-pattern;
+  }
+
+  .grid-bg {
+    @apply bg-grid-pattern;
+  }
+
+  .glow-text {
+    @apply text-brand-green drop-shadow-[0_0_10px_rgba(0,255,136,0.5)];
+  }
+
+  .neon-border {
+    @apply border border-brand-green shadow-neon;
+  }
 }
 
-/* Custom button styles */
-.btn-primary {
-  @apply bg-terpenos-green text-terpenos-offwhite hover:bg-terpenos-forest-green px-4 py-2 rounded-md transition-colors;
-}
-
-.btn-secondary {
-  @apply bg-transparent border border-terpenos-green text-terpenos-green hover:bg-terpenos-light-green hover:text-terpenos-forest-green px-4 py-2 rounded-md transition-colors;
-}
-
-/* Card styles with subtle hexagon border */
-.terpenos-card {
-  @apply bg-white rounded-lg shadow-md overflow-hidden border border-terpenos-light-green;
-  position: relative;
-}
-
-.terpenos-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #2c7a1f, #14532d);
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }

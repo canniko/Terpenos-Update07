@@ -2,123 +2,140 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react"
 import { useLanguage } from "@/lib/i18n/context"
+import { ModeToggle } from "./mode-toggle"
+import { LanguageSwitcher } from "./language-switcher"
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, FlaskConical } from "lucide-react"
 
-const Footer = () => {
+export default function Footer() {
   const { t } = useLanguage()
-  const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="w-full border-t border-terpenos-light-green bg-terpenos-offwhite text-terpenos-charcoal">
-      <div className="container py-10">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+    <footer className="bg-brand-alt border-t border-brand-border">
+      <div className="container mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Company Info */}
           <div className="space-y-4">
-            <Link href="/" className="inline-block">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-brand-green to-brand-accent rounded-lg flex items-center justify-center shadow-neon">
+                <FlaskConical className="h-4 w-4 text-black" />
+              </div>
               <Image
                 src="/images/terpenos-logo.png"
                 alt="Terpenos.com Logo"
-                width={150}
-                height={35}
-                className="h-8 w-auto"
+                width={100}
+                height={25}
+                className="h-6 w-auto"
               />
-            </Link>
-            <p className="text-sm text-terpenos-charcoal">{t("footer.description")}</p>
-            <div className="flex space-x-4">
-              <Link href="https://www.facebook.com/terpenoshumboldt/" className="text-terpenos-green hover:text-terpenos-forest-green">
-                <Facebook size={20} />
-                <span className="sr-only">Facebook</span>
-              </Link>
-              <Link href="https://x.com/terpenosdotcom" className="text-terpenos-green hover:text-terpenos-forest-green">
-                <Twitter size={20} />
-                <span className="sr-only">X</span>
-              </Link>
-              <Link href="https://www.instagram.com/terpenoshumboldtec/" className="text-terpenos-green hover:text-terpenos-forest-green">
-                <Instagram size={20} />
-                <span className="sr-only">Instagram</span>
-              </Link>
-              <Link href="https://www.linkedin.com/company/99119231" className="text-terpenos-green hover:text-terpenos-forest-green">
-                <Linkedin size={20} />
-                <span className="sr-only">LinkedIn</span>
-              </Link>
+            </div>
+            <p className="text-sm text-gray-300 leading-relaxed">
+              Pioneering biotech solutions for a sustainable future. 
+              Cutting-edge research meets innovative applications.
+            </p>
+            <div className="flex items-center gap-3">
+              <ModeToggle />
+              <LanguageSwitcher />
             </div>
           </div>
+
+          {/* Quick Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold font-montserrat text-terpenos-black">{t("footer.links.title")}</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+              Company
+            </h3>
+            <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  {t("nav.home")}
+                <Link href="/about" className="text-sm text-gray-300 hover:text-brand-green transition-all duration-200">
+                  About Us
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  {t("nav.about")}
+                <Link href="/team" className="text-sm text-gray-300 hover:text-brand-green transition-all duration-200">
+                  Our Team
                 </Link>
               </li>
               <li>
-                <Link href="/team" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  {t("nav.team")}
+                <Link href="/blog" className="text-sm text-gray-300 hover:text-brand-green transition-all duration-200">
+                  Blog
                 </Link>
               </li>
               <li>
-                <Link href="/products" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  {t("nav.products")}
+                <Link href="/contact" className="text-sm text-gray-300 hover:text-brand-green transition-all duration-200">
+                  Contact
                 </Link>
               </li>
             </ul>
           </div>
+
+          {/* Products */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold font-montserrat text-terpenos-black">{t("footer.resources.title")}</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+              Products
+            </h3>
+            <ul className="space-y-2">
               <li>
-                <Link href="/blog" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  {t("nav.blog")}
+                <Link href="/products?category=terpenes" className="text-sm text-gray-300 hover:text-brand-green transition-all duration-200">
+                  Terpenes
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  Research Papers
+                <Link href="/products?category=cannabis" className="text-sm text-gray-300 hover:text-brand-green transition-all duration-200">
+                  Cannabis Products
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  Case Studies
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  FAQ
+                <Link href="/products" className="text-sm text-gray-300 hover:text-brand-green transition-all duration-200">
+                  All Products
                 </Link>
               </li>
             </ul>
           </div>
+
+          {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold font-montserrat text-terpenos-black">{t("footer.contact.title")}</h3>
-            <ul className="space-y-2 text-sm">
-              <li className="text-terpenos-charcoal">Multicentro Av. 6 de Diciembre</li>
-              <li className="text-terpenos-charcoal">Quito, Ecuador</li>
-              <li>
-                <Link href="mailto:info@terpenos.com" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  sales@terpenos.com
-                </Link>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+              Contact
+            </h3>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-brand-accent" />
+                <span className="text-sm text-gray-300">info@terpenos.com</span>
               </li>
-              <li>
-                <Link href="tel:+1234567890" className="text-terpenos-green hover:text-terpenos-forest-green">
-                  +593 2-223-9878
-                </Link>
+              <li className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-brand-accent" />
+                <span className="text-sm text-gray-300">+1 (555) 123-4567</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-brand-accent" />
+                <span className="text-sm text-gray-300">San Francisco, CA</span>
               </li>
             </ul>
           </div>
         </div>
-        <div className="mt-10 border-t border-terpenos-light-green pt-6 text-center text-sm text-terpenos-charcoal">
-          <p>
-            &copy; {currentYear} Terpenos Humboldt SAS {t("footer.copyright")}
-          </p>
+
+        {/* Bottom Section */}
+        <div className="border-t border-brand-border mt-8 pt-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-gray-400">
+              © 2024 Terpenos. All rights reserved. | Modern biotech solutions for tomorrow.
+            </p>
+            <div className="flex items-center gap-4">
+              <Link href="#" className="text-gray-400 hover:text-brand-green transition-all duration-200">
+                <Facebook className="h-4 w-4" />
+              </Link>
+              <Link href="#" className="text-gray-400 hover:text-brand-green transition-all duration-200">
+                <Twitter className="h-4 w-4" />
+              </Link>
+              <Link href="#" className="text-gray-400 hover:text-brand-green transition-all duration-200">
+                <Instagram className="h-4 w-4" />
+              </Link>
+              <Link href="#" className="text-gray-400 hover:text-brand-green transition-all duration-200">
+                <Linkedin className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
   )
 }
-
-export default Footer
