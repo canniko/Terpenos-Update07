@@ -143,6 +143,12 @@ export default function AdminProductsClient({ adminId, activityLogs }: AdminProd
               </p>
             </div>
             <div className="flex items-center gap-4">
+              <Link href="/admin">
+                <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                  <Package className="w-4 h-4 mr-2" />
+                  Dashboard
+                </Button>
+              </Link>
               <Button
                 onClick={() => setShowActivity(!showActivity)}
                 variant="outline"

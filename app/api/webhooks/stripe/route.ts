@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createOrder } from '@/lib/data/orders';
-import { getProductById } from '@/lib/data/products';
+import { getProductById, decreaseProductStock } from '@/lib/data/products';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-05-28.basil',
@@ -82,6 +82,25 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     // Calculate total
     const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
+    // Update inventory for each item
+    const inventoryUpdates = [];
+    for (const item of items) {
+      try {
+        const success = decreaseProductStock(item.id, item.quantity);
+        if (success) {
+          inventoryUpdates.push(`✅ ${item.name}: -${item.quantity}`);
+        } else {
+          inventoryUpdates.push(`❌ ${item.name}: Insufficient stock`);
+          console.error(`Insufficient stock for product ${item.id} (${item.name})`);
+        }
+      } catch (error) {
+        console.error(`Error updating inventory for product ${item.id}:`, error);
+        inventoryUpdates.push(`❌ ${item.name}: Error updating inventory`);
+      }
+    }
+
+    console.log('📦 Inventory updates:', inventoryUpdates);
+
     // Create order
     const order = createOrder({
       sessionId: session.id,
@@ -98,6 +117,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
       sessionId: session.id,
       customerEmail: order.customerEmail,
       total: order.total,
+      inventoryUpdates
     });
 
     // Send admin notification (in production, this would be email/SMS/slack)

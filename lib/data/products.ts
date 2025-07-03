@@ -1,4 +1,5 @@
 import { Product } from '@/lib/types';
+import { getInventoryItemByProductId, adjustInventoryQuantity } from './inventory';
 
 // Server-side only database operations
 let db: any = null;
@@ -33,8 +34,10 @@ function initializeDatabase() {
       rating REAL DEFAULT 0,
       reviews INTEGER DEFAULT 0,
       tags TEXT,
+      inventory_item_id TEXT,
       createdAt TEXT,
-      updatedAt TEXT
+      updatedAt TEXT,
+      FOREIGN KEY (inventory_item_id) REFERENCES inventory_items(id) ON DELETE SET NULL
     );
 
     CREATE TABLE IF NOT EXISTS product_details (
@@ -64,6 +67,7 @@ function initializeDatabase() {
           rating: 4.8,
           reviews: 127,
           tags: JSON.stringify(["citrus", "limonene", "linalool", "myrcene"]),
+          inventory_item_id: "inv-terpene-citrus-001",
           details: {
             weight: "10ml",
             ingredients: ["Limonene", "Linalool", "Myrcene", "Pinene", "Terpinolene"],
@@ -81,6 +85,7 @@ function initializeDatabase() {
           rating: 4.9,
           reviews: 89,
           tags: JSON.stringify(["relaxation", "lavender", "chamomile", "valerian"]),
+          inventory_item_id: "inv-terpene-relaxation-001",
           details: {
             weight: "10ml",
             ingredients: ["Linalool", "Bisabolol", "Valerenic acid", "Caryophyllene"],
@@ -98,6 +103,7 @@ function initializeDatabase() {
           rating: 4.7,
           reviews: 203,
           tags: JSON.stringify(["full-spectrum", "cannabinoids", "terpenes", "lab-tested"]),
+          inventory_item_id: "inv-cannabis-oil-001",
           details: {
             volume: "30ml",
             ingredients: ["Cannabis sativa extract", "MCT oil", "Natural terpenes"],
@@ -115,6 +121,7 @@ function initializeDatabase() {
           rating: 4.6,
           reviews: 156,
           tags: JSON.stringify(["energy", "focus", "mental clarity", "stimulating"]),
+          inventory_item_id: null,
           details: {
             weight: "10ml",
             ingredients: ["Pinene", "Terpinolene", "Ocimene", "Camphene"],
@@ -132,6 +139,7 @@ function initializeDatabase() {
           rating: 4.5,
           reviews: 178,
           tags: JSON.stringify(["cbd", "isolate", "pure", "thc-free"]),
+          inventory_item_id: null,
           details: {
             volume: "30ml",
             ingredients: ["CBD isolate", "MCT oil"],
@@ -149,6 +157,7 @@ function initializeDatabase() {
           rating: 4.7,
           reviews: 94,
           tags: JSON.stringify(["pain relief", "anti-inflammatory", "therapeutic", "analgesic"]),
+          inventory_item_id: null,
           details: {
             weight: "10ml",
             ingredients: ["Caryophyllene", "Myrcene", "Linalool", "Humulene"],
@@ -166,6 +175,7 @@ function initializeDatabase() {
           rating: 5.0,
           reviews: 228,
           tags: JSON.stringify(["battery", "penjamin", "car", "key"]),
+          inventory_item_id: null,
           details: {
             weight: "2kg",
             ingredients: ["Premium materials"],
@@ -183,6 +193,7 @@ function initializeDatabase() {
           rating: 3.2,
           reviews: 87,
           tags: JSON.stringify(["battery", "penjamin", "raygun", "toy"]),
+          inventory_item_id: null,
           details: {
             weight: "2kg",
             ingredients: ["Premium materials"],
@@ -192,8 +203,8 @@ function initializeDatabase() {
       ];
 
       const insertProduct = db.prepare(`
-        INSERT INTO products (id, name, description, price, image, category, inStock, rating, reviews, tags, createdAt, updatedAt)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO products (id, name, description, price, image, category, inStock, rating, reviews, tags, inventory_item_id, createdAt, updatedAt)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `);
 
       const insertProductDetails = db.prepare(`
@@ -215,6 +226,7 @@ function initializeDatabase() {
             product.rating,
             product.reviews,
             product.tags,
+            product.inventory_item_id,
             now,
             now
           );
@@ -257,7 +269,10 @@ function rowToProduct(row: any, details: any): Product {
       volume: details?.volume,
       ingredients: details?.ingredients ? JSON.parse(details.ingredients) : [],
       benefits: details?.benefits ? JSON.parse(details.benefits) : []
-    }
+    },
+    inventory_item_id: row.inventory_item_id,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt
   };
 }
 
@@ -398,8 +413,8 @@ export const createProduct = (productData: Omit<Product, 'id' | 'rating' | 'revi
     const now = new Date().toISOString();
 
     const insertProduct = db.prepare(`
-      INSERT INTO products (id, name, description, price, image, category, inStock, rating, reviews, tags, createdAt, updatedAt)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO products (id, name, description, price, image, category, inStock, rating, reviews, tags, inventory_item_id, createdAt, updatedAt)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const insertProductDetails = db.prepare(`
@@ -419,6 +434,7 @@ export const createProduct = (productData: Omit<Product, 'id' | 'rating' | 'revi
         0, // default rating
         0, // default reviews
         JSON.stringify(productData.tags),
+        productData.inventory_item_id || null,
         now,
         now
       );
@@ -461,7 +477,7 @@ export const updateProduct = (id: string, updates: Partial<Product>): Product | 
     
     const updateProduct = db.prepare(`
       UPDATE products 
-      SET name = ?, description = ?, price = ?, image = ?, category = ?, inStock = ?, tags = ?, updatedAt = ?
+      SET name = ?, description = ?, price = ?, image = ?, category = ?, inStock = ?, tags = ?, inventory_item_id = ?, updatedAt = ?
       WHERE id = ?
     `);
 
@@ -480,6 +496,7 @@ export const updateProduct = (id: string, updates: Partial<Product>): Product | 
         updates.category || existingProduct.category,
         updates.inStock !== undefined ? (updates.inStock ? 1 : 0) : (existingProduct.inStock ? 1 : 0),
         JSON.stringify(updates.tags || existingProduct.tags),
+        updates.inventory_item_id || existingProduct.inventory_item_id || null,
         now,
         id
       );
@@ -550,6 +567,138 @@ export const getCategories = (): string[] => {
     return categories.map((row: any) => row.category);
   } catch (error) {
     console.error('Error getting categories:', error);
+    return [];
+  }
+};
+
+// Sync product stock with inventory
+export const syncProductStockWithInventory = (productId: string): Product | undefined => {
+  if (typeof window !== 'undefined') {
+    throw new Error('Cannot sync stock on client side');
+  }
+
+  try {
+    const inventoryItem = getInventoryItemByProductId(productId);
+    if (!inventoryItem) {
+      console.log(`No inventory item linked to product ${productId}`);
+      return undefined;
+    }
+
+    const product = getProductById(productId);
+    if (!product) {
+      console.log(`Product ${productId} not found`);
+      return undefined;
+    }
+
+    // Update product stock based on inventory
+    const newInStock = inventoryItem.quantity_in_stock > 0;
+    if (product.inStock !== newInStock) {
+      console.log(`🔄 Syncing stock for ${product.name}: ${product.inStock} -> ${newInStock} (inventory: ${inventoryItem.quantity_in_stock})`);
+      return updateProduct(productId, { inStock: newInStock });
+    }
+
+    return product;
+  } catch (error) {
+    console.error('Error syncing product stock with inventory:', error);
+    return undefined;
+  }
+};
+
+// Decrease product stock (for purchases)
+export const decreaseProductStock = (productId: string, quantity: number): boolean => {
+  if (typeof window !== 'undefined') {
+    throw new Error('Cannot decrease stock on client side');
+  }
+
+  try {
+    const inventoryItem = getInventoryItemByProductId(productId);
+    if (!inventoryItem) {
+      console.log(`No inventory item linked to product ${productId}, cannot decrease stock`);
+      return false;
+    }
+
+    if (inventoryItem.quantity_in_stock < quantity) {
+      console.log(`Insufficient stock for product ${productId}: ${inventoryItem.quantity_in_stock} < ${quantity}`);
+      return false;
+    }
+
+    // Decrease inventory quantity
+    const updatedInventory = adjustInventoryQuantity(inventoryItem.id, -quantity, `Online purchase: ${quantity} units`);
+    if (!updatedInventory) {
+      console.log(`Failed to decrease inventory for product ${productId}`);
+      return false;
+    }
+
+    // Sync product stock status
+    syncProductStockWithInventory(productId);
+
+    console.log(`✅ Decreased stock for product ${productId}: ${quantity} units (new inventory: ${updatedInventory.quantity_in_stock})`);
+    return true;
+  } catch (error) {
+    console.error('Error decreasing product stock:', error);
+    return false;
+  }
+};
+
+// Validate if a product is purchaseable (has inventory link and sufficient stock)
+export const isProductPurchaseable = (productId: string, quantity: number = 1): boolean => {
+  if (typeof window !== 'undefined') {
+    throw new Error('Cannot validate product on client side');
+  }
+
+  try {
+    const product = getProductById(productId);
+    if (!product) {
+      console.log(`Product ${productId} not found`);
+      return false;
+    }
+
+    // Check if product has inventory link
+    if (!product.inventory_item_id) {
+      console.log(`Product ${productId} is not linked to any inventory item`);
+      return false;
+    }
+
+    // Check if product is in stock
+    if (!product.inStock) {
+      console.log(`Product ${productId} is out of stock`);
+      return false;
+    }
+
+    // Check inventory quantity
+    const inventoryItem = getInventoryItemByProductId(productId);
+    if (!inventoryItem) {
+      console.log(`No inventory item found for product ${productId}`);
+      return false;
+    }
+
+    if (inventoryItem.quantity_in_stock < quantity) {
+      console.log(`Insufficient inventory for product ${productId}: ${inventoryItem.quantity_in_stock} < ${quantity}`);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error validating product purchaseability:', error);
+    return false;
+  }
+};
+
+// Get products that are ready for purchase (linked to inventory and in stock)
+export const getPurchaseableProducts = (): Product[] => {
+  if (typeof window !== 'undefined') {
+    return [];
+  }
+
+  try {
+    const allProducts = getAllProducts();
+    return allProducts.filter(product => 
+      product.inventory_item_id && 
+      product.inStock && 
+      isProductPurchaseable(product.id, 1)
+    );
+  } catch (error) {
+    console.error('Error getting purchaseable products:', error);
     return [];
   }
 };

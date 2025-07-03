@@ -15,6 +15,21 @@ export interface Product {
     ingredients: string[]
     benefits: string[]
   }
+  inventory_item_id?: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface InventoryItem {
+  id: string
+  name: string
+  description: string
+  quantity_in_stock: number
+  location?: string
+  is_listed_as_product: boolean
+  linked_product_id?: string
+  created_at: string
+  updated_at: string
 }
 
 export interface CartItem {

@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        router.push('/admin/products');
+        router.push('/admin');
         router.refresh();
       } else {
         setError(data.error || 'Login failed');

@@ -14,7 +14,8 @@ import {
   TrendingUp,
   LogOut,
   Settings,
-  Eye
+  Eye,
+  Warehouse
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -27,6 +28,8 @@ interface AdminDashboardClientProps {
     pendingOrders: number;
     deliveredOrders: number;
     recentActivity: number;
+    totalInventoryItems: number;
+    lowStockItems: number;
   };
   activityLogs: any[];
   recentOrders: any[];
@@ -155,7 +158,7 @@ export default function AdminDashboardClient({
       {/* Stats Grid */}
       <section className="py-8">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
             {/* Products Stats */}
             <Card className="bg-white/10 backdrop-blur-lg border-white/20">
               <CardContent className="p-6">
@@ -204,6 +207,22 @@ export default function AdminDashboardClient({
               </CardContent>
             </Card>
 
+            {/* Inventory Stats */}
+            <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-gray-400 text-sm">Inventory Items</p>
+                    <p className="text-2xl font-bold text-white">{stats.totalInventoryItems}</p>
+                    <p className="text-red-400 text-sm">{stats.lowStockItems} low stock</p>
+                  </div>
+                  <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                    <Warehouse className="w-6 h-6 text-orange-400" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Activity Stats */}
             <Card className="bg-white/10 backdrop-blur-lg border-white/20">
               <CardContent className="p-6">
@@ -213,8 +232,8 @@ export default function AdminDashboardClient({
                     <p className="text-2xl font-bold text-white">{stats.recentActivity}</p>
                     <p className="text-purple-400 text-sm">Actions logged</p>
                   </div>
-                  <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center">
-                    <Activity className="w-6 h-6 text-orange-400" />
+                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                    <Activity className="w-6 h-6 text-purple-400" />
                   </div>
                 </div>
               </CardContent>
@@ -236,6 +255,12 @@ export default function AdminDashboardClient({
                       Manage Products
                     </Button>
                   </Link>
+                  <Link href="/admin/inventory">
+                    <Button className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white">
+                      <Warehouse className="w-4 h-4 mr-2" />
+                      Inventory
+                    </Button>
+                  </Link>
                   <Link href="/admin/orders">
                     <Button className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white">
                       <ShoppingCart className="w-4 h-4 mr-2" />
@@ -248,10 +273,6 @@ export default function AdminDashboardClient({
                       Add Product
                     </Button>
                   </Link>
-                  <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
-                    <Settings className="w-4 h-4 mr-2" />
-                    Settings
-                  </Button>
                 </div>
               </CardContent>
             </Card>

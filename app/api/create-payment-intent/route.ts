@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { isProductPurchaseable } from '@/lib/data/products';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-05-28.basil',
@@ -10,6 +11,19 @@ export async function POST(request: NextRequest) {
     const { items, currency = 'USD' } = await request.json();
 
     console.log('Creating checkout session for:', { items: items.length, totalAmount: items.reduce((sum: number, item: any) => sum + (item.product.price * item.quantity), 0), currency });
+
+    // Validate that all products are purchaseable (linked to inventory and in stock)
+    for (const item of items) {
+      const productId = item.product.id;
+      const quantity = item.quantity;
+      
+      if (!isProductPurchaseable(productId, quantity)) {
+        return NextResponse.json(
+          { error: `Product "${item.product.name}" is not available for purchase. It may be out of stock or not properly linked to inventory.` },
+          { status: 400 }
+        );
+      }
+    }
 
     // Calculate total amount
     const totalAmount = items.reduce((sum: number, item: any) => sum + (item.product.price * item.quantity), 0);
