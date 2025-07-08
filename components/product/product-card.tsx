@@ -25,7 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Link href={`/products/${product.id}`}>
+    <Link href={`/products/${product.item_id}`}>
       <Card 
         className={`card-neon group cursor-pointer overflow-hidden ${
           isHovered ? 'shadow-glow scale-[1.02]' : ''

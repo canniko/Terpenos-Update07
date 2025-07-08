@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useLanguage } from "@/lib/i18n/context"
 import { ModeToggle } from "./mode-toggle"
 import { LanguageSwitcher } from "./language-switcher"
+import { AdminAccess } from "./admin-access"
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, FlaskConical } from "lucide-react"
 
 export default function Footer() {
@@ -35,6 +36,7 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               <ModeToggle />
               <LanguageSwitcher />
+              <AdminAccess />
             </div>
           </div>
 

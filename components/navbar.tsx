@@ -6,6 +6,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
 import { LanguageSwitcher } from "@/components/language-switcher"
+import { AdminAccess } from "@/components/admin-access"
 import { CartIcon } from "@/components/cart/cart-icon"
 import { CartSidebar } from "@/components/cart/cart-sidebar"
 import { Menu, X, FlaskConical, Settings } from "lucide-react"
@@ -70,6 +71,7 @@ const Navbar = () => {
               <CartIcon onCartClick={toggleCart} />
               <LanguageSwitcher />
               <ModeToggle />
+              <AdminAccess />
             </div>
           </nav>
 
@@ -78,6 +80,7 @@ const Navbar = () => {
             <CartIcon onCartClick={toggleCart} />
             <LanguageSwitcher />
             <ModeToggle />
+            <AdminAccess />
             <Button 
               variant="ghost" 
               size="icon" 

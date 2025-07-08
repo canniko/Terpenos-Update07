@@ -20,120 +20,104 @@ function initializeDatabase() {
     const dbPath = path.join(process.cwd(), 'orders.db');
     db = new Database(dbPath);
 
-    // Create inventory table
-    db.exec(`
-    CREATE TABLE IF NOT EXISTS inventory_items (
-      id TEXT PRIMARY KEY,
-      name TEXT NOT NULL,
-      description TEXT,
-      quantity_in_stock INTEGER DEFAULT 0,
-      location TEXT,
-      is_listed_as_product BOOLEAN DEFAULT 0,
-      linked_product_id TEXT,
-      created_at TEXT,
-      updated_at TEXT,
-      FOREIGN KEY (linked_product_id) REFERENCES products(id) ON DELETE SET NULL
-    );
-    `);
+    // Create inventory_items table
+    db.prepare(`
+      CREATE TABLE IF NOT EXISTS inventory_items (
+        item_id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        category TEXT NOT NULL,
+        description TEXT,
+        quantity_in_stock INTEGER NOT NULL DEFAULT 0,
+        location TEXT,
+        unit_cost REAL,
+        vendor TEXT,
+        tags TEXT,
+        is_listed_as_product INTEGER DEFAULT 0,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      )
+    `).run();
 
-    // Initialize with sample data if table is empty
-    const inventoryCount = db.prepare('SELECT COUNT(*) as count FROM inventory_items').get() as { count: number };
-    if (inventoryCount.count === 0) {
-      console.log('Initializing inventory database with sample data...');
+    // Check if we have any data
+    const count = db.prepare('SELECT COUNT(*) as count FROM inventory_items').get() as { count: number };
+    
+    if (count.count === 0) {
+      console.log('📦 Initializing inventory database with sample data...');
       
-      const sampleInventory = [
+      const sampleInventory: InventoryItem[] = [
         {
-          id: "inv-terpene-citrus-001",
-          name: "Citrus Terpene Blend - Bulk",
-          description: "Bulk supply of citrus terpene blend for product manufacturing",
+          item_id: 'inv-terpene-relaxation-001',
+          name: 'Terpene Relaxation Blend',
+          category: 'Terpenes',
+          description: 'A calming blend of terpenes for relaxation and stress relief',
           quantity_in_stock: 50,
-          location: "Warehouse A - Shelf 3",
+          location: 'Warehouse A',
+          unit_cost: 15.99,
+          vendor: 'Terpene Labs',
+          tags: ['relaxation', 'stress-relief', 'natural'],
           is_listed_as_product: true,
-          linked_product_id: "terpene-blend-1",
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         },
         {
-          id: "inv-cannabis-oil-001",
-          name: "Full-Spectrum Cannabis Oil - Bulk",
-          description: "Bulk supply of full-spectrum cannabis oil",
-          quantity_in_stock: 25,
-          location: "Warehouse B - Refrigerated",
-          is_listed_as_product: true,
-          linked_product_id: "cannabis-oil-1",
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        },
-        {
-          id: "inv-bottles-001",
-          name: "10ml Glass Bottles",
-          description: "Empty 10ml glass bottles for product packaging",
-          quantity_in_stock: 200,
-          location: "Warehouse A - Packaging",
-          is_listed_as_product: false,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        },
-        {
-          id: "inv-labels-001",
-          name: "Product Labels",
-          description: "Custom product labels for packaging",
-          quantity_in_stock: 500,
-          location: "Warehouse A - Packaging",
-          is_listed_as_product: false,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        },
-        {
-          id: "inv-terpene-relaxation-001",
-          name: "Relaxation Terpene Blend - Bulk",
-          description: "Bulk supply of relaxation terpene blend",
+          item_id: 'inv-terpene-energy-002',
+          name: 'Terpene Energy Blend',
+          category: 'Terpenes',
+          description: 'An energizing blend of terpenes for focus and vitality',
           quantity_in_stock: 30,
-          location: "Warehouse A - Shelf 4",
-          is_listed_as_product: true,
-          linked_product_id: "terpene-blend-2",
+          location: 'Warehouse B',
+          unit_cost: 18.99,
+          vendor: 'Terpene Labs',
+          tags: ['energy', 'focus', 'vitality'],
+          is_listed_as_product: false,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         }
       ];
 
       const insertInventory = db.prepare(`
-        INSERT INTO inventory_items (id, name, description, quantity_in_stock, location, is_listed_as_product, linked_product_id, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO inventory_items (item_id, name, category, description, quantity_in_stock, location, unit_cost, vendor, tags, is_listed_as_product, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `);
 
       for (const item of sampleInventory) {
         insertInventory.run(
-          item.id,
+          item.item_id,
           item.name,
+          item.category,
           item.description,
           item.quantity_in_stock,
           item.location,
+          item.unit_cost,
+          item.vendor,
+          item.tags ? JSON.stringify(item.tags) : null,
           item.is_listed_as_product ? 1 : 0,
-          item.linked_product_id,
           item.created_at,
           item.updated_at
         );
       }
 
-      console.log('Initialized inventory database with', sampleInventory.length, 'items');
+      console.log('✅ Initialized inventory database with sample data');
     }
 
     isInitialized = true;
   } catch (error) {
-    console.error('Error initializing inventory database:', error);
+    console.error('❌ Error initializing inventory database:', error);
   }
 }
 
 function rowToInventoryItem(row: any): InventoryItem {
   return {
-    id: row.id,
+    item_id: row.item_id,
     name: row.name,
+    category: row.category || 'General',
     description: row.description,
     quantity_in_stock: row.quantity_in_stock,
-    location: row.location,
+    location: row.location || undefined,
+    unit_cost: row.unit_cost || undefined,
+    vendor: row.vendor || undefined,
+    tags: row.tags ? JSON.parse(row.tags) : undefined,
     is_listed_as_product: Boolean(row.is_listed_as_product),
-    linked_product_id: row.linked_product_id,
     created_at: row.created_at,
     updated_at: row.updated_at
   };
@@ -164,7 +148,7 @@ export const getInventoryItemById = (id: string): InventoryItem | undefined => {
   if (!db) return undefined;
 
   try {
-    const stmt = db.prepare('SELECT * FROM inventory_items WHERE id = ?');
+    const stmt = db.prepare('SELECT * FROM inventory_items WHERE item_id = ?');
     const row = stmt.get(id);
     
     return row ? rowToInventoryItem(row) : undefined;
@@ -180,7 +164,7 @@ export const getInventoryItemByProductId = (productId: string): InventoryItem | 
   if (!db) return undefined;
 
   try {
-    const stmt = db.prepare('SELECT * FROM inventory_items WHERE linked_product_id = ?');
+    const stmt = db.prepare('SELECT * FROM inventory_items WHERE item_id = ?');
     const row = stmt.get(productId);
     
     return row ? rowToInventoryItem(row) : undefined;
@@ -190,35 +174,39 @@ export const getInventoryItemByProductId = (productId: string): InventoryItem | 
   }
 };
 
-export const createInventoryItem = (itemData: Omit<InventoryItem, 'id' | 'created_at' | 'updated_at'>): InventoryItem => {
+export const createInventoryItem = (itemData: Omit<InventoryItem, 'created_at' | 'updated_at'>): InventoryItem => {
   initializeDatabase();
   
   if (!db) throw new Error('Database not initialized');
 
   try {
-    const id = `inv-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    // Use provided item_id or generate one
+    const itemId = itemData.item_id && itemData.item_id.trim() ? itemData.item_id.trim() : `inv-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const now = new Date().toISOString();
 
     const stmt = db.prepare(`
-      INSERT INTO inventory_items (id, name, description, quantity_in_stock, location, is_listed_as_product, linked_product_id, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO inventory_items (item_id, name, category, description, quantity_in_stock, location, unit_cost, vendor, tags, is_listed_as_product, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     stmt.run(
-      id,
+      itemId,
       itemData.name,
+      itemData.category,
       itemData.description,
       itemData.quantity_in_stock,
       itemData.location,
+      itemData.unit_cost,
+      itemData.vendor,
+      itemData.tags ? JSON.stringify(itemData.tags) : null,
       itemData.is_listed_as_product ? 1 : 0,
-      itemData.linked_product_id,
       now,
       now
     );
 
     return {
       ...itemData,
-      id,
+      item_id: itemId,
       created_at: now,
       updated_at: now
     };
@@ -241,18 +229,20 @@ export const updateInventoryItem = (id: string, updates: Partial<InventoryItem>)
 
     const stmt = db.prepare(`
       UPDATE inventory_items 
-      SET name = ?, description = ?, quantity_in_stock = ?, location = ?, 
-          is_listed_as_product = ?, linked_product_id = ?, updated_at = ?
-      WHERE id = ?
+      SET name = ?, category = ?, description = ?, quantity_in_stock = ?, location = ?, unit_cost = ?, vendor = ?, tags = ?, is_listed_as_product = ?, updated_at = ?
+      WHERE item_id = ?
     `);
 
     stmt.run(
       updatedItem.name,
+      updatedItem.category,
       updatedItem.description,
       updatedItem.quantity_in_stock,
       updatedItem.location,
+      updatedItem.unit_cost,
+      updatedItem.vendor,
+      updatedItem.tags ? JSON.stringify(updatedItem.tags) : null,
       updatedItem.is_listed_as_product ? 1 : 0,
-      updatedItem.linked_product_id,
       updatedItem.updated_at,
       id
     );
@@ -270,7 +260,14 @@ export const deleteInventoryItem = (id: string): boolean => {
   if (!db) return false;
 
   try {
-    const stmt = db.prepare('DELETE FROM inventory_items WHERE id = ?');
+    // Import product helpers
+    const { getProductByInventoryItemId, deleteProduct } = require('./products');
+    // If a product is linked, delete it first
+    const linkedProduct = getProductByInventoryItemId(id);
+    if (linkedProduct) {
+      deleteProduct(linkedProduct.item_id);
+    }
+    const stmt = db.prepare('DELETE FROM inventory_items WHERE item_id = ?');
     const result = stmt.run(id);
     return result.changes > 0;
   } catch (error) {
@@ -311,7 +308,7 @@ export const linkInventoryToProduct = (inventoryId: string, productId: string): 
 
   try {
     return updateInventoryItem(inventoryId, {
-      linked_product_id: productId,
+      item_id: productId,
       is_listed_as_product: true
     });
   } catch (error) {
@@ -327,7 +324,7 @@ export const unlinkInventoryFromProduct = (inventoryId: string): InventoryItem |
 
   try {
     return updateInventoryItem(inventoryId, {
-      linked_product_id: undefined,
+      item_id: undefined,
       is_listed_as_product: false
     });
   } catch (error) {
@@ -443,7 +440,7 @@ export const getUnlinkedInventoryItems = (): InventoryItem[] => {
   try {
     const stmt = db.prepare(`
       SELECT * FROM inventory_items 
-      WHERE linked_product_id IS NULL
+      WHERE item_id IS NULL
       ORDER BY created_at DESC
     `);
     
@@ -464,7 +461,7 @@ export const getLinkedInventoryItems = (): InventoryItem[] => {
   try {
     const stmt = db.prepare(`
       SELECT * FROM inventory_items 
-      WHERE linked_product_id IS NOT NULL
+      WHERE item_id IS NOT NULL
       ORDER BY created_at DESC
     `);
     

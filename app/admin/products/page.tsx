@@ -1,18 +1,18 @@
 import { validateAdminAuth } from '@/lib/auth';
-import { getAdminActivityLogs } from '@/lib/data/admin';
-import AdminProductsClient from './admin-products-client';
+import { getInventoryItemsWithProductStatus } from '@/lib/data/products';
+import ProductsClient from './products-client';
 
-export default async function AdminProductsPage() {
+export default async function ProductsPage() {
   // Validate admin authentication
   const session = await validateAdminAuth();
   
-  // Get recent activity logs for this admin
-  const activityLogs = getAdminActivityLogs(10);
+  // Get inventory data with product status
+  const inventoryItems = getInventoryItemsWithProductStatus();
 
   return (
-    <AdminProductsClient 
+    <ProductsClient 
       adminId={session.adminId!}
-      activityLogs={activityLogs}
+      inventoryItems={inventoryItems}
     />
   );
 } 

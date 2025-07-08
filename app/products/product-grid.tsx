@@ -162,7 +162,7 @@ export default function ProductGrid({ initialProducts, categories }: ProductGrid
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducts.map((product, index) => (
-                  <div key={product.id} className="animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
+                  <div key={product.item_id} className="animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
                     <ProductCard product={product} />
                   </div>
                 ))}

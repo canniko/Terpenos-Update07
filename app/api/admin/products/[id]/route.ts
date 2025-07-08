@@ -8,6 +8,25 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Validate admin session
+    const cookieStore = await cookies();
+    const sessionToken = cookieStore.get('admin_session')?.value;
+    
+    if (!sessionToken) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const session = validateAdminSession(sessionToken);
+    if (!session.valid || !session.adminId) {
+      return NextResponse.json(
+        { error: 'Invalid session' },
+        { status: 401 }
+      );
+    }
+
     const { id } = await params;
     const product = getProductById(id);
 
@@ -18,14 +37,7 @@ export async function GET(
       );
     }
 
-    // Check if product is visible (for customer-facing requests)
-    if (!product.visibility) {
-      return NextResponse.json(
-        { error: 'Product not found' },
-        { status: 404 }
-      );
-    }
-
+    // For admin requests, return product regardless of visibility
     return NextResponse.json({
       product,
     });

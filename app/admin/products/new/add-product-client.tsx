@@ -9,8 +9,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowLeft, Plus, Save, X, Upload, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
+// import ImageUpload from '@/components/image-upload';
 
 interface AddProductClientProps {
   adminId: number;
@@ -19,27 +21,30 @@ interface AddProductClientProps {
 export default function AddProductClient({ adminId }: AddProductClientProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [tags, setTags] = useState<string[]>([]);
-  const [newTag, setNewTag] = useState('');
-  const [ingredients, setIngredients] = useState<string[]>([]);
-  const [newIngredient, setNewIngredient] = useState('');
-  const [benefits, setBenefits] = useState<string[]>([]);
-  const [newBenefit, setNewBenefit] = useState('');
-  const [showCustomCategory, setShowCustomCategory] = useState(false);
-  const [customCategory, setCustomCategory] = useState('');
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>('');
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   
+  // Form state - same as inventory but with createProduct pre-checked
   const [formData, setFormData] = useState({
     name: '',
-    description: '',
-    price: '',
     category: '',
-    imageUrl: '',
-    inStock: true,
-    rating: '4.5',
-    reviews: '0'
+    description: '',
+    quantity_in_stock: 0,
+    location: '',
+    unit_cost: 0,
+    vendor: '',
+    tags: [] as string[],
+    is_listed_as_product: true, // Pre-checked for Add Product page
+    item_id: ''
+  });
+
+  // Product-specific fields (shown when is_listed_as_product is true)
+  const [productData, setProductData] = useState({
+    price: 0,
+    images: [] as string[],
+    ingredients: [] as string[],
+    benefits: [] as string[],
+    weight: '',
+    volume: ''
   });
 
   // Enhanced categories list
@@ -61,87 +66,12 @@ export default function AddProductClient({ adminId }: AddProductClientProps) {
     'other'
   ];
 
-  const handleInputChange = (field: string, value: string | boolean) => {
+  const handleInputChange = (field: string, value: string | number | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleCategoryChange = (value: string) => {
-    if (value === 'custom') {
-      setShowCustomCategory(true);
-      setFormData(prev => ({ ...prev, category: '' }));
-    } else {
-      setShowCustomCategory(false);
-      setCustomCategory('');
-      setFormData(prev => ({ ...prev, category: value }));
-    }
-  };
-
-  const handleCustomCategoryChange = (value: string) => {
-    setCustomCategory(value);
-    setFormData(prev => ({ ...prev, category: value }));
-  };
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      setFormData(prev => ({ ...prev, imageUrl: '' })); // Clear URL when file is selected
-      
-      // Create preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleImageUrlChange = (url: string) => {
-    setFormData(prev => ({ ...prev, imageUrl: url }));
-    setImageFile(null);
-    setImagePreview('');
-  };
-
-  const removeImage = () => {
-    setImageFile(null);
-    setImagePreview('');
-    setFormData(prev => ({ ...prev, imageUrl: '' }));
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-  const addTag = () => {
-    if (newTag.trim() && !tags.includes(newTag.trim())) {
-      setTags([...tags, newTag.trim()]);
-      setNewTag('');
-    }
-  };
-
-  const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
-  };
-
-  const addIngredient = () => {
-    if (newIngredient.trim() && !ingredients.includes(newIngredient.trim())) {
-      setIngredients([...ingredients, newIngredient.trim()]);
-      setNewIngredient('');
-    }
-  };
-
-  const removeIngredient = (ingredientToRemove: string) => {
-    setIngredients(ingredients.filter(ingredient => ingredient !== ingredientToRemove));
-  };
-
-  const addBenefit = () => {
-    if (newBenefit.trim() && !benefits.includes(newBenefit.trim())) {
-      setBenefits([...benefits, newBenefit.trim()]);
-      setNewBenefit('');
-    }
-  };
-
-  const removeBenefit = (benefitToRemove: string) => {
-    setBenefits(benefits.filter(benefit => benefit !== benefitToRemove));
+  const handleProductDataChange = (field: string, value: string | number | string[]) => {
+    setProductData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -149,432 +79,295 @@ export default function AddProductClient({ adminId }: AddProductClientProps) {
     setLoading(true);
 
     try {
-      let finalImageUrl = formData.imageUrl;
-
-      // Handle image upload if file is selected
-      if (imageFile) {
-        const formDataFile = new FormData();
-        formDataFile.append('image', imageFile);
-        
-        const uploadResponse = await fetch('/api/upload-image', {
-          method: 'POST',
-          body: formDataFile,
-        });
-
-        if (uploadResponse.ok) {
-          const uploadResult = await uploadResponse.json();
-          finalImageUrl = uploadResult.imageUrl;
-        } else {
-          console.error('Failed to upload image');
-          // Fallback to data URL for now
-          finalImageUrl = imagePreview;
-        }
-      }
-
-      const productData = {
-        ...formData,
-        image: finalImageUrl,
-        price: parseFloat(formData.price),
-        rating: parseFloat(formData.rating),
-        reviews: parseInt(formData.reviews),
-        tags,
-        details: {
-          ingredients,
-          benefits
+      // Prepare the request data
+      const requestData = {
+        inventoryItem: {
+          ...formData,
+          tags: formData.tags
         },
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        createProduct: formData.is_listed_as_product ? {
+          price: productData.price,
+          images: imageUrls,
+          ingredients: productData.ingredients,
+          benefits: productData.benefits,
+          weight: productData.weight,
+          volume: productData.volume
+        } : null
       };
 
-      const response = await fetch('/api/products', {
+      const response = await fetch('/api/inventory', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(productData),
+        body: JSON.stringify(requestData),
       });
 
       if (response.ok) {
+        const result = await response.json();
+        
+        if (formData.is_listed_as_product && result.product) {
+          alert(`✅ Product created successfully!\nItem ID: ${result.product.item_id}`);
+        } else {
+          alert('✅ Inventory item created successfully!');
+        }
+        
         router.push('/admin/products');
       } else {
-        console.error('Failed to create product');
+        const errorData = await response.json();
+        alert(`❌ Error: ${errorData.error || 'Failed to create product'}`);
       }
     } catch (error) {
       console.error('Error creating product:', error);
+      alert('❌ Error creating product. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      {/* Header */}
-      <section className="bg-white/5 backdrop-blur-lg border-b border-white/10">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link href="/admin/products">
-                <Button variant="ghost" className="text-gray-400 hover:text-white">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Products
-                </Button>
-              </Link>
-              <div>
-                <h1 className="text-2xl font-bold text-white">Add New Product</h1>
-                <p className="text-gray-400">Create a new product for your store</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex items-center gap-4 mb-6">
+        <Link href="/admin/products">
+          <Button variant="outline" size="sm">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Products
+          </Button>
+        </Link>
+        <h1 className="text-3xl font-bold">Add New Product</h1>
+      </div>
 
-      {/* Form */}
-      <section className="py-8">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <Plus className="w-5 h-5" />
-                Product Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Basic Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="text-white">Product Name *</Label>
-                    <Input
-                      id="name"
-                      value={formData.name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      placeholder="Enter product name"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="category" className="text-white">Category *</Label>
-                    <Select value={formData.category} onValueChange={handleCategoryChange}>
-                      <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border-gray-700">
-                        {categories.map((category) => (
-                          <SelectItem key={category} value={category}>
-                            {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
-                          </SelectItem>
-                        ))}
-                        <SelectItem value="custom">+ Add Custom Category</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    
-                    {showCustomCategory && (
-                      <div className="mt-2">
-                        <Input
-                          value={customCategory}
-                          onChange={(e) => handleCustomCategoryChange(e.target.value)}
-                          className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                          placeholder="Enter custom category name"
-                          required
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="description" className="text-white">Description *</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => handleInputChange('description', e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 min-h-[100px]"
-                    placeholder="Enter product description"
-                    required
+      <Card>
+        <CardHeader>
+          <CardTitle>Create New Product</CardTitle>
+          <p className="text-muted-foreground">
+            This will create both an inventory item (for internal tracking) and a public product listing (for customers to purchase).
+          </p>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Inventory Item Fields */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Inventory Information</h3>
+                
+                <div>
+                  <Label htmlFor="item_id">Item ID (Optional)</Label>
+                  <Input
+                    id="item_id"
+                    type="text"
+                    placeholder="Leave blank to auto-generate"
+                    value={formData.item_id}
+                    onChange={(e) => handleInputChange('item_id', e.target.value)}
                   />
                 </div>
 
-                {/* Pricing and Stock */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="price" className="text-white">Price (USD) *</Label>
-                    <Input
-                      id="price"
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      value={formData.price}
-                      onChange={(e) => handleInputChange('price', e.target.value)}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      placeholder="0.00"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="rating" className="text-white">Rating</Label>
-                    <Input
-                      id="rating"
-                      type="number"
-                      step="0.1"
-                      min="0"
-                      max="5"
-                      value={formData.rating}
-                      onChange={(e) => handleInputChange('rating', e.target.value)}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      placeholder="4.5"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="reviews" className="text-white">Reviews Count</Label>
-                    <Input
-                      id="reviews"
-                      type="number"
-                      min="0"
-                      value={formData.reviews}
-                      onChange={(e) => handleInputChange('reviews', e.target.value)}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      placeholder="0"
-                    />
-                  </div>
+                <div>
+                  <Label htmlFor="name">Name *</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
+                  />
                 </div>
 
-                {/* Image Upload/URL */}
-                <div className="space-y-4">
-                  <Label className="text-white">Product Image</Label>
-                  
-                  {/* Image Upload */}
-                  <div className="space-y-2">
-                    <Label htmlFor="imageUpload" className="text-white text-sm">Upload Image</Label>
-                    <div className="flex items-center gap-4">
-                      <Button
-                        type="button"
-                        onClick={() => fileInputRef.current?.click()}
-                        variant="outline"
-                        className="border-purple-500/50 text-purple-400 hover:bg-purple-500/10"
-                      >
-                        <Upload className="w-4 h-4 mr-2" />
-                        Choose File
-                      </Button>
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        id="imageUpload"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="hidden"
+                <div>
+                  <Label htmlFor="category">Category *</Label>
+                  <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category.charAt(0).toUpperCase() + category.slice(1)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="description">Description *</Label>
+                  <Textarea
+                    id="description"
+                    required
+                    value={formData.description}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="quantity_in_stock">Quantity in Stock *</Label>
+                  <Input
+                    id="quantity_in_stock"
+                    type="number"
+                    min="0"
+                    required
+                    value={formData.quantity_in_stock === 0 ? '' : formData.quantity_in_stock}
+                    onChange={(e) => handleInputChange('quantity_in_stock', parseInt(e.target.value) || 0)}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="location">Location</Label>
+                  <Input
+                    id="location"
+                    type="text"
+                    placeholder="e.g., Warehouse A, Shelf 3"
+                    value={formData.location}
+                    onChange={(e) => handleInputChange('location', e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="unit_cost">Unit Cost ($)</Label>
+                  <Input
+                    id="unit_cost"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={formData.unit_cost === 0 ? '' : formData.unit_cost}
+                    onChange={(e) => handleInputChange('unit_cost', parseFloat(e.target.value) || 0)}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="vendor">Vendor</Label>
+                  <Input
+                    id="vendor"
+                    type="text"
+                    placeholder="Supplier name"
+                    value={formData.vendor}
+                    onChange={(e) => handleInputChange('vendor', e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <Label>Tags</Label>
+                  <Input
+                    value={formData.tags.join(', ')}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const newTags = value.split(',').map(tag => tag.trim());
+                      setFormData(prev => ({ ...prev, tags: newTags }));
+                    }}
+                    placeholder="tag1, tag2, tag3 (comma separated)"
+                  />
+                </div>
+              </div>
+
+              {/* Product Fields */}
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="is_listed_as_product"
+                    checked={formData.is_listed_as_product}
+                    onCheckedChange={(checked) => handleInputChange('is_listed_as_product', checked as boolean)}
+                  />
+                  <Label htmlFor="is_listed_as_product" className="text-lg font-semibold">
+                    Create as Public Product
+                  </Label>
+                </div>
+
+                {formData.is_listed_as_product && (
+                  <>
+                    <h3 className="text-lg font-semibold">Product Information</h3>
+                    
+                    <div>
+                      <Label htmlFor="price">Price ($) *</Label>
+                      <Input
+                        id="price"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        required={formData.is_listed_as_product}
+                        value={productData.price === 0 ? '' : productData.price}
+                        onChange={(e) => handleProductDataChange('price', parseFloat(e.target.value) || 0)}
                       />
-                      {imageFile && (
-                        <span className="text-green-400 text-sm">
-                          {imageFile.name}
-                        </span>
-                      )}
                     </div>
-                  </div>
 
-                  {/* Image Preview */}
-                  {imagePreview && (
-                    <div className="relative inline-block">
-                      <img
-                        src={imagePreview}
-                        alt="Preview"
-                        className="w-32 h-32 object-cover rounded-lg border border-white/20"
-                      />
-                      <Button
-                        type="button"
-                        onClick={removeImage}
-                        variant="ghost"
-                        size="sm"
-                        className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 p-0"
-                      >
-                        <X className="w-3 h-3" />
-                      </Button>
+                    <div>
+                      <Label>Product Images</Label>
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-500">
+                          Image upload functionality temporarily disabled
+                        </p>
+                      </div>
+                      {/* <ImageUpload
+                        images={imageUrls}
+                        onChange={setImageUrls}
+                        maxImages={5}
+                      /> */}
                     </div>
-                  )}
 
-                  {/* OR Divider */}
-                  <div className="flex items-center gap-4">
-                    <div className="flex-1 h-px bg-white/20"></div>
-                    <span className="text-white/60 text-sm">OR</span>
-                    <div className="flex-1 h-px bg-white/20"></div>
-                  </div>
-
-                  {/* Image URL */}
-                  <div className="space-y-2">
-                    <Label htmlFor="imageUrl" className="text-white text-sm">Image URL</Label>
-                    <Input
-                      id="imageUrl"
-                      type="url"
-                      value={formData.imageUrl}
-                      onChange={(e) => handleImageUrlChange(e.target.value)}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      placeholder="https://example.com/image.jpg"
-                      disabled={!!imageFile}
-                    />
-                  </div>
-                </div>
-
-                {/* Stock Status */}
-                <div className="space-y-2">
-                  <Label className="text-white">Stock Status</Label>
-                  <div className="flex items-center space-x-4">
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        checked={formData.inStock}
-                        onChange={() => handleInputChange('inStock', true)}
-                        className="text-purple-600"
+                    <div>
+                      <Label htmlFor="weight">Weight</Label>
+                      <Input
+                        id="weight"
+                        type="text"
+                        placeholder="e.g., 5ml, 100g"
+                        value={productData.weight}
+                        onChange={(e) => handleProductDataChange('weight', e.target.value)}
                       />
-                      <span className="text-white">In Stock</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        checked={!formData.inStock}
-                        onChange={() => handleInputChange('inStock', false)}
-                        className="text-purple-600"
+                    </div>
+
+                    <div>
+                      <Label htmlFor="volume">Volume</Label>
+                      <Input
+                        id="volume"
+                        type="text"
+                        placeholder="e.g., 30ml, 1oz"
+                        value={productData.volume}
+                        onChange={(e) => handleProductDataChange('volume', e.target.value)}
                       />
-                      <span className="text-white">Out of Stock</span>
-                    </label>
-                  </div>
-                </div>
+                    </div>
 
-                {/* Tags */}
-                <div className="space-y-2">
-                  <Label className="text-white">Tags</Label>
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {tags.map((tag) => (
-                      <Badge key={tag} className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-                        {tag}
-                        <button
-                          type="button"
-                          onClick={() => removeTag(tag)}
-                          className="ml-1 hover:text-red-300"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-                  <div className="flex gap-2">
-                    <Input
-                      value={newTag}
-                      onChange={(e) => setNewTag(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400 flex-1"
-                      placeholder="Add a tag"
-                    />
-                    <Button
-                      type="button"
-                      onClick={addTag}
-                      variant="outline"
-                      className="border-purple-500/50 text-purple-400 hover:bg-purple-500/10"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
+                    <div>
+                      <Label>Ingredients</Label>
+                      <Input
+                        value={productData.ingredients.join(', ')}
+                        onChange={(e) => {
+                          const newIngredients = e.target.value.split(',').map(ing => ing.trim());
+                          setProductData(prev => ({ ...prev, ingredients: newIngredients }));
+                        }}
+                        placeholder="ingredient1, ingredient2, ingredient3 (comma separated)"
+                      />
+                    </div>
 
-                {/* Ingredients */}
-                <div className="space-y-2">
-                  <Label className="text-white">Ingredients</Label>
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {ingredients.map((ingredient) => (
-                      <Badge key={ingredient} className="bg-green-500/20 text-green-300 border-green-500/30">
-                        {ingredient}
-                        <button
-                          type="button"
-                          onClick={() => removeIngredient(ingredient)}
-                          className="ml-1 hover:text-red-300"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-                  <div className="flex gap-2">
-                    <Input
-                      value={newIngredient}
-                      onChange={(e) => setNewIngredient(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addIngredient())}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400 flex-1"
-                      placeholder="Add an ingredient"
-                    />
-                    <Button
-                      type="button"
-                      onClick={addIngredient}
-                      variant="outline"
-                      className="border-green-500/50 text-green-400 hover:bg-green-500/10"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
+                    <div>
+                      <Label>Benefits</Label>
+                      <Input
+                        value={productData.benefits.join(', ')}
+                        onChange={(e) => {
+                          const newBenefits = e.target.value.split(',').map(ben => ben.trim());
+                          setProductData(prev => ({ ...prev, benefits: newBenefits }));
+                        }}
+                        placeholder="benefit1, benefit2, benefit3 (comma separated)"
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
 
-                {/* Benefits */}
-                <div className="space-y-2">
-                  <Label className="text-white">Benefits</Label>
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {benefits.map((benefit) => (
-                      <Badge key={benefit} className="bg-blue-500/20 text-blue-300 border-blue-500/30">
-                        {benefit}
-                        <button
-                          type="button"
-                          onClick={() => removeBenefit(benefit)}
-                          className="ml-1 hover:text-red-300"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-                  <div className="flex gap-2">
-                    <Input
-                      value={newBenefit}
-                      onChange={(e) => setNewBenefit(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addBenefit())}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400 flex-1"
-                      placeholder="Add a benefit"
-                    />
-                    <Button
-                      type="button"
-                      onClick={addBenefit}
-                      variant="outline"
-                      className="border-blue-500/50 text-blue-400 hover:bg-blue-500/10"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Submit Buttons */}
-                <div className="flex gap-4 pt-6">
-                  <Button
-                    type="submit"
-                    disabled={loading}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white flex-1"
-                  >
-                    <Save className="w-4 h-4 mr-2" />
-                    {loading ? 'Creating...' : 'Create Product'}
-                  </Button>
-                  <Link href="/admin/products">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="border-gray-500/50 text-gray-400 hover:bg-gray-500/10"
-                    >
-                      Cancel
-                    </Button>
-                  </Link>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+            <div className="flex gap-4 pt-6">
+              <Button type="submit" disabled={loading}>
+                {loading ? 'Creating...' : 'Create Product'}
+                <Save className="h-4 w-4 ml-2" />
+              </Button>
+              <Link href="/admin/products">
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </Link>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 } 

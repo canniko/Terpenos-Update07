@@ -1,4 +1,4 @@
-import { Product } from '@/lib/types';
+import { Product, CreateProductFromInventory, InventoryItemWithProductStatus } from '@/lib/types';
 import { getInventoryItemByProductId, adjustInventoryQuantity } from './inventory';
 
 // Server-side only database operations
@@ -24,7 +24,7 @@ function initializeDatabase() {
     // Create products tables
     db.exec(`
     CREATE TABLE IF NOT EXISTS products (
-      id TEXT PRIMARY KEY,
+      item_id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
       description TEXT,
       price REAL NOT NULL,
@@ -34,10 +34,11 @@ function initializeDatabase() {
       rating REAL DEFAULT 0,
       reviews INTEGER DEFAULT 0,
       tags TEXT,
-      inventory_item_id TEXT,
+      inventory_item_id TEXT NOT NULL,
+      visibility BOOLEAN DEFAULT 1,
       createdAt TEXT,
       updatedAt TEXT,
-      FOREIGN KEY (inventory_item_id) REFERENCES inventory_items(id) ON DELETE SET NULL
+      FOREIGN KEY (inventory_item_id) REFERENCES inventory_items(item_id)
     );
 
     CREATE TABLE IF NOT EXISTS product_details (
@@ -46,18 +47,22 @@ function initializeDatabase() {
       volume TEXT,
       ingredients TEXT,
       benefits TEXT,
-      FOREIGN KEY (productId) REFERENCES products(id)
+      FOREIGN KEY (productId) REFERENCES products(item_id)
     );
     `);
 
     // Initialize with sample data if table is empty
-    const productCount = db.prepare('SELECT COUNT(*) as count FROM products').get() as { count: number };
-    if (productCount.count === 0) {
+    const tableExists = db.prepare(`
+      SELECT name FROM sqlite_master 
+      WHERE type='table' AND name='products'
+    `).get();
+    
+    if (!tableExists) {
       console.log('Initializing products database with sample data...');
       
       const sampleProducts = [
         {
-          id: "terpene-blend-1",
+          item_id: "terpene-blend-1",
           name: "Premium Terpene Blend - Citrus",
           description: "A carefully crafted blend of citrus terpenes including limonene, linalool, and myrcene. Perfect for enhancing flavor profiles and therapeutic effects.",
           price: 29.99,
@@ -66,8 +71,8 @@ function initializeDatabase() {
           inStock: true,
           rating: 4.8,
           reviews: 127,
-          tags: JSON.stringify(["citrus", "limonene", "linalool", "myrcene"]),
-          inventory_item_id: "inv-terpene-citrus-001",
+          tags: ["citrus", "limonene", "linalool", "myrcene"],
+          inventory_item_id: "inv-terpene-relaxation-001",
           details: {
             weight: "10ml",
             ingredients: ["Limonene", "Linalool", "Myrcene", "Pinene", "Terpinolene"],
@@ -75,7 +80,7 @@ function initializeDatabase() {
           }
         },
         {
-          id: "terpene-blend-2",
+          item_id: "terpene-blend-2",
           name: "Relaxation Terpene Blend",
           description: "A soothing blend designed for relaxation and stress relief, featuring lavender, chamomile, and valerian terpenes.",
           price: 34.99,
@@ -84,7 +89,7 @@ function initializeDatabase() {
           inStock: true,
           rating: 4.9,
           reviews: 89,
-          tags: JSON.stringify(["relaxation", "lavender", "chamomile", "valerian"]),
+          tags: ["relaxation", "lavender", "chamomile", "valerian"],
           inventory_item_id: "inv-terpene-relaxation-001",
           details: {
             weight: "10ml",
@@ -93,7 +98,7 @@ function initializeDatabase() {
           }
         },
         {
-          id: "cannabis-oil-1",
+          item_id: "cannabis-oil-1",
           name: "Full-Spectrum Cannabis Oil",
           description: "Premium full-spectrum cannabis oil with naturally occurring cannabinoids and terpenes. Lab-tested for purity and potency.",
           price: 79.99,
@@ -102,8 +107,8 @@ function initializeDatabase() {
           inStock: true,
           rating: 4.7,
           reviews: 203,
-          tags: JSON.stringify(["full-spectrum", "cannabinoids", "terpenes", "lab-tested"]),
-          inventory_item_id: "inv-cannabis-oil-001",
+          tags: ["full-spectrum", "cannabinoids", "terpenes", "lab-tested"],
+          inventory_item_id: "inv-terpene-energy-002",
           details: {
             volume: "30ml",
             ingredients: ["Cannabis sativa extract", "MCT oil", "Natural terpenes"],
@@ -111,7 +116,7 @@ function initializeDatabase() {
           }
         },
         {
-          id: "terpene-blend-3",
+          item_id: "terpene-blend-3",
           name: "Energy & Focus Terpene Blend",
           description: "An invigorating blend of terpenes known for their energizing and focus-enhancing properties.",
           price: 27.99,
@@ -120,8 +125,8 @@ function initializeDatabase() {
           inStock: true,
           rating: 4.6,
           reviews: 156,
-          tags: JSON.stringify(["energy", "focus", "mental clarity", "stimulating"]),
-          inventory_item_id: null,
+          tags: ["energy", "focus", "mental clarity", "stimulating"],
+          inventory_item_id: "inv-terpene-energy-002",
           details: {
             weight: "10ml",
             ingredients: ["Pinene", "Terpinolene", "Ocimene", "Camphene"],
@@ -129,7 +134,7 @@ function initializeDatabase() {
           }
         },
         {
-          id: "cannabis-oil-2",
+          item_id: "cannabis-oil-2",
           name: "CBD Isolate Oil",
           description: "Pure CBD isolate oil with 99%+ purity. Perfect for those seeking the benefits of CBD without other cannabinoids.",
           price: 59.99,
@@ -138,8 +143,8 @@ function initializeDatabase() {
           inStock: true,
           rating: 4.5,
           reviews: 178,
-          tags: JSON.stringify(["cbd", "isolate", "pure", "thc-free"]),
-          inventory_item_id: null,
+          tags: ["cbd", "isolate", "pure", "thc-free"],
+          inventory_item_id: "inv-terpene-relaxation-001",
           details: {
             volume: "30ml",
             ingredients: ["CBD isolate", "MCT oil"],
@@ -147,7 +152,7 @@ function initializeDatabase() {
           }
         },
         {
-          id: "terpene-blend-4",
+          item_id: "terpene-blend-4",
           name: "Pain Relief Terpene Blend",
           description: "A therapeutic blend of terpenes specifically formulated for pain relief and anti-inflammatory effects.",
           price: 32.99,
@@ -156,8 +161,8 @@ function initializeDatabase() {
           inStock: false,
           rating: 4.7,
           reviews: 94,
-          tags: JSON.stringify(["pain relief", "anti-inflammatory", "therapeutic", "analgesic"]),
-          inventory_item_id: null,
+          tags: ["pain relief", "anti-inflammatory", "therapeutic", "analgesic"],
+          inventory_item_id: "inv-terpene-energy-002",
           details: {
             weight: "10ml",
             ingredients: ["Caryophyllene", "Myrcene", "Linalool", "Humulene"],
@@ -165,7 +170,7 @@ function initializeDatabase() {
           }
         },
         {
-          id: "smyle-labs-car-key-penjamin",
+          item_id: "smyle-labs-car-key-penjamin",
           name: "Car Key Penjamin Battery",
           description: "Car Key Penjamin by Smyle™ Labs",
           price: 24.99,
@@ -174,8 +179,8 @@ function initializeDatabase() {
           inStock: true,
           rating: 5.0,
           reviews: 228,
-          tags: JSON.stringify(["battery", "penjamin", "car", "key"]),
-          inventory_item_id: null,
+          tags: ["battery", "penjamin", "car", "key"],
+          inventory_item_id: "inv-terpene-relaxation-001",
           details: {
             weight: "2kg",
             ingredients: ["Premium materials"],
@@ -183,7 +188,7 @@ function initializeDatabase() {
           }
         },
         {
-          id: "smyle-labs-raygun-penjamin",
+          item_id: "smyle-labs-raygun-penjamin",
           name: "Raygun Battery",
           description: "Raygun Penjamin by Smyle™ Labs",
           price: 39.99,
@@ -192,8 +197,8 @@ function initializeDatabase() {
           inStock: true,
           rating: 3.2,
           reviews: 87,
-          tags: JSON.stringify(["battery", "penjamin", "raygun", "toy"]),
-          inventory_item_id: null,
+          tags: ["battery", "penjamin", "raygun", "toy"],
+          inventory_item_id: "inv-terpene-energy-002",
           details: {
             weight: "2kg",
             ingredients: ["Premium materials"],
@@ -203,7 +208,7 @@ function initializeDatabase() {
       ];
 
       const insertProduct = db.prepare(`
-        INSERT INTO products (id, name, description, price, image, category, inStock, rating, reviews, tags, inventory_item_id, createdAt, updatedAt)
+        INSERT INTO products (item_id, name, description, price, image, category, inStock, rating, reviews, tags, inventory_item_id, createdAt, updatedAt)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `);
 
@@ -216,7 +221,7 @@ function initializeDatabase() {
         for (const product of sampleProducts) {
           const now = new Date().toISOString();
           insertProduct.run(
-            product.id,
+            product.item_id,
             product.name,
             product.description,
             product.price,
@@ -225,14 +230,14 @@ function initializeDatabase() {
             product.inStock ? 1 : 0,
             product.rating,
             product.reviews,
-            product.tags,
+            JSON.stringify(product.tags),
             product.inventory_item_id,
             now,
             now
           );
 
           insertProductDetails.run(
-            product.id,
+            product.item_id,
             product.details.weight || null,
             product.details.volume || null,
             JSON.stringify(product.details.ingredients),
@@ -254,7 +259,7 @@ function initializeDatabase() {
 // Helper function to convert database row to Product object
 function rowToProduct(row: any, details: any): Product {
   return {
-    id: row.id,
+    item_id: row.item_id,
     name: row.name,
     description: row.description,
     price: row.price,
@@ -264,19 +269,50 @@ function rowToProduct(row: any, details: any): Product {
     rating: row.rating,
     reviews: row.reviews,
     tags: JSON.parse(row.tags || '[]'),
+    inventory_item_id: row.inventory_item_id,
+    visibility: Boolean(row.visibility !== undefined ? row.visibility : true),
     details: {
       weight: details?.weight,
       volume: details?.volume,
       ingredients: details?.ingredients ? JSON.parse(details.ingredients) : [],
       benefits: details?.benefits ? JSON.parse(details.benefits) : []
     },
-    inventory_item_id: row.inventory_item_id,
     createdAt: row.createdAt,
     updatedAt: row.updatedAt
   };
 }
 
-// Get all products
+// Get all visible products (for customer-facing pages)
+export const getVisibleProducts = (): Product[] => {
+  if (typeof window !== 'undefined') {
+    // Client-side: return empty array
+    return [];
+  }
+
+  initializeDatabase();
+  
+  if (!db) {
+    console.error('Database not initialized');
+    return [];
+  }
+
+  try {
+    const products = db.prepare(`
+      SELECT p.*, pd.weight, pd.volume, pd.ingredients, pd.benefits
+      FROM products p
+      LEFT JOIN product_details pd ON p.item_id = pd.productId
+      WHERE p.visibility = 1
+      ORDER BY p.name
+    `).all();
+
+    return products.map((row: any) => rowToProduct(row, row));
+  } catch (error) {
+    console.error('Error getting visible products:', error);
+    return [];
+  }
+};
+
+// Get all products (admin use)
 export const getAllProducts = (): Product[] => {
   if (typeof window !== 'undefined') {
     // Client-side: return empty array
@@ -294,7 +330,7 @@ export const getAllProducts = (): Product[] => {
     const products = db.prepare(`
       SELECT p.*, pd.weight, pd.volume, pd.ingredients, pd.benefits
       FROM products p
-      LEFT JOIN product_details pd ON p.id = pd.productId
+      LEFT JOIN product_details pd ON p.item_id = pd.productId
       ORDER BY p.name
     `).all();
 
@@ -323,8 +359,8 @@ export const getProductById = (id: string): Product | undefined => {
     const product = db.prepare(`
       SELECT p.*, pd.weight, pd.volume, pd.ingredients, pd.benefits
       FROM products p
-      LEFT JOIN product_details pd ON p.id = pd.productId
-      WHERE p.id = ?
+      LEFT JOIN product_details pd ON p.item_id = pd.productId
+      WHERE p.item_id = ?
     `).get(id);
 
     if (!product) return undefined;
@@ -335,8 +371,8 @@ export const getProductById = (id: string): Product | undefined => {
   }
 };
 
-// Get products by category
-export const getProductsByCategory = (category: string): Product[] => {
+// Get visible products by category (for customer-facing pages)
+export const getVisibleProductsByCategory = (category: string): Product[] => {
   if (typeof window !== 'undefined') {
     // Client-side: return empty array
     return [];
@@ -353,20 +389,20 @@ export const getProductsByCategory = (category: string): Product[] => {
     const products = db.prepare(`
       SELECT p.*, pd.weight, pd.volume, pd.ingredients, pd.benefits
       FROM products p
-      LEFT JOIN product_details pd ON p.id = pd.productId
-      WHERE p.category = ?
+      LEFT JOIN product_details pd ON p.item_id = pd.productId
+      WHERE p.category = ? AND p.visibility = 1
       ORDER BY p.name
     `).all(category);
 
     return products.map((row: any) => rowToProduct(row, row));
   } catch (error) {
-    console.error('Error getting products by category:', error);
+    console.error('Error getting visible products by category:', error);
     return [];
   }
 };
 
-// Search products
-export const searchProducts = (query: string): Product[] => {
+// Search visible products (for customer-facing pages)
+export const searchVisibleProducts = (query: string): Product[] => {
   if (typeof window !== 'undefined') {
     // Client-side: return empty array
     return [];
@@ -384,20 +420,20 @@ export const searchProducts = (query: string): Product[] => {
     const products = db.prepare(`
       SELECT p.*, pd.weight, pd.volume, pd.ingredients, pd.benefits
       FROM products p
-      LEFT JOIN product_details pd ON p.id = pd.productId
-      WHERE LOWER(p.name) LIKE ? OR LOWER(p.description) LIKE ? OR LOWER(p.tags) LIKE ?
+      LEFT JOIN product_details pd ON p.item_id = pd.productId
+      WHERE (LOWER(p.name) LIKE ? OR LOWER(p.description) LIKE ? OR LOWER(p.tags) LIKE ?) AND p.visibility = 1
       ORDER BY p.name
     `).all(lowercaseQuery, lowercaseQuery, lowercaseQuery);
 
     return products.map((row: any) => rowToProduct(row, row));
   } catch (error) {
-    console.error('Error searching products:', error);
+    console.error('Error searching visible products:', error);
     return [];
   }
 };
 
 // Create new product
-export const createProduct = (productData: Omit<Product, 'id' | 'rating' | 'reviews'>): Product => {
+export const createProduct = (productData: Omit<Product, 'item_id' | 'rating' | 'reviews' | 'createdAt' | 'updatedAt'>): Product => {
   if (typeof window !== 'undefined') {
     throw new Error('Cannot create product on client side');
   }
@@ -413,7 +449,7 @@ export const createProduct = (productData: Omit<Product, 'id' | 'rating' | 'revi
     const now = new Date().toISOString();
 
     const insertProduct = db.prepare(`
-      INSERT INTO products (id, name, description, price, image, category, inStock, rating, reviews, tags, inventory_item_id, createdAt, updatedAt)
+      INSERT INTO products (item_id, name, description, price, image, category, inStock, rating, reviews, tags, inventory_item_id, createdAt, updatedAt)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
@@ -434,7 +470,7 @@ export const createProduct = (productData: Omit<Product, 'id' | 'rating' | 'revi
         0, // default rating
         0, // default reviews
         JSON.stringify(productData.tags),
-        productData.inventory_item_id || null,
+        productData.inventory_item_id,
         now,
         now
       );
@@ -443,8 +479,8 @@ export const createProduct = (productData: Omit<Product, 'id' | 'rating' | 'revi
         id,
         productData.details.weight || null,
         productData.details.volume || null,
-        JSON.stringify(productData.details.ingredients),
-        JSON.stringify(productData.details.benefits)
+        JSON.stringify(productData.details.ingredients || []),
+        JSON.stringify(productData.details.benefits || [])
       );
     });
 
@@ -475,37 +511,33 @@ export const updateProduct = (id: string, updates: Partial<Product>): Product | 
 
     const now = new Date().toISOString();
     
+    // Only allow updating product-specific fields
     const updateProduct = db.prepare(`
       UPDATE products 
-      SET name = ?, description = ?, price = ?, image = ?, category = ?, inStock = ?, tags = ?, inventory_item_id = ?, updatedAt = ?
-      WHERE id = ?
+      SET description = ?, price = ?, image = ?, tags = ?, visibility = ?, updatedAt = ?
+      WHERE item_id = ?
     `);
 
     const updateProductDetails = db.prepare(`
       UPDATE product_details 
-      SET weight = ?, volume = ?, ingredients = ?, benefits = ?
+      SET ingredients = ?, benefits = ?
       WHERE productId = ?
     `);
 
     const transaction = db.transaction(() => {
       updateProduct.run(
-        updates.name || existingProduct.name,
         updates.description || existingProduct.description,
         updates.price || existingProduct.price,
         updates.image || existingProduct.image,
-        updates.category || existingProduct.category,
-        updates.inStock !== undefined ? (updates.inStock ? 1 : 0) : (existingProduct.inStock ? 1 : 0),
         JSON.stringify(updates.tags || existingProduct.tags),
-        updates.inventory_item_id || existingProduct.inventory_item_id || null,
+        updates.visibility !== undefined ? (updates.visibility ? 1 : 0) : (existingProduct.visibility ? 1 : 0),
         now,
         id
       );
 
       updateProductDetails.run(
-        updates.details?.weight || existingProduct.details.weight || null,
-        updates.details?.volume || existingProduct.details.volume || null,
-        JSON.stringify(updates.details?.ingredients || existingProduct.details.ingredients),
-        JSON.stringify(updates.details?.benefits || existingProduct.details.benefits),
+        JSON.stringify(updates.details?.ingredients || existingProduct.details?.ingredients || []),
+        JSON.stringify(updates.details?.benefits || existingProduct.details?.benefits || []),
         id
       );
     });
@@ -533,7 +565,7 @@ export const deleteProduct = (id: string): boolean => {
 
   try {
     const deleteProductDetails = db.prepare('DELETE FROM product_details WHERE productId = ?');
-    const deleteProduct = db.prepare('DELETE FROM products WHERE id = ?');
+    const deleteProduct = db.prepare('DELETE FROM products WHERE item_id = ?');
 
     const transaction = db.transaction(() => {
       deleteProductDetails.run(id);
@@ -684,21 +716,167 @@ export const isProductPurchaseable = (productId: string, quantity: number = 1): 
   }
 };
 
-// Get products that are ready for purchase (linked to inventory and in stock)
+// Get purchaseable products
 export const getPurchaseableProducts = (): Product[] => {
+  if (typeof window !== 'undefined') {
+    throw new Error('Cannot get purchaseable products on client side');
+  }
+
+  try {
+    const allProducts = getAllProducts();
+    return allProducts.filter(product => {
+      // Check if product has inventory link
+      if (!product.inventory_item_id) {
+        return false;
+      }
+
+      // Check if product is in stock
+      if (!product.inStock) {
+        return false;
+      }
+
+      // Check inventory quantity
+      const inventoryItem = getInventoryItemByProductId(product.inventory_item_id);
+      if (!inventoryItem) {
+        return false;
+      }
+
+      return inventoryItem.quantity_in_stock > 0;
+    });
+  } catch (error) {
+    console.error('Error getting purchaseable products:', error);
+    return [];
+  }
+};
+
+// Create product from inventory item
+export const createProductFromInventory = (inventoryItemId: string, productData: Omit<CreateProductFromInventory, 'inventoryItemId'>): Product => {
+  if (typeof window !== 'undefined') {
+    throw new Error('Cannot create product on client side');
+  }
+
+  initializeDatabase();
+  
+  if (!db) {
+    throw new Error('Database not initialized');
+  }
+
+  try {
+    // Verify inventory item exists
+    const { getInventoryItemById } = require('./inventory');
+    const inventoryItem = getInventoryItemById(inventoryItemId);
+    if (!inventoryItem) {
+      throw new Error(`Inventory item ${inventoryItemId} not found`);
+    }
+
+    // Check if product already exists for this inventory item
+    const existingProduct = getProductByInventoryItemId(inventoryItemId);
+    if (existingProduct) {
+      throw new Error(`Product already exists for inventory item ${inventoryItemId}`);
+    }
+
+    const id = `product-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const now = new Date().toISOString();
+
+    const insertProduct = db.prepare(`
+      INSERT INTO products (item_id, name, description, price, image, category, inStock, rating, reviews, tags, inventory_item_id, visibility, createdAt, updatedAt)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    const insertProductDetails = db.prepare(`
+      INSERT INTO product_details (productId, weight, volume, ingredients, benefits)
+      VALUES (?, ?, ?, ?, ?)
+    `);
+
+    const transaction = db.transaction(() => {
+      insertProduct.run(
+        id,
+        inventoryItem.name, // Use inventory item name
+        productData.description,
+        productData.price,
+        productData.image || '',
+        inventoryItem.category, // Use inventory item category
+        1, // inStock - will be synced with inventory
+        0, // default rating
+        0, // default reviews
+        JSON.stringify(productData.tags || inventoryItem.tags || []),
+        inventoryItemId,
+        productData.visibility !== undefined ? (productData.visibility ? 1 : 0) : 1, // visibility
+        now,
+        now
+      );
+
+      insertProductDetails.run(
+        id, // productId
+        productData.details?.weight || null,
+        productData.details?.volume || null,
+        JSON.stringify(productData.details?.ingredients || []),
+        JSON.stringify(productData.details?.benefits || [])
+      );
+    });
+
+    transaction();
+
+    // Update inventory item to mark as listed as product
+    const { updateInventoryItem } = require('./inventory');
+    updateInventoryItem(inventoryItemId, { is_listed_as_product: true });
+
+    return getProductById(id)!;
+  } catch (error) {
+    console.error('Error creating product from inventory:', error);
+    throw error;
+  }
+};
+
+// Get product by inventory item ID
+export const getProductByInventoryItemId = (inventoryItemId: string): Product | undefined => {
+  if (typeof window !== 'undefined') {
+    return undefined;
+  }
+
+  initializeDatabase();
+  
+  if (!db) {
+    return undefined;
+  }
+
+  try {
+    const product = db.prepare(`
+      SELECT p.*, pd.weight, pd.volume, pd.ingredients, pd.benefits
+      FROM products p
+      LEFT JOIN product_details pd ON p.item_id = pd.productId
+      WHERE p.inventory_item_id = ?
+    `).get(inventoryItemId);
+
+    if (!product) return undefined;
+    return rowToProduct(product, product);
+  } catch (error) {
+    console.error('Error getting product by inventory item ID:', error);
+    return undefined;
+  }
+};
+
+// Get inventory items with product status
+export const getInventoryItemsWithProductStatus = (): InventoryItemWithProductStatus[] => {
   if (typeof window !== 'undefined') {
     return [];
   }
 
   try {
-    const allProducts = getAllProducts();
-    return allProducts.filter(product => 
-      product.inventory_item_id && 
-      product.inStock && 
-      isProductPurchaseable(product.id, 1)
-    );
+    const { getAllInventoryItems } = require('./inventory');
+    const inventoryItems = getAllInventoryItems();
+    
+    return inventoryItems.map(item => {
+      const product = getProductByInventoryItemId(item.item_id);
+      return {
+        ...item,
+        hasProduct: !!product,
+        productId: product?.item_id,
+        productVisibility: product?.visibility
+      };
+    });
   } catch (error) {
-    console.error('Error getting purchaseable products:', error);
+    console.error('Error getting inventory items with product status:', error);
     return [];
   }
 };

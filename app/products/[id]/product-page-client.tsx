@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { useCartContext } from "@/components/providers/cart-provider"
 import { ArrowLeft, ShoppingCart, Star, Dna, Sparkles, CheckCircle } from "lucide-react"
 import Link from "next/link"
-import { Product } from "@/lib/types"
+import { Product, InventoryItem } from "@/lib/types"
 
 interface ProductPageClientProps {
   product: Product
@@ -18,6 +18,31 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
   const { addToCart } = useCartContext()
   const [quantity, setQuantity] = useState(1)
   const [isAddingToCart, setIsAddingToCart] = useState(false)
+  const [inventoryItem, setInventoryItem] = useState<InventoryItem | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  // Fetch inventory item data
+  useEffect(() => {
+    const fetchInventoryItem = async () => {
+      try {
+        const response = await fetch(`/api/inventory/${product.inventory_item_id}`)
+        if (response.ok) {
+          const data = await response.json()
+          setInventoryItem(data)
+        }
+      } catch (error) {
+        console.error('Error fetching inventory item:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (product.inventory_item_id) {
+      fetchInventoryItem()
+    } else {
+      setLoading(false)
+    }
+  }, [product.inventory_item_id])
 
   const handleAddToCart = () => {
     setIsAddingToCart(true)
@@ -120,9 +145,12 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
                 {product.name}
               </h1>
               
-              <p className="section-subtitle">
-                {product.description}
-              </p>
+              {/* Short Description from Inventory */}
+              {!loading && inventoryItem && (
+                <p className="text-lg text-brand-muted leading-relaxed">
+                  {inventoryItem.description}
+                </p>
+              )}
 
               {/* Price */}
               <div className="flex items-baseline gap-3">
@@ -204,52 +232,61 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
             </div>
 
             {/* Product Details */}
-            {product.details && (
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-brand-text">Product Details</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {product.details.weight && (
-                    <div className="bg-brand-alt border border-brand-border rounded-lg p-4">
-                      <h4 className="font-medium text-brand-text mb-1">Weight</h4>
-                      <p className="text-sm text-brand-muted">{product.details.weight}</p>
-                    </div>
-                  )}
-                  {product.details.volume && (
-                    <div className="bg-brand-alt border border-brand-border rounded-lg p-4">
-                      <h4 className="font-medium text-brand-text mb-1">Volume</h4>
-                      <p className="text-sm text-brand-muted">{product.details.volume}</p>
-                    </div>
-                  )}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-brand-text">Product Details</h3>
+              
+              {/* Full Description from Product */}
+              {product.description && (
+                <div className="bg-brand-alt border border-brand-border rounded-lg p-4">
+                  <h4 className="font-medium text-brand-text mb-2">Description</h4>
+                  <p className="text-sm text-brand-muted leading-relaxed">
+                    {product.description}
+                  </p>
                 </div>
-                
-                {product.details.ingredients && product.details.ingredients.length > 0 && (
+              )}
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {product.details?.weight && (
                   <div className="bg-brand-alt border border-brand-border rounded-lg p-4">
-                    <h4 className="font-medium text-brand-text mb-2">Ingredients</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {product.details.ingredients.map((ingredient: string) => (
-                        <Badge key={ingredient} variant="secondary" className="text-xs">
-                          {ingredient}
-                        </Badge>
-                      ))}
-                    </div>
+                    <h4 className="font-medium text-brand-text mb-1">Weight</h4>
+                    <p className="text-sm text-brand-muted">{product.details.weight}</p>
                   </div>
                 )}
-                
-                {product.details.benefits && product.details.benefits.length > 0 && (
+                {product.details?.volume && (
                   <div className="bg-brand-alt border border-brand-border rounded-lg p-4">
-                    <h4 className="font-medium text-brand-text mb-2">Benefits</h4>
-                    <ul className="space-y-1">
-                      {product.details.benefits.map((benefit: string) => (
-                        <li key={benefit} className="flex items-center gap-2 text-sm text-brand-muted">
-                          <CheckCircle className="h-3 w-3 text-brand-green" />
-                          {benefit}
-                        </li>
-                      ))}
-                    </ul>
+                    <h4 className="font-medium text-brand-text mb-1">Volume</h4>
+                    <p className="text-sm text-brand-muted">{product.details.volume}</p>
                   </div>
                 )}
               </div>
-            )}
+              
+              {product.details?.ingredients && product.details.ingredients.length > 0 && (
+                <div className="bg-brand-alt border border-brand-border rounded-lg p-4">
+                  <h4 className="font-medium text-brand-text mb-2">Ingredients</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {product.details.ingredients.map((ingredient: string) => (
+                      <Badge key={ingredient} variant="secondary" className="text-xs">
+                        {ingredient}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {product.details?.benefits && product.details.benefits.length > 0 && (
+                <div className="bg-brand-alt border border-brand-border rounded-lg p-4">
+                  <h4 className="font-medium text-brand-text mb-2">Benefits</h4>
+                  <ul className="space-y-1">
+                    {product.details.benefits.map((benefit: string) => (
+                      <li key={benefit} className="flex items-center gap-2 text-sm text-brand-muted">
+                        <CheckCircle className="h-3 w-3 text-brand-green" />
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -22,6 +22,8 @@ export default function AdminLoginPage() {
     setIsLoading(true);
     setError('');
 
+    console.log('Attempting login with:', { username, password });
+
     try {
       const response = await fetch('/api/admin/login', {
         method: 'POST',
@@ -31,15 +33,19 @@ export default function AdminLoginPage() {
         body: JSON.stringify({ username, password }),
       });
 
+      console.log('Login response status:', response.status);
       const data = await response.json();
+      console.log('Login response data:', data);
 
       if (response.ok) {
+        console.log('Login successful, redirecting...');
         router.push('/admin');
         router.refresh();
       } else {
         setError(data.error || 'Login failed');
       }
     } catch (error) {
+      console.error('Login error:', error);
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);

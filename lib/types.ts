@@ -1,5 +1,5 @@
 export interface Product {
-  id: string
+  item_id: string
   name: string
   description: string
   price: number
@@ -9,25 +9,29 @@ export interface Product {
   rating: number
   reviews: number
   tags: string[]
+  inventory_item_id: string
+  visibility: boolean
   details: {
     weight?: string
     volume?: string
     ingredients: string[]
     benefits: string[]
   }
-  inventory_item_id?: string
   createdAt: string
   updatedAt: string
 }
 
 export interface InventoryItem {
-  id: string
+  item_id: string
   name: string
+  category: string
   description: string
   quantity_in_stock: number
-  location?: string
+  location: string
+  unit_cost: number
+  vendor: string
+  tags: string[]
   is_listed_as_product: boolean
-  linked_product_id?: string
   created_at: string
   updated_at: string
 }
@@ -78,4 +82,27 @@ export interface StripeWebhookEvent {
   data: {
     object: any
   }
+}
+
+// New interface for creating products from inventory items
+export interface CreateProductFromInventory {
+  inventoryItemId: string
+  price: number
+  description: string
+  image?: string
+  tags: string[]
+  visibility?: boolean
+  details: {
+    weight?: string
+    volume?: string
+    ingredients: string[]
+    benefits: string[]
+  }
+}
+
+// New interface for inventory item display with product status
+export interface InventoryItemWithProductStatus extends InventoryItem {
+  hasProduct: boolean
+  productId?: string
+  productVisibility?: boolean
 } 

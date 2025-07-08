@@ -1,13 +1,14 @@
 import { validateAdminAuth } from '@/lib/auth';
-import { getAllInventoryItems, getInventoryStats } from '@/lib/data/inventory';
+import { getInventoryStats } from '@/lib/data/inventory';
+import { getInventoryItemsWithProductStatus } from '@/lib/data/products';
 import InventoryClient from './inventory-client';
 
 export default async function InventoryPage() {
   // Validate admin authentication
   const session = await validateAdminAuth();
   
-  // Get inventory data
-  const inventoryItems = getAllInventoryItems();
+  // Get inventory data with product status
+  const inventoryItems = getInventoryItemsWithProductStatus();
   const stats = getInventoryStats();
 
   return (

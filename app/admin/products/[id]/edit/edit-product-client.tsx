@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Save, X, Upload, Image as ImageIcon, Plus } from 'lucide-react';
+import { ArrowLeft, Save, X, Upload, Image as ImageIcon, Plus, Package, Eye, EyeOff, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { Product } from '@/lib/types';
 
@@ -27,60 +27,20 @@ export default function EditProductClient({ adminId, product }: EditProductClien
   const [newIngredient, setNewIngredient] = useState('');
   const [benefits, setBenefits] = useState<string[]>(product.details?.benefits || []);
   const [newBenefit, setNewBenefit] = useState('');
-  const [showCustomCategory, setShowCustomCategory] = useState(false);
-  const [customCategory, setCustomCategory] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   
+  // Only product-specific fields are editable
   const [formData, setFormData] = useState({
-    name: product.name,
     description: product.description,
-    price: product.price.toString(),
-    category: product.category,
-    imageUrl: product.image || '',
-    inStock: product.inStock,
-    rating: product.rating.toString(),
-    reviews: product.reviews.toString()
+    price: product.price === 0 ? '' : product.price.toString(),
+    imageUrl: product.image && product.image.trim() !== '' ? product.image : '',
+    visibility: product.visibility
   });
-
-  // Enhanced categories list
-  const categories = [
-    'terpenes',
-    'cannabis',
-    'wellness',
-    'skincare',
-    'supplements',
-    'battery',
-    'accessories',
-    'tinctures',
-    'topicals',
-    'edibles',
-    'vapes',
-    'lab-equipment',
-    'research',
-    'education',
-    'other'
-  ];
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
-  const handleCategoryChange = (value: string) => {
-    if (value === 'custom') {
-      setShowCustomCategory(true);
-      setFormData(prev => ({ ...prev, category: '' }));
-    } else {
-      setShowCustomCategory(false);
-      setCustomCategory('');
-      setFormData(prev => ({ ...prev, category: value }));
-    }
-  };
-
-  const handleCustomCategoryChange = (value: string) => {
-    setCustomCategory(value);
-    setFormData(prev => ({ ...prev, category: value }));
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,21 +133,20 @@ export default function EditProductClient({ adminId, product }: EditProductClien
         }
       }
 
+      // Only update product-specific fields
       const productData = {
-        ...formData,
-        image: finalImageUrl,
+        description: formData.description,
         price: parseFloat(formData.price),
-        rating: parseFloat(formData.rating),
-        reviews: parseInt(formData.reviews),
+        image: finalImageUrl,
+        visibility: formData.visibility,
         tags,
         details: {
           ingredients,
           benefits
-        },
-        updatedAt: new Date().toISOString()
+        }
       };
 
-      const response = await fetch(`/api/products/${product.id}`, {
+      const response = await fetch(`/api/products/${product.item_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -198,10 +157,12 @@ export default function EditProductClient({ adminId, product }: EditProductClien
       if (response.ok) {
         router.push('/admin/products');
       } else {
-        console.error('Failed to update product');
+        const error = await response.json();
+        alert(`Error updating product: ${error.error}`);
       }
     } catch (error) {
       console.error('Error updating product:', error);
+      alert('Error updating product');
     } finally {
       setLoading(false);
     }
@@ -241,60 +202,69 @@ export default function EditProductClient({ adminId, product }: EditProductClien
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Basic Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="text-white">Product Name *</Label>
-                    <Input
-                      id="name"
-                      value={formData.name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      placeholder="Enter product name"
-                      required
-                    />
+                {/* Inventory Information (Read-only) */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Package className="w-5 h-5 text-blue-400" />
+                    <h3 className="text-lg font-semibold text-white">Inventory Information</h3>
+                    <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">Read-only</Badge>
                   </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="category" className="text-white">Category *</Label>
-                    <Select value={formData.category} onValueChange={handleCategoryChange}>
-                      <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border-gray-700">
-                        {categories.map((category) => (
-                          <SelectItem key={category} value={category}>
-                            {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
-                          </SelectItem>
-                        ))}
-                        <SelectItem value="custom">+ Add Custom Category</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="space-y-2">
+                      <Label className="text-white">Product Name</Label>
+                      <Input
+                        value={product.name}
+                        className="bg-white/5 border-white/10 text-gray-300"
+                        readOnly
+                      />
+                    </div>
                     
-                    {showCustomCategory && (
-                      <div className="mt-2">
-                        <Input
-                          value={customCategory}
-                          onChange={(e) => handleCustomCategoryChange(e.target.value)}
-                          className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                          placeholder="Enter custom category name"
-                          required
-                        />
+                    <div className="space-y-2">
+                      <Label className="text-white">Category</Label>
+                      <Input
+                        value={product.category}
+                        className="bg-white/5 border-white/10 text-gray-300"
+                        readOnly
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label className="text-white">Stock Status</Label>
+                      <div className="flex items-center gap-2">
+                        {product.inStock ? (
+                          <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
+                            In Stock
+                          </Badge>
+                        ) : (
+                          <Badge className="bg-red-500/20 text-red-300 border-red-500/30">
+                            Out of Stock
+                          </Badge>
+                        )}
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="description" className="text-white">Description *</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => handleInputChange('description', e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 min-h-[100px]"
-                    placeholder="Enter product description"
-                    required
-                  />
+                {/* Product-Specific Information */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-4">
+                    <ShoppingCart className="w-5 h-5 text-purple-400" />
+                    <h3 className="text-lg font-semibold text-white">Product Information</h3>
+                    <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">Editable</Badge>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="description" className="text-white">Description *</Label>
+                    <Textarea
+                      id="description"
+                      value={formData.description}
+                      onChange={(e) => handleInputChange('description', e.target.value)}
+                      className="bg-white/10 border-white/20 text-white placeholder-gray-400 min-h-[100px]"
+                      placeholder="Enter product description"
+                      required
+                    />
+                  </div>
                 </div>
 
                 {/* Pricing and Stock */}
@@ -313,34 +283,6 @@ export default function EditProductClient({ adminId, product }: EditProductClien
                       required
                     />
                   </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="rating" className="text-white">Rating</Label>
-                    <Input
-                      id="rating"
-                      type="number"
-                      step="0.1"
-                      min="0"
-                      max="5"
-                      value={formData.rating}
-                      onChange={(e) => handleInputChange('rating', e.target.value)}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      placeholder="4.5"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="reviews" className="text-white">Reviews Count</Label>
-                    <Input
-                      id="reviews"
-                      type="number"
-                      min="0"
-                      value={formData.reviews}
-                      onChange={(e) => handleInputChange('reviews', e.target.value)}
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      placeholder="0"
-                    />
-                  </div>
                 </div>
 
                 {/* Image Upload/URL */}
@@ -348,7 +290,7 @@ export default function EditProductClient({ adminId, product }: EditProductClien
                   <Label className="text-white">Product Image</Label>
                   
                   {/* Current Image Display */}
-                  {product.image && !imageFile && (
+                  {product.image && product.image.trim() !== '' && !imageFile && (
                     <div className="relative inline-block">
                       <img
                         src={product.image}
@@ -422,7 +364,7 @@ export default function EditProductClient({ adminId, product }: EditProductClien
                     <Label htmlFor="imageUrl" className="text-white text-sm">Image URL</Label>
                     <Input
                       id="imageUrl"
-                      type="url"
+                      type="text"
                       value={formData.imageUrl}
                       onChange={(e) => handleImageUrlChange(e.target.value)}
                       className="bg-white/10 border-white/20 text-white placeholder-gray-400"
@@ -432,29 +374,32 @@ export default function EditProductClient({ adminId, product }: EditProductClien
                   </div>
                 </div>
 
-                {/* Stock Status */}
+                {/* Product Visibility */}
                 <div className="space-y-2">
-                  <Label className="text-white">Stock Status</Label>
+                  <Label className="text-white">Product Visibility</Label>
                   <div className="flex items-center space-x-4">
                     <label className="flex items-center space-x-2">
                       <input
                         type="radio"
-                        checked={formData.inStock}
-                        onChange={() => handleInputChange('inStock', true)}
+                        checked={formData.visibility}
+                        onChange={() => handleInputChange('visibility', true)}
                         className="text-purple-600"
                       />
-                      <span className="text-white">In Stock</span>
+                      <span className="text-white">Visible to Customers</span>
                     </label>
                     <label className="flex items-center space-x-2">
                       <input
                         type="radio"
-                        checked={!formData.inStock}
-                        onChange={() => handleInputChange('inStock', false)}
+                        checked={!formData.visibility}
+                        onChange={() => handleInputChange('visibility', false)}
                         className="text-purple-600"
                       />
-                      <span className="text-white">Out of Stock</span>
+                      <span className="text-white">Hidden from Customers</span>
                     </label>
                   </div>
+                  <p className="text-sm text-gray-400">
+                    Note: Stock status is automatically managed based on inventory levels
+                  </p>
                 </div>
 
                 {/* Tags */}

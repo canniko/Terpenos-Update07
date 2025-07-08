@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllProducts, createProduct } from '@/lib/data/products';
+import { getAllProducts, getVisibleProducts, createProduct } from '@/lib/data/products';
 import { validateAdminSession, logAdminActivity, getClientIP } from '@/lib/data/admin';
 import { cookies } from 'next/headers';
 import { Product } from '@/lib/types';
 
 export async function GET() {
   try {
-    const products = getAllProducts();
+    // For customer-facing requests, only return visible products
+    const products = getVisibleProducts();
     return NextResponse.json(products);
   } catch (error) {
     console.error('Error fetching products:', error);
