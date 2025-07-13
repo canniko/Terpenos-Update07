@@ -106,7 +106,7 @@ export function verifyAdminCredentials(username: string, password: string): bool
   }
   
   // Final fallback to default credentials
-  return username === 'admin' && password === 'admin123';
+  // return username === 'admin' && password === 'admin123';
 }
 
 export function createAdminSession(adminId: number, sessionToken: string, ipAddress?: string, userAgent?: string): boolean {
