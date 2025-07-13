@@ -76,6 +76,11 @@ function initializeDatabase() {
 
 // Admin authentication functions
 export function verifyAdminCredentials(username: string, password: string): boolean {
+  console.log(`ADMIN_USERNAME: ${process.env.ADMIN_USERNAME}`);
+  console.log(`ADMIN_USERNAME: ${process.env.ADMIN_PASSWORD}`);
+  console.log('Verifying admin credentials:', username, password);
+  console.log('Database:', db);
+
   initializeDatabase();
   
   // First try database authentication
