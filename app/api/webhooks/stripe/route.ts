@@ -3,14 +3,15 @@ import Stripe from 'stripe';
 import { createOrder } from '@/lib/data/orders';
 import { getProductById, decreaseProductStock } from '@/lib/data/products';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-05-28.basil',
-});
-
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
-
 export async function POST(request: NextRequest) {
   try {
+    // Initialize Stripe only when the function is called
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: '2025-06-30.basil',
+    });
+    
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+    
     const body = await request.text();
     const signature = request.headers.get('stripe-signature')!;
 
@@ -76,7 +77,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
       productName: item.name,
       quantity: item.quantity,
       price: item.price,
-      image: getProductById(item.id)?.image || '/placeholder.jpg',
+      image: getProductById(item.id)?.images[0] || '/placeholder.jpg',
     }));
 
     // Calculate total
