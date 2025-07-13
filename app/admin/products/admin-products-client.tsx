@@ -33,8 +33,6 @@ export default function AdminProductsClient({ adminId, activityLogs }: AdminProd
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [showActivity, setShowActivity] = useState(false);
-  const [showPreviewModal, setShowPreviewModal] = useState(false);
-  const [previewProduct, setPreviewProduct] = useState<Product | null>(null);
   const router = useRouter();
 
   console.log('AdminProductsClient rendered with products:', products.length);
@@ -103,17 +101,6 @@ export default function AdminProductsClient({ adminId, activityLogs }: AdminProd
       console.error('Error logging out:', error);
       alert('Error logging out');
     }
-  };
-
-  const handlePreviewProduct = (product: Product) => {
-    console.log('handlePreviewProduct called with:', product);
-    setPreviewProduct(product);
-    setShowPreviewModal(true);
-  };
-
-  const closePreviewModal = () => {
-    setShowPreviewModal(false);
-    setPreviewProduct(null);
   };
 
   const filteredProducts = (products || []).filter(product =>
@@ -332,12 +319,11 @@ export default function AdminProductsClient({ adminId, activityLogs }: AdminProd
                                   onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    console.log('Product name clicked:', product.name);
-                                    console.log('Product object:', product);
-                                    handlePreviewProduct(product);
+                                    const url = product.visibility ? `/products/${product.item_id}` : `/products/${product.item_id}?preview=1`;
+                                    window.open(url, '_blank');
                                   }}
                                   onMouseEnter={() => console.log('Mouse entered product name:', product.name)}
-                                  title="Click to preview product"
+                                  title="Click to view product page"
                                 >
                                   {product.name}
                                 </div>
@@ -401,167 +387,6 @@ export default function AdminProductsClient({ adminId, activityLogs }: AdminProd
           </Card>
         </div>
       </section>
-
-      {/* Product Preview Modal */}
-      {showPreviewModal && previewProduct && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-white flex items-center gap-2">
-                  <Package className="w-5 h-5" />
-                  Product Preview
-                </CardTitle>
-                <Button
-                  onClick={closePreviewModal}
-                  variant="ghost"
-                  className="text-gray-400 hover:text-white"
-                >
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Product Header */}
-              <div className="flex flex-col lg:flex-row gap-6">
-                {/* Product Image */}
-                <div className="lg:w-1/3">
-                  {previewProduct.image ? (
-                    <img
-                      src={previewProduct.image}
-                      alt={previewProduct.name}
-                      className="w-full h-64 object-cover rounded-lg border border-white/20"
-                    />
-                  ) : (
-                    <div className="w-full h-64 bg-white/10 rounded-lg border border-white/20 flex items-center justify-center">
-                      <Package className="w-16 h-16 text-gray-400" />
-                    </div>
-                  )}
-                </div>
-
-                {/* Product Info */}
-                <div className="lg:w-2/3 space-y-4">
-                  <div>
-                    <h2 className="text-2xl font-bold text-white mb-2">{previewProduct.name}</h2>
-                    <p className="text-gray-300">{previewProduct.description}</p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-4">
-                    <div className="flex items-center gap-2">
-                      <Badge className={`${getCategoryColor(previewProduct.category)} capitalize`}>
-                        {previewProduct.category}
-                      </Badge>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <DollarSign className="w-4 h-4 text-green-400" />
-                      <span className="text-white font-semibold">${previewProduct.price}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge className={previewProduct.inStock ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-red-500/20 text-red-300 border-red-500/30'}>
-                        {previewProduct.inStock ? 'In Stock' : 'Out of Stock'}
-                      </Badge>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-white">⭐ {previewProduct.rating}</span>
-                      <span className="text-gray-400">({previewProduct.reviews} reviews)</span>
-                    </div>
-                  </div>
-
-                  {/* Tags */}
-                  {previewProduct.tags && previewProduct.tags.length > 0 && (
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-300 mb-2">Tags</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {previewProduct.tags.map((tag) => (
-                          <Badge key={tag} className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Product Details */}
-              {previewProduct.details && (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-white">Product Details</h3>
-                  
-                  {/* Weight and Volume */}
-                  {(previewProduct.details.weight || previewProduct.details.volume) && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {previewProduct.details.weight && (
-                        <div>
-                          <span className="text-sm font-medium text-gray-300">Weight:</span>
-                          <span className="text-white ml-2">{previewProduct.details.weight}</span>
-                        </div>
-                      )}
-                      {previewProduct.details.volume && (
-                        <div>
-                          <span className="text-sm font-medium text-gray-300">Volume:</span>
-                          <span className="text-white ml-2">{previewProduct.details.volume}</span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Ingredients */}
-                  {previewProduct.details.ingredients && previewProduct.details.ingredients.length > 0 && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-300 mb-2">Ingredients</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {previewProduct.details.ingredients.map((ingredient) => (
-                          <Badge key={ingredient} className="bg-green-500/20 text-green-300 border-green-500/30">
-                            {ingredient}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Benefits */}
-                  {previewProduct.details.benefits && previewProduct.details.benefits.length > 0 && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-300 mb-2">Benefits</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {previewProduct.details.benefits.map((benefit) => (
-                          <Badge key={benefit} className="bg-blue-500/20 text-blue-300 border-blue-500/30">
-                            {benefit}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Action Buttons */}
-              <div className="flex gap-4 pt-6 border-t border-white/20">
-                <Link href={`/admin/products/${previewProduct.item_id}/edit`}>
-                  <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
-                    <Edit className="w-4 h-4 mr-2" />
-                    Edit Product
-                  </Button>
-                </Link>
-                <Link href={`/products/${previewProduct.item_id}`}>
-                  <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
-                    <Eye className="w-4 h-4 mr-2" />
-                    View on Website
-                  </Button>
-                </Link>
-                <Button
-                  onClick={closePreviewModal}
-                  variant="outline"
-                  className="border-gray-500/50 text-gray-400 hover:bg-gray-500/10"
-                >
-                  Close
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
     </div>
   );
 } 

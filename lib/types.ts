@@ -3,7 +3,7 @@ export interface Product {
   name: string
   description: string
   price: number
-  image: string
+  images: string[] // Changed from single image to array of images
   category: string
   inStock: boolean
   rating: number

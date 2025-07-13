@@ -37,7 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {/* Product Image */}
           <div className="aspect-square relative bg-gradient-to-br from-brand-background to-brand-alt">
             <Image
-              src={product.image}
+              src={product.images && product.images.length > 0 ? product.images[0] : '/placeholder.jpg'}
               alt={product.name}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"

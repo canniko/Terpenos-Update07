@@ -29,6 +29,7 @@ function initializeDatabase() {
       description TEXT,
       price REAL NOT NULL,
       image TEXT,
+      images TEXT,
       category TEXT,
       inStock BOOLEAN DEFAULT 1,
       rating REAL DEFAULT 0,
@@ -50,6 +51,13 @@ function initializeDatabase() {
       FOREIGN KEY (productId) REFERENCES products(item_id)
     );
     `);
+
+    // Add images column if it doesn't exist (migration)
+    try {
+      db.exec('ALTER TABLE products ADD COLUMN images TEXT');
+    } catch (error) {
+      // Column already exists, ignore error
+    }
 
     // Initialize with sample data if table is empty
     const tableExists = db.prepare(`
@@ -258,12 +266,28 @@ function initializeDatabase() {
 
 // Helper function to convert database row to Product object
 function rowToProduct(row: any, details: any): Product {
+  // Handle images field - if it exists and is not null, use it; otherwise fall back to single image
+  let images: string[] = [];
+  if (row.images) {
+    try {
+      images = JSON.parse(row.images);
+    } catch (error) {
+      console.error('Error parsing images JSON:', error);
+      images = [];
+    }
+  }
+  
+  // If no images array or it's empty, use the single image field as fallback
+  if (images.length === 0 && row.image) {
+    images = [row.image];
+  }
+
   return {
     item_id: row.item_id,
     name: row.name,
     description: row.description,
     price: row.price,
-    image: row.image,
+    images: images,
     category: row.category,
     inStock: Boolean(row.inStock),
     rating: row.rating,
@@ -449,8 +473,8 @@ export const createProduct = (productData: Omit<Product, 'item_id' | 'rating' | 
     const now = new Date().toISOString();
 
     const insertProduct = db.prepare(`
-      INSERT INTO products (item_id, name, description, price, image, category, inStock, rating, reviews, tags, inventory_item_id, createdAt, updatedAt)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO products (item_id, name, description, price, image, images, category, inStock, rating, reviews, tags, inventory_item_id, createdAt, updatedAt)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const insertProductDetails = db.prepare(`
@@ -464,7 +488,8 @@ export const createProduct = (productData: Omit<Product, 'item_id' | 'rating' | 
         productData.name,
         productData.description,
         productData.price,
-        productData.image,
+        productData.images && productData.images.length > 0 ? productData.images[0] : null, // Keep single image for backward compatibility
+        JSON.stringify(productData.images || []), // Store images array as JSON
         productData.category,
         productData.inStock ? 1 : 0,
         0, // default rating
@@ -514,7 +539,7 @@ export const updateProduct = (id: string, updates: Partial<Product>): Product | 
     // Only allow updating product-specific fields
     const updateProduct = db.prepare(`
       UPDATE products 
-      SET description = ?, price = ?, image = ?, tags = ?, visibility = ?, updatedAt = ?
+      SET description = ?, price = ?, image = ?, images = ?, tags = ?, visibility = ?, updatedAt = ?
       WHERE item_id = ?
     `);
 
@@ -528,7 +553,8 @@ export const updateProduct = (id: string, updates: Partial<Product>): Product | 
       updateProduct.run(
         updates.description || existingProduct.description,
         updates.price || existingProduct.price,
-        updates.image || existingProduct.image,
+        updates.images && updates.images.length > 0 ? updates.images[0] : (existingProduct.images && existingProduct.images.length > 0 ? existingProduct.images[0] : null), // Keep single image for backward compatibility
+        JSON.stringify(updates.images || existingProduct.images || []), // Store images array as JSON
         JSON.stringify(updates.tags || existingProduct.tags),
         updates.visibility !== undefined ? (updates.visibility ? 1 : 0) : (existingProduct.visibility ? 1 : 0),
         now,
@@ -879,6 +905,11 @@ export const getInventoryItemsWithProductStatus = (): InventoryItemWithProductSt
     console.error('Error getting inventory items with product status:', error);
     return [];
   }
+};
+
+export const getInventoryItemWithProductStatus = (itemId: string) => {
+  const items = getInventoryItemsWithProductStatus();
+  return items.find((item: InventoryItemWithProductStatus) => item.item_id === itemId);
 };
 
 // Legacy export for backward compatibility (client-side safe)

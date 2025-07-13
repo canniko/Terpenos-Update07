@@ -142,7 +142,7 @@ export default function AdminLoginPage() {
 
             <div className="text-center pt-4 border-t border-white/10">
               <Badge variant="secondary" className="bg-white/10 text-gray-300 border-white/20">
-                Default: admin / admin123
+                // Default Denied //
               </Badge>
             </div>
           </CardContent>

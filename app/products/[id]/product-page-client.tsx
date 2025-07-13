@@ -9,6 +9,8 @@ import { useCartContext } from "@/components/providers/cart-provider"
 import { ArrowLeft, ShoppingCart, Star, Dna, Sparkles, CheckCircle } from "lucide-react"
 import Link from "next/link"
 import { Product, InventoryItem } from "@/lib/types"
+import ImageCarousel from "@/components/image-carousel"
+import { useRouter, useSearchParams } from "next/navigation"
 
 interface ProductPageClientProps {
   product: Product
@@ -20,6 +22,20 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
   const [isAddingToCart, setIsAddingToCart] = useState(false)
   const [inventoryItem, setInventoryItem] = useState<InventoryItem | null>(null)
   const [loading, setLoading] = useState(true)
+  const searchParams = useSearchParams();
+  const isPreview = searchParams?.get('preview') === '1';
+
+  // If not visible and not preview, show not found or redirect
+  if (!product.visibility && !isPreview) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-background">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-white mb-4">Product Not Available</h1>
+          <p className="text-gray-400">This product is not visible to customers.</p>
+        </div>
+      </div>
+    );
+  }
 
   // Fetch inventory item data
   useEffect(() => {
@@ -58,6 +74,11 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
 
   return (
     <div className="min-h-screen bg-brand-background">
+      {isPreview && (
+        <div className="bg-yellow-400 text-yellow-900 text-center py-2 font-semibold">
+          Preview Mode: This product is currently not visible to customers.
+        </div>
+      )}
       {/* Breadcrumb */}
       <div className="bg-brand-surface border-b border-brand-border py-4">
         <div className="container container-padding">
@@ -75,25 +96,18 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Image */}
           <div className="space-y-6">
-            <div className="relative aspect-square bg-gradient-to-br from-brand-background to-brand-alt rounded-2xl overflow-hidden shadow-bold">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-              />
+            <div className="relative">
+              <ImageCarousel images={product.images} alt={product.name} />
               
               {/* Biotech Badge */}
-              <div className="absolute top-6 left-6">
+              <div className="absolute top-6 left-6 z-10">
                 <Badge className="bg-brand-green text-brand-background px-3 py-1 rounded-full text-sm font-medium shadow-neon">
                   {product.category}
                 </Badge>
               </div>
 
               {/* Rating */}
-              <div className="absolute top-6 right-6 flex items-center gap-1 bg-brand-surface/90 backdrop-blur-sm px-3 py-1 rounded-full">
+              <div className="absolute top-6 right-6 z-10 flex items-center gap-1 bg-brand-surface/90 backdrop-blur-sm px-3 py-1 rounded-full">
                 <Star className="h-4 w-4 text-yellow-400 fill-current" />
                 <span className="text-sm font-medium text-brand-text">{product.rating}</span>
                 <span className="text-sm text-brand-muted">({product.reviews})</span>
@@ -176,51 +190,72 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
 
             {/* Add to Cart Section */}
             <div className="space-y-6">
-              {/* Quantity Selector */}
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-medium text-brand-text">Quantity:</span>
-                <div className="flex items-center gap-2">
+              {isPreview ? (
+                <div className="space-y-4">
+                  <div className="bg-yellow-400/10 border border-yellow-400/20 rounded-lg p-4">
+                    <p className="text-yellow-600 text-sm font-medium">
+                      Preview Mode: This product is not available for purchase
+                    </p>
+                  </div>
                   <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleQuantityChange(quantity - 1)}
-                    disabled={quantity <= 1}
-                    className="w-10 h-10 p-0 rounded-lg border-brand-border hover:bg-brand-surface text-brand-text"
+                    disabled
+                    className="w-full btn-primary h-14 text-lg opacity-50 cursor-not-allowed"
                   >
-                    -
-                  </Button>
-                  <span className="w-12 text-center text-lg font-medium text-brand-text">
-                    {quantity}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleQuantityChange(quantity + 1)}
-                    className="w-10 h-10 p-0 rounded-lg border-brand-border hover:bg-brand-surface text-brand-text"
-                  >
-                    +
+                    <div className="flex items-center gap-2">
+                      <ShoppingCart className="h-5 w-5" />
+                      Not Available
+                    </div>
                   </Button>
                 </div>
-              </div>
+              ) : (
+                <>
+                  {/* Quantity Selector */}
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm font-medium text-brand-text">Quantity:</span>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleQuantityChange(quantity - 1)}
+                        disabled={quantity <= 1}
+                        className="w-10 h-10 p-0 rounded-lg border-brand-border hover:bg-brand-surface text-brand-text"
+                      >
+                        -
+                      </Button>
+                      <span className="w-12 text-center text-lg font-medium text-brand-text">
+                        {quantity}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleQuantityChange(quantity + 1)}
+                        className="w-10 h-10 p-0 rounded-lg border-brand-border hover:bg-brand-surface text-brand-text"
+                      >
+                        +
+                      </Button>
+                    </div>
+                  </div>
 
-              {/* Add to Cart Button */}
-              <Button
-                onClick={handleAddToCart}
-                disabled={isAddingToCart}
-                className="w-full btn-primary h-14 text-lg"
-              >
-                {isAddingToCart ? (
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5" />
-                    Added to Cart!
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <ShoppingCart className="h-5 w-5" />
-                    Add to Cart
-                  </div>
-                )}
-              </Button>
+                  {/* Add to Cart Button */}
+                  <Button
+                    onClick={handleAddToCart}
+                    disabled={isAddingToCart}
+                    className="w-full btn-primary h-14 text-lg"
+                  >
+                    {isAddingToCart ? (
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-5 w-5" />
+                        Added to Cart!
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <ShoppingCart className="h-5 w-5" />
+                        Add to Cart
+                      </div>
+                    )}
+                  </Button>
+                </>
+              )}
 
               {/* Stock Status */}
               <div className="flex items-center gap-2 text-sm">

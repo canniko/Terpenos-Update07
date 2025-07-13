@@ -11,14 +11,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   Package, 
+  Plus, 
   Edit, 
   Trash2, 
-  Search,
-  Filter,
-  ArrowLeft,
-  ShoppingCart,
-  Eye,
-  EyeOff
+  Search, 
+  Filter, 
+  ArrowLeft, 
+  ShoppingCart, 
+  Eye, 
+  EyeOff,
+  X 
 } from 'lucide-react';
 import { InventoryItemWithProductStatus } from '@/lib/types';
 import Link from 'next/link';
@@ -33,14 +35,11 @@ export default function ProductsClient({
   inventoryItems: initialItems
 }: ProductsClientProps) {
   const [inventoryItems, setInventoryItems] = useState<InventoryItemWithProductStatus[]>(initialItems);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [viewingItem, setViewingItem] = useState<InventoryItemWithProductStatus | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [loading, setLoading] = useState(false);
-  const [showPreviewModal, setShowPreviewModal] = useState(false);
-  const [previewItem, setPreviewItem] = useState<InventoryItemWithProductStatus | null>(null);
-  const [previewProduct, setPreviewProduct] = useState<any>(null);
-  const [previewInventoryItem, setPreviewInventoryItem] = useState<any>(null);
-  const [previewLoading, setPreviewLoading] = useState(false);
   const router = useRouter();
 
   // Filter to show only items that have products
@@ -112,7 +111,6 @@ export default function ProductsClient({
       });
 
       if (updateResponse.ok) {
-        alert(`✅ Product ${newVisibility ? 'made visible' : 'hidden'} successfully!`);
         // Refresh the page to show updated data
         window.location.reload();
       } else {
@@ -129,51 +127,16 @@ export default function ProductsClient({
 
   const handlePreviewItem = async (item: InventoryItemWithProductStatus) => {
     console.log('Preview item clicked:', item.name);
-    console.log('Setting modal state...');
-    setPreviewItem(item);
-    setShowPreviewModal(true);
-    setPreviewLoading(true);
-    console.log('Modal state set, fetching data...');
-
-    try {
-      // Fetch the actual product data
-      if (item.productId) {
-        console.log('Fetching product data for ID:', item.productId);
-        const productResponse = await fetch(`/api/admin/products/${item.productId}`);
-        console.log('Product response status:', productResponse.status);
-        if (productResponse.ok) {
-          const productData = await productResponse.json();
-          console.log('Product data received:', productData);
-          setPreviewProduct(productData.product);
-        } else {
-          console.error('Failed to fetch product data');
-        }
-      }
-
-      // Fetch the inventory item data
-      console.log('Fetching inventory data for ID:', item.item_id);
-      const inventoryResponse = await fetch(`/api/inventory/${item.item_id}`);
-      console.log('Inventory response status:', inventoryResponse.status);
-      if (inventoryResponse.ok) {
-        const inventoryData = await inventoryResponse.json();
-        console.log('Inventory data received:', inventoryData);
-        setPreviewInventoryItem(inventoryData);
-      } else {
-        console.error('Failed to fetch inventory data');
-      }
-    } catch (error) {
-      console.error('Error fetching preview data:', error);
-    } finally {
-      setPreviewLoading(false);
-      console.log('Preview loading finished');
+    // Navigate to customer-facing product page instead of showing modal
+    if (item.productId) {
+      const url = item.productVisibility ? `/products/${item.productId}` : `/products/${item.productId}?preview=1`;
+      window.open(url, '_blank');
     }
   };
 
-  const closePreviewModal = () => {
-    setShowPreviewModal(false);
-    setPreviewItem(null);
-    setPreviewProduct(null);
-    setPreviewInventoryItem(null);
+  const handleViewItem = (inventoryItem: InventoryItemWithProductStatus) => {
+    setViewingItem(inventoryItem);
+    setShowViewModal(true);
   };
 
   return (
@@ -326,12 +289,12 @@ export default function ProductsClient({
                         <h3 
                           className="text-lg font-semibold text-white cursor-pointer hover:text-blue-300 transition-colors"
                           onClick={() => {
-                            alert('Product name clicked: ' + item.name);
-                            console.log('Product name clicked!');
-                            console.log('Item:', item);
-                            handlePreviewItem(item);
+                            if (item.productId) {
+                              const url = item.productVisibility ? `/products/${item.productId}` : `/products/${item.productId}?preview=1`;
+                              window.open(url, '_blank');
+                            }
                           }}
-                          title="Click to preview product"
+                          title="Click to view product page"
                         >
                           {item.name}
                         </h3>
@@ -355,7 +318,11 @@ export default function ProductsClient({
                       
                       <div className="flex flex-wrap gap-4 text-sm text-gray-400">
                         <span>Product ID: <span className="text-white">{item.productId}</span></span>
-                        <span>Inventory ID: <span className="text-white">{item.item_id}</span></span>
+                        <span>Inventory ID: <span 
+                          className="text-white cursor-pointer hover:text-blue-300 transition-colors"
+                          onClick={() => handleViewItem(item)}
+                          title="Click to view inventory details"
+                        >{item.item_id}</span></span>
                         <span>Location: <span className="text-white">{item.location || 'N/A'}</span></span>
                       </div>
                     </div>
@@ -431,209 +398,189 @@ export default function ProductsClient({
         </div>
       </section>
 
-      {/* Product Preview Modal */}
-      {showPreviewModal && previewItem && (
+      {/* View Item Modal */}
+      {showViewModal && viewingItem && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 w-full max-w-6xl mx-4 max-h-[90vh] overflow-y-auto">
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20 w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-white flex items-center gap-2">
-                  <Package className="w-5 h-5" />
-                  Customer Preview
-                </CardTitle>
+                <div>
+                  <CardTitle className="text-white text-2xl">
+                    {viewingItem.name}
+                  </CardTitle>
+                  <p className="text-gray-300">
+                    Inventory Item Details
+                  </p>
+                </div>
                 <Button
-                  onClick={closePreviewModal}
+                  onClick={() => {
+                    setShowViewModal(false);
+                    setViewingItem(null);
+                  }}
                   variant="ghost"
-                  className="text-gray-400 hover:text-white"
+                  className="text-white hover:bg-white/10"
                 >
-                  ×
+                  <X className="w-5 h-5" />
                 </Button>
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
-              {previewLoading ? (
-                <div className="flex items-center justify-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
-                  <span className="ml-3 text-white">Loading preview...</span>
+              {/* Basic Information */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-gray-400 text-sm">Item ID</Label>
+                    <p className="text-white font-mono text-sm">{viewingItem.item_id}</p>
+                  </div>
+                  
+                  <div>
+                    <Label className="text-gray-400 text-sm">Category</Label>
+                    <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
+                      {viewingItem.category}
+                    </Badge>
+                  </div>
+                  
+                  <div>
+                    <Label className="text-gray-400 text-sm">Location</Label>
+                    <p className="text-white">{viewingItem.location || 'Not specified'}</p>
+                  </div>
+                  
+                  <div>
+                    <Label className="text-gray-400 text-sm">Vendor</Label>
+                    <p className="text-white">{viewingItem.vendor || 'Not specified'}</p>
+                  </div>
                 </div>
-              ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                  {/* Product Image */}
-                  <div className="space-y-6">
-                    <div className="relative aspect-square bg-gradient-to-br from-slate-900 to-purple-900 rounded-2xl overflow-hidden shadow-lg">
-                      {previewProduct?.image ? (
-                        <img
-                          src={previewProduct.image}
-                          alt={previewItem.name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-white/10 flex items-center justify-center">
-                          <Package className="w-16 h-16 text-gray-400" />
-                        </div>
-                      )}
-                      
-                      {/* Category Badge */}
-                      <div className="absolute top-6 left-6">
-                        <Badge className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                          {previewItem.category}
+                
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-gray-400 text-sm">Stock Level</Label>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-2xl font-bold ${
+                        viewingItem.quantity_in_stock > 10 ? 'text-green-400' : 
+                        viewingItem.quantity_in_stock > 0 ? 'text-yellow-400' : 'text-red-400'
+                      }`}>
+                        {viewingItem.quantity_in_stock}
+                      </span>
+                      <span className="text-gray-400">units</span>
+                      {viewingItem.quantity_in_stock <= 10 && (
+                        <Badge className="bg-red-500/20 text-red-300 border-red-500/30">
+                          Low Stock
                         </Badge>
-                      </div>
-
-                      {/* Rating */}
-                      {previewProduct && (
-                        <div className="absolute top-6 right-6 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                          <span className="text-yellow-400">⭐</span>
-                          <span className="text-sm font-medium text-gray-900">{previewProduct.rating || 4.5}</span>
-                          <span className="text-sm text-gray-600">({previewProduct.reviews || 10})</span>
-                        </div>
                       )}
-                    </div>
-
-                    {/* Product Features */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <Card className="bg-white/10 border-white/20">
-                        <CardContent className="p-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
-                              <span className="text-white text-sm">🧬</span>
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-white">Biotech Formulation</h4>
-                              <p className="text-xs text-gray-400">Advanced technology</p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-
-                      <Card className="bg-white/10 border-white/20">
-                        <CardContent className="p-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
-                              <span className="text-white text-sm">✨</span>
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-white">Premium Quality</h4>
-                              <p className="text-xs text-gray-400">Lab tested</p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
                     </div>
                   </div>
-
-                  {/* Product Details */}
-                  <div className="space-y-6">
-                    {/* Header */}
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-2 text-purple-400">
-                        <span className="text-sm font-medium">Biotech Innovation</span>
-                      </div>
-                      
-                      <h1 className="text-3xl font-bold text-white leading-tight">
-                        {previewItem.name}
-                      </h1>
-                      
-                      {/* Short Description from Inventory */}
-                      {previewInventoryItem && (
-                        <p className="text-lg text-gray-300 leading-relaxed">
-                          {previewInventoryItem.description}
-                        </p>
-                      )}
-
-                      {/* Price */}
-                      {previewProduct && (
-                        <div className="flex items-baseline gap-3">
-                          <span className="text-4xl font-bold text-white">
-                            ${previewProduct.price}
-                          </span>
-                          <span className="text-sm text-gray-400">USD</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Tags */}
-                    {previewProduct?.tags && Array.isArray(previewProduct.tags) && previewProduct.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {previewProduct.tags.map((tag: string) => (
-                          <Badge 
-                            key={tag} 
-                            variant="outline" 
-                            className="border-white/20 text-gray-300 hover:border-purple-500 hover:text-purple-300 transition-all duration-200"
-                          >
-                            {tag}
+                  
+                  <div>
+                    <Label className="text-gray-400 text-sm">Unit Cost</Label>
+                    <p className="text-white">${viewingItem.unit_cost?.toFixed(2) || '0.00'}</p>
+                  </div>
+                  
+                  <div>
+                    <Label className="text-gray-400 text-sm">Total Value</Label>
+                    <p className="text-white font-semibold">
+                      ${((viewingItem.quantity_in_stock || 0) * (viewingItem.unit_cost || 0)).toFixed(2)}
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <Label className="text-gray-400 text-sm">Product Status</Label>
+                    <div className="flex items-center gap-2">
+                      {viewingItem.hasProduct ? (
+                        <>
+                          <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
+                            Has Product
                           </Badge>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Stock Status */}
-                    <div className="flex items-center gap-2 text-sm">
-                      <div className={`w-2 h-2 rounded-full ${previewItem.quantity_in_stock > 0 ? 'bg-green-500' : 'bg-red-500'}`} />
-                      <span className={previewItem.quantity_in_stock > 0 ? 'text-green-400' : 'text-red-400'}>
-                        {previewItem.quantity_in_stock > 0 ? 'In Stock' : 'Out of Stock'}
-                      </span>
-                    </div>
-
-                    {/* Product Details */}
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-semibold text-white">Product Details</h3>
-                      
-                      {/* Full Description from Product */}
-                      {previewProduct?.description && (
-                        <div className="bg-white/5 border border-white/20 rounded-lg p-4">
-                          <h4 className="font-medium text-white mb-2">Description</h4>
-                          <p className="text-sm text-gray-300 leading-relaxed">
-                            {previewProduct.description}
-                          </p>
-                        </div>
-                      )}
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {previewProduct?.details?.weight && (
-                          <div className="bg-white/5 border border-white/20 rounded-lg p-4">
-                            <h4 className="font-medium text-white mb-1">Weight</h4>
-                            <p className="text-sm text-gray-300">{previewProduct.details.weight}</p>
-                          </div>
-                        )}
-                        {previewProduct?.details?.volume && (
-                          <div className="bg-white/5 border border-white/20 rounded-lg p-4">
-                            <h4 className="font-medium text-white mb-1">Volume</h4>
-                            <p className="text-sm text-gray-300">{previewProduct.details.volume}</p>
-                          </div>
-                        )}
-                      </div>
-                      
-                      {previewProduct?.details?.ingredients && previewProduct.details.ingredients.length > 0 && (
-                        <div className="bg-white/5 border border-white/20 rounded-lg p-4">
-                          <h4 className="font-medium text-white mb-2">Ingredients</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {previewProduct.details.ingredients.map((ingredient: string) => (
-                              <Badge key={ingredient} className="bg-green-500/20 text-green-300 border-green-500/30 text-xs">
-                                {ingredient}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                      {previewProduct?.details?.benefits && previewProduct.details.benefits.length > 0 && (
-                        <div className="bg-white/5 border border-white/20 rounded-lg p-4">
-                          <h4 className="font-medium text-white mb-2">Benefits</h4>
-                          <ul className="space-y-1">
-                            {previewProduct.details.benefits.map((benefit: string) => (
-                              <li key={benefit} className="flex items-center gap-2 text-sm text-gray-300">
-                                <span className="text-green-400">✓</span>
-                                {benefit}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                          <span className="text-gray-400 text-sm">
+                            ID: {viewingItem.productId}
+                          </span>
+                        </>
+                      ) : (
+                        <Badge className="bg-gray-500/20 text-gray-300 border-gray-500/30">
+                          No Product
+                        </Badge>
                       )}
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <Label className="text-gray-400 text-sm">Description</Label>
+                <div className="bg-white/5 rounded-lg p-4 mt-2">
+                  <p className="text-white whitespace-pre-wrap">
+                    {viewingItem.description || 'No description provided'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Tags */}
+              {viewingItem.tags && viewingItem.tags.length > 0 && (
+                <div>
+                  <Label className="text-gray-400 text-sm">Tags</Label>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {viewingItem.tags.map((tag, index) => (
+                      <Badge key={index} className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+                        {tag}
+                      </Badge>
+                    ))}
                   </div>
                 </div>
               )}
+
+              {/* Timestamps */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-white/10">
+                <div>
+                  <Label className="text-gray-400 text-sm">Created</Label>
+                  <p className="text-white text-sm">
+                    {new Date(viewingItem.created_at).toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <Label className="text-gray-400 text-sm">Last Updated</Label>
+                  <p className="text-white text-sm">
+                    {new Date(viewingItem.updated_at).toLocaleString()}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-4 pt-6 border-t border-white/10">
+                <Button
+                  onClick={() => {
+                    setShowViewModal(false);
+                    setViewingItem(null);
+                    router.push(`/admin/inventory/${viewingItem.item_id}/edit`);
+                  }}
+                  className="bg-purple-600 hover:bg-purple-700"
+                >
+                  <Edit className="w-4 h-4 mr-2" />
+                  Edit Item
+                </Button>
+                
+                {viewingItem.hasProduct && (
+                  <Link href={`/admin/products/${viewingItem.productId}/edit`}>
+                    <Button
+                      variant="outline"
+                      className="border-green-500/50 text-green-400 hover:bg-green-500/10"
+                    >
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      Edit Product
+                    </Button>
+                  </Link>
+                )}
+                
+                <Button
+                  onClick={() => {
+                    setShowViewModal(false);
+                    setViewingItem(null);
+                  }}
+                  variant="outline"
+                  className="border-white/20 text-white hover:bg-white/10"
+                >
+                  Close
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>

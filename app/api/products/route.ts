@@ -6,8 +6,11 @@ import { Product } from '@/lib/types';
 
 export async function GET() {
   try {
+    console.log('API: Fetching visible products...');
     // For customer-facing requests, only return visible products
     const products = getVisibleProducts();
+    console.log('API: Found products:', products.length);
+    console.log('API: First product:', products[0]);
     return NextResponse.json(products);
   } catch (error) {
     console.error('Error fetching products:', error);
@@ -54,10 +57,12 @@ export async function POST(request: NextRequest) {
       name: productData.name,
       description: productData.description || '',
       price: productData.price,
-      image: productData.image || '',
+      images: productData.images || [],
       category: productData.category,
       inStock: productData.inStock !== undefined ? productData.inStock : true,
       tags: productData.tags || [],
+      inventory_item_id: productData.inventory_item_id || '',
+      visibility: productData.visibility !== undefined ? productData.visibility : true,
       details: {
         weight: productData.details?.weight || '',
         volume: productData.details?.volume || '',
@@ -72,7 +77,7 @@ export async function POST(request: NextRequest) {
       session.adminId,
       'create_product',
       'product',
-      newProduct.id,
+      newProduct.item_id,
       `Created product: ${newProduct.name}`,
       clientIP
     );

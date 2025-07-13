@@ -44,10 +44,6 @@ export default function InventoryClient({
 }: InventoryClientProps) {
   const [inventoryItems, setInventoryItems] = useState<InventoryItemWithProductStatus[]>(initialItems);
   const [stats, setStats] = useState(initialStats);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [editingItem, setEditingItem] = useState<InventoryItemWithProductStatus | null>(null);
-  const [showCreateProductModal, setShowCreateProductModal] = useState(false);
-  const [selectedInventoryItem, setSelectedInventoryItem] = useState<InventoryItemWithProductStatus | null>(null);
   const [showViewModal, setShowViewModal] = useState(false);
   const [viewingItem, setViewingItem] = useState<InventoryItemWithProductStatus | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -55,48 +51,15 @@ export default function InventoryClient({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // Form state
-  const [formData, setFormData] = useState({
-    name: '',
-    category: '',
-    description: '',
-    quantity_in_stock: 0,
-    location: '',
-    unit_cost: 0,
-    vendor: '',
-    tags: [] as string[],
-    is_listed_as_product: false,
-    item_id: ''
-  });
-
-  // Product creation state
-  const [createProduct, setCreateProduct] = useState(false);
-  const [productData, setProductData] = useState({
-    price: 0,
-    details: '',
-    weight: '',
-    ingredients: [] as string[],
-    benefits: [] as string[],
-    images: [] as string[]
-  });
-
-  // New product creation form state
-  const [newProductData, setNewProductData] = useState({
-    price: 0,
-    image: '',
-    longDescription: '',
-    visibility: true
-  });
-
   // Categories for dropdown
-  const [categories, setCategories] = useState<string[]>(['Terpenes', 'Cannabis Products', 'Packaging', 'Equipment', 'Supplies']);
+  const [categories, setCategories] = useState<string[]>(['Battery','Terpenes', 'Cannabis Products', 'Packaging', 'Equipment', 'Supplies']);
   const [newCategory, setNewCategory] = useState('');
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
 
   // Debug logging for state changes
   useEffect(() => {
-    console.log('State changed - createProduct:', createProduct, 'productData:', productData);
-  }, [createProduct, productData]);
+    console.log('State changed - showViewModal:', showViewModal, 'viewingItem:', viewingItem);
+  }, [showViewModal, viewingItem]);
 
   const filteredItems = inventoryItems.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -109,124 +72,6 @@ export default function InventoryClient({
 
     return matchesSearch && matchesFilter;
   });
-
-  const handleAddItem = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      // Validate product data if creating a product
-      if (createProduct) {
-        if (!productData.price || productData.price <= 0) {
-          alert('Please enter a valid price for the product');
-          setLoading(false);
-          return;
-        }
-        if (!productData.details.trim()) {
-          alert('Please enter a product description');
-          setLoading(false);
-          return;
-        }
-      }
-
-      // Convert empty string to undefined for linked_product_id
-      const submitData = {
-        ...formData,
-        item_id: formData.item_id.trim() || undefined
-      };
-
-      const response = await fetch('/api/inventory', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          inventoryItem: submitData,
-          createProduct: createProduct ? productData : null
-        })
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        setInventoryItems(prev => [result.inventoryItem, ...prev]);
-        setStats(prev => ({ ...prev, totalItems: prev.totalItems + 1 }));
-        setShowAddForm(false);
-        resetForm();
-        
-        if (createProduct && result.product) {
-          alert(`✅ Inventory item and product created successfully!\nItem ID: ${result.product.item_id}`);
-        } else {
-          alert('✅ Inventory item created successfully!');
-        }
-      } else {
-        const error = await response.json();
-        alert(`Error: ${error.error}`);
-      }
-    } catch (error) {
-      console.error('Error adding inventory item:', error);
-      alert('Error adding inventory item');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUpdateItem = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingItem) return;
-    setLoading(true);
-
-    try {
-      // Convert empty string to undefined for linked_product_id
-      const submitData = {
-        ...formData,
-        item_id: formData.item_id.trim() || undefined
-      };
-
-      // If product creation is enabled and there's a linked product, also update the product
-      if (createProduct && editingItem.item_id) {
-        try {
-          const productUpdateResponse = await fetch(`/api/products/${editingItem.item_id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              price: productData.price,
-              details: productData.details,
-              image: productData.images[0] || '',
-              tags: formData.tags
-            })
-          });
-
-          if (!productUpdateResponse.ok) {
-            console.warn('Failed to update linked product:', await productUpdateResponse.text());
-          }
-        } catch (error) {
-          console.error('Error updating linked product:', error);
-        }
-      }
-
-      const response = await fetch(`/api/inventory/${editingItem.item_id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(submitData)
-      });
-
-      if (response.ok) {
-        const updatedItem = await response.json();
-        setInventoryItems(prev => 
-          prev.map(item => item.item_id === editingItem.item_id ? updatedItem : item)
-        );
-        setEditingItem(null);
-        resetForm();
-        alert('✅ Inventory item updated successfully!');
-      } else {
-        const error = await response.json();
-        alert(`Error: ${error.error}`);
-      }
-    } catch (error) {
-      console.error('Error updating inventory item:', error);
-      alert('Error updating inventory item');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleDeleteItem = async (id: string) => {
     if (!confirm('Are you sure you want to delete this inventory item? This action cannot be undone.')) {
@@ -296,141 +141,6 @@ export default function InventoryClient({
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      name: '',
-      category: '',
-      description: '',
-      quantity_in_stock: 0,
-      location: '',
-      unit_cost: 0,
-      vendor: '',
-      tags: [],
-      is_listed_as_product: false,
-      item_id: ''
-    });
-    setCreateProduct(false);
-    setProductData({
-      price: 0,
-      details: '',
-      weight: '',
-      ingredients: [],
-      benefits: [],
-      images: []
-    });
-    setNewCategory('');
-    setShowNewCategoryInput(false);
-  };
-
-  const startEdit = async (item: InventoryItemWithProductStatus) => {
-    console.log('Starting edit for item:', item);
-    setEditingItem(item);
-    setFormData({
-      name: item.name,
-      category: item.category || '',
-      description: item.description,
-      quantity_in_stock: item.quantity_in_stock,
-      location: item.location || '',
-      unit_cost: item.unit_cost || 0,
-      vendor: item.vendor || '',
-      tags: item.tags || [],
-      is_listed_as_product: item.is_listed_as_product,
-      item_id: item.item_id || ''
-    });
-
-    // If this item has a linked product, fetch the product data and populate the form
-    if (item.hasProduct && item.productId) {
-      console.log('Item has linked product, fetching product data for:', item.productId);
-      setCreateProduct(true);
-      
-      try {
-        // Use admin API endpoint to get product data regardless of visibility
-        const response = await fetch(`/api/admin/products/${item.productId}`);
-        console.log('Product API response status:', response.status);
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Fetched product data:', data);
-          
-          // The API returns { product: { ... } }
-          const product = data.product;
-          
-          if (product) {
-            // Populate product data fields
-            setProductData({
-              price: product.price || 0,
-              details: product.description || '',
-              weight: product.details?.weight || '',
-              ingredients: product.details?.ingredients || [],
-              benefits: product.details?.benefits || [],
-              images: product.image ? [product.image] : []
-            });
-            console.log('Product data populated successfully:', {
-              price: product.price,
-              details: product.description,
-              weight: product.details?.weight,
-              ingredients: product.details?.ingredients,
-              benefits: product.details?.benefits,
-              images: product.image ? [product.image] : []
-            });
-          } else {
-            console.warn('No product data found in response');
-            // Reset product data to defaults if product not found
-            setProductData({
-              price: 0,
-              details: '',
-              weight: '',
-              ingredients: [],
-              benefits: [],
-              images: []
-            });
-          }
-        } else {
-          console.warn('Could not fetch product data:', item.productId, 'Status:', response.status);
-          // Reset product data to defaults if product not found
-          setProductData({
-            price: 0,
-            details: '',
-            weight: '',
-            ingredients: [],
-            benefits: [],
-            images: []
-          });
-        }
-      } catch (error) {
-        console.error('Error fetching product:', error);
-        // Reset product data to defaults on error
-        setProductData({
-          price: 0,
-          details: '',
-          weight: '',
-          ingredients: [],
-          benefits: [],
-          images: []
-        });
-      }
-    } else {
-      console.log('Item does not have a linked product, resetting product data');
-      // Reset product data and toggle for items not listed as products
-      setCreateProduct(false);
-      setProductData({
-        price: 0,
-        details: '',
-        weight: '',
-        ingredients: [],
-        benefits: [],
-        images: []
-      });
-    }
-  };
-
-  const cancelEdit = () => {
-    setEditingItem(null);
-    resetForm();
-    setNewCategory('');
-    setShowNewCategoryInput(false);
-  };
-
   const handleDownloadCSV = async () => {
     try {
       setLoading(true);
@@ -454,81 +164,6 @@ export default function InventoryClient({
     } catch (error) {
       console.error('Error downloading CSV:', error);
       alert('Error downloading inventory CSV');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCreateProduct = async (inventoryItem: InventoryItemWithProductStatus) => {
-    setSelectedInventoryItem(inventoryItem);
-    setShowCreateProductModal(true);
-  };
-
-  const handleSubmitProductForm = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedInventoryItem) return;
-
-    // Validate form data
-    if (!newProductData.price || newProductData.price <= 0) {
-      alert('Please enter a valid price');
-      return;
-    }
-
-    if (!newProductData.longDescription.trim()) {
-      alert('Please enter a product description');
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await fetch(`/api/inventory/${selectedInventoryItem.item_id}/create-product`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          price: newProductData.price,
-          description: newProductData.longDescription,
-          image: newProductData.image || '',
-          tags: selectedInventoryItem.tags || [],
-          details: {
-            weight: '',
-            volume: '',
-            ingredients: [],
-            benefits: []
-          }
-        })
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        
-        // Update the inventory item to show it now has a product
-        setInventoryItems(prev => 
-          prev.map(item => 
-            item.item_id === selectedInventoryItem.item_id 
-              ? { ...item, hasProduct: true, productId: result.product.item_id }
-              : item
-          )
-        );
-        
-        // Close modal and reset form
-        setShowCreateProductModal(false);
-        setSelectedInventoryItem(null);
-        setNewProductData({
-          price: 0,
-          image: '',
-          longDescription: '',
-          visibility: true
-        });
-        
-        alert(`✅ Product created successfully!\nProduct ID: ${result.product.item_id}`);
-      } else {
-        const error = await response.json();
-        alert(`Error: ${error.error}`);
-      }
-    } catch (error) {
-      console.error('Error creating product:', error);
-      alert('Error creating product');
     } finally {
       setLoading(false);
     }
@@ -574,7 +209,7 @@ export default function InventoryClient({
                 {loading ? 'Exporting...' : 'Export CSV'}
               </Button>
               <Button
-                onClick={() => setShowAddForm(true)}
+                onClick={() => router.push('/admin/inventory/new')}
                 className="bg-purple-600 hover:bg-purple-700"
               >
                 <Plus className="w-4 h-4 mr-2" />
@@ -668,341 +303,6 @@ export default function InventoryClient({
         </div>
       </section>
 
-      {/* Add/Edit Form */}
-      {(showAddForm || editingItem) && (
-        <section className="py-4">
-          <div className="container mx-auto px-4">
-            <Card className="bg-white/10 backdrop-blur-lg border-white/20">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  {editingItem ? 'Edit Inventory Item' : 'Add New Inventory Item'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={editingItem ? handleUpdateItem : handleAddItem} className="space-y-6">
-                  {/* Required Fields Section */}
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-white border-b border-white/20 pb-2">Required Information</h3>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="name" className="text-white">Item Name *</Label>
-                        <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                          required
-                          className="bg-white/10 border-white/20 text-white"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="category" className="text-white">Category *</Label>
-                        {!showNewCategoryInput ? (
-                          <Select 
-                            value={formData.category} 
-                            onValueChange={(value) => {
-                              if (value === 'add-new') {
-                                setShowNewCategoryInput(true);
-                              } else {
-                                setFormData(prev => ({ ...prev, category: value }));
-                              }
-                            }}
-                          >
-                            <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                              <SelectValue placeholder="Select category" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {categories.map((cat) => (
-                                <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                              ))}
-                              <SelectItem value="add-new" className="text-purple-400 font-medium">
-                                <Plus className="w-4 h-4 mr-2 inline" />
-                                Add New Category
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        ) : (
-                          <div className="space-y-2">
-                            <div className="flex gap-2">
-                              <Input
-                                placeholder="Enter new category name"
-                                value={newCategory}
-                                onChange={(e) => setNewCategory(e.target.value)}
-                                className="bg-white/10 border-white/20 text-white"
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Enter') {
-                                    e.preventDefault();
-                                    if (newCategory.trim()) {
-                                      setCategories(prev => [...prev, newCategory.trim()]);
-                                      setFormData(prev => ({ ...prev, category: newCategory.trim() }));
-                                      setNewCategory('');
-                                      setShowNewCategoryInput(false);
-                                    }
-                                  }
-                                }}
-                              />
-                              <Button
-                                type="button"
-                                onClick={() => {
-                                  if (newCategory.trim()) {
-                                    setCategories(prev => [...prev, newCategory.trim()]);
-                                    setFormData(prev => ({ ...prev, category: newCategory.trim() }));
-                                    setNewCategory('');
-                                    setShowNewCategoryInput(false);
-                                  }
-                                }}
-                                variant="outline"
-                                className="border-green-500/50 text-green-400 hover:bg-green-500/10"
-                              >
-                                Add
-                              </Button>
-                              <Button
-                                type="button"
-                                onClick={() => {
-                                  setShowNewCategoryInput(false);
-                                  setNewCategory('');
-                                }}
-                                variant="outline"
-                                className="border-red-500/50 text-red-400 hover:bg-red-500/10"
-                              >
-                                Cancel
-                              </Button>
-                            </div>
-                            <p className="text-sm text-gray-400">
-                              Press Enter or click Add to save the new category
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="description" className="text-white">Short Description *</Label>
-                      <Textarea
-                        id="description"
-                        value={formData.description}
-                        onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                        required
-                        placeholder="Brief description for internal use"
-                        className="bg-white/10 border-white/20 text-white"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="quantity" className="text-white">Stock Amount *</Label>
-                        <Input
-                          id="quantity"
-                          type="number"
-                          min="0"
-                          value={formData.quantity_in_stock === 0 ? '' : formData.quantity_in_stock}
-                          onChange={(e) => setFormData(prev => ({ ...prev, quantity_in_stock: parseInt(e.target.value) || 0 }))}
-                          required
-                          className="bg-white/10 border-white/20 text-white"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Optional Fields Section */}
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-white border-b border-white/20 pb-2">Optional Information</h3>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="location" className="text-white">Location</Label>
-                        <Input
-                          id="location"
-                          value={formData.location}
-                          onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
-                          placeholder="e.g., Laboratory, Office, Warehouse A"
-                          className="bg-white/10 border-white/20 text-white"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="unit_cost" className="text-white">Unit Cost</Label>
-                        <Input
-                          id="unit_cost"
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          value={formData.unit_cost === 0 ? '' : formData.unit_cost}
-                          onChange={(e) => setFormData(prev => ({ ...prev, unit_cost: parseFloat(e.target.value) || 0 }))}
-                          placeholder="0.00"
-                          className="bg-white/10 border-white/20 text-white"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="vendor" className="text-white">Vendor</Label>
-                      <Input
-                        id="vendor"
-                        value={formData.vendor}
-                        onChange={(e) => setFormData(prev => ({ ...prev, vendor: e.target.value }))}
-                        placeholder="Vendor name or link"
-                        className="bg-white/10 border-white/20 text-white"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="item_id" className="text-white">Item ID</Label>
-                      <Input
-                        id="item_id"
-                        value={formData.item_id}
-                        onChange={(e) => setFormData(prev => ({ ...prev, item_id: e.target.value }))}
-                        placeholder="Leave empty to auto-generate"
-                        className="bg-white/10 border-white/20 text-white"
-                      />
-                      <p className="text-sm text-gray-400 mt-1">
-                        Optional: Specify a custom item ID. Leave empty to auto-generate.
-                      </p>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="tags" className="text-white">Tags</Label>
-                      <Input
-                        id="tags"
-                        value={formData.tags.join(', ')}
-                        onChange={(e) => {
-                          const tags = e.target.value.split(',').map(tag => tag.trim());
-                          setFormData(prev => ({ ...prev, tags }));
-                        }}
-                        placeholder="battery, cart, terpenes (comma separated)"
-                        className="bg-white/10 border-white/20 text-white"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Product Creation Toggle */}
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-2 p-4 bg-white/5 rounded-lg border border-white/10">
-                      <input
-                        type="checkbox"
-                        id="create_product"
-                        checked={createProduct}
-                        onChange={(e) => setCreateProduct(e.target.checked)}
-                        className="rounded border-white/20 bg-white/10"
-                      />
-                      <Label htmlFor="create_product" className="text-white font-medium">
-                        Create Visible Store Item from this Inventory Item?
-                      </Label>
-                    </div>
-
-                    <div className={`space-y-4 p-4 bg-white/5 rounded-lg border border-white/10 ${!createProduct ? 'opacity-50' : ''}`}>
-                      <h4 className="text-md font-semibold text-white">Product Information</h4>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="price" className="text-white">Price *</Label>
-                          <Input
-                            id="price"
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            value={productData.price === 0 ? '' : productData.price}
-                            onChange={(e) => setProductData(prev => ({ ...prev, price: parseFloat(e.target.value) || 0 }))}
-                            required={createProduct}
-                            disabled={!createProduct}
-                            className={`bg-white/10 border-white/20 text-white ${!createProduct ? 'cursor-not-allowed' : ''}`}
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="weight" className="text-white">Weight</Label>
-                          <Input
-                            id="weight"
-                            value={productData.weight}
-                            onChange={(e) => setProductData(prev => ({ ...prev, weight: e.target.value }))}
-                            placeholder="e.g., 10ml, 100g"
-                            disabled={!createProduct}
-                            className={`bg-white/10 border-white/20 text-white ${!createProduct ? 'cursor-not-allowed' : ''}`}
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="details" className="text-white">Details / Full Description *</Label>
-                        <Textarea
-                          id="details"
-                          value={productData.details}
-                          onChange={(e) => setProductData(prev => ({ ...prev, details: e.target.value }))}
-                          required={createProduct}
-                          placeholder="Detailed product description for customers"
-                          disabled={!createProduct}
-                          className={`bg-white/10 border-white/20 text-white ${!createProduct ? 'cursor-not-allowed' : ''}`}
-                          rows={4}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="ingredients" className="text-white">Ingredients</Label>
-                          <Input
-                            id="ingredients"
-                            value={productData.ingredients.join(', ')}
-                            onChange={(e) => {
-                              const ingredients = e.target.value.split(',').map(ing => ing.trim());
-                              setProductData(prev => ({ ...prev, ingredients }));
-                            }}
-                            placeholder="ingredient1, ingredient2 (comma separated)"
-                            disabled={!createProduct}
-                            className={`bg-white/10 border-white/20 text-white ${!createProduct ? 'cursor-not-allowed' : ''}`}
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="benefits" className="text-white">Benefits / Use-Cases</Label>
-                          <Input
-                            id="benefits"
-                            value={productData.benefits.join(', ')}
-                            onChange={(e) => {
-                              const benefits = e.target.value.split(',').map(ben => ben.trim());
-                              setProductData(prev => ({ ...prev, benefits }));
-                            }}
-                            placeholder="benefit1, benefit2 (comma separated)"
-                            disabled={!createProduct}
-                            className={`bg-white/10 border-white/20 text-white ${!createProduct ? 'cursor-not-allowed' : ''}`}
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <ImageUpload
-                          images={productData.images}
-                          onChange={(images) => setProductData(prev => ({ ...prev, images }))}
-                          maxImages={5}
-                          className={`text-white ${!createProduct ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        />
-                        <p className="text-sm text-gray-400 mt-1">
-                          Leave empty to use "Image Coming Soon" placeholder
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4 pt-4">
-                    <Button
-                      type="submit"
-                      disabled={loading}
-                      className="bg-purple-600 hover:bg-purple-700"
-                    >
-                      {loading ? 'Saving...' : (editingItem ? 'Update Item' : 'Add Item')}
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={editingItem ? cancelEdit : () => setShowAddForm(false)}
-                      variant="outline"
-                      className="border-white/20 text-white hover:bg-white/10"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-      )}
-
       {/* Inventory List */}
       <section className="py-6">
         <div className="container mx-auto px-4">
@@ -1059,17 +359,7 @@ export default function InventoryClient({
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => handleViewItem(item)}
-                          className="border-blue-500/50 text-blue-400 hover:bg-blue-500/10"
-                          title="View Details"
-                        >
-                          <Eye className="w-3 h-3" />
-                        </Button>
-                        
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => startEdit(item)}
+                          onClick={() => router.push(`/admin/inventory/${item.item_id}/edit`)}
                           className="border-white/20 text-white hover:bg-white/10"
                         >
                           <Edit className="w-3 h-3" />
@@ -1086,18 +376,7 @@ export default function InventoryClient({
                               <ShoppingCart className="w-3 h-3" />
                             </Button>
                           </Link>
-                        ) : (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleCreateProduct(item)}
-                            className="border-purple-500/50 text-purple-400 hover:bg-purple-500/10"
-                            title="Create Product"
-                            disabled={loading}
-                          >
-                            <Plus className="w-3 h-3" />
-                          </Button>
-                        )}
+                        ) : null}
                         
                         <Button
                           size="sm"
@@ -1131,135 +410,6 @@ export default function InventoryClient({
           )}
         </div>
       </section>
-
-      {/* Create Product Modal */}
-      {showCreateProductModal && selectedInventoryItem && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 w-full max-w-2xl mx-4">
-            <CardHeader>
-              <CardTitle className="text-white">
-                Create Product from Inventory Item
-              </CardTitle>
-              <p className="text-gray-300">
-                Creating product for: <span className="text-white font-semibold">{selectedInventoryItem.name}</span>
-              </p>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmitProductForm} className="space-y-6">
-                {/* Price */}
-                <div>
-                  <Label htmlFor="price" className="text-white">Price (USD)</Label>
-                  <Input
-                    id="price"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    value={newProductData.price}
-                    onChange={(e) => setNewProductData(prev => ({ ...prev, price: parseFloat(e.target.value) || 0 }))}
-                    placeholder="29.99"
-                    className="bg-white/10 border-white/20 text-white"
-                    required
-                  />
-                </div>
-
-                {/* Image URL */}
-                <div>
-                  <Label htmlFor="image" className="text-white">Product Image URL</Label>
-                  <Input
-                    id="image"
-                    type="url"
-                    value={newProductData.image}
-                    onChange={(e) => setNewProductData(prev => ({ ...prev, image: e.target.value }))}
-                    placeholder="https://example.com/image.jpg"
-                    className="bg-white/10 border-white/20 text-white"
-                  />
-                  <p className="text-sm text-gray-400 mt-1">
-                    Leave empty to use a placeholder image
-                  </p>
-                </div>
-
-                {/* Long Description */}
-                <div>
-                  <Label htmlFor="longDescription" className="text-white">Product Description</Label>
-                  <Textarea
-                    id="longDescription"
-                    value={newProductData.longDescription}
-                    onChange={(e) => setNewProductData(prev => ({ ...prev, longDescription: e.target.value }))}
-                    placeholder="Detailed description of the product, its benefits, and features..."
-                    className="bg-white/10 border-white/20 text-white min-h-[100px]"
-                    required
-                  />
-                </div>
-
-                {/* Visibility Toggle */}
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    id="visibility"
-                    checked={newProductData.visibility}
-                    onChange={(e) => setNewProductData(prev => ({ ...prev, visibility: e.target.checked }))}
-                    className="rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500"
-                  />
-                  <Label htmlFor="visibility" className="text-white">
-                    Visible on website
-                  </Label>
-                </div>
-
-                {/* Inventory Item Info */}
-                <div className="bg-white/5 rounded-lg p-4">
-                  <h4 className="text-white font-semibold mb-2">Inventory Item Details</h4>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="text-gray-400">Name:</span>
-                      <span className="text-white ml-2">{selectedInventoryItem.name}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Category:</span>
-                      <span className="text-white ml-2">{selectedInventoryItem.category}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Stock:</span>
-                      <span className="text-white ml-2">{selectedInventoryItem.quantity_in_stock} units</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Location:</span>
-                      <span className="text-white ml-2">{selectedInventoryItem.location || 'N/A'}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Form Actions */}
-                <div className="flex gap-4 pt-4">
-                  <Button
-                    type="submit"
-                    disabled={loading}
-                    className="bg-purple-600 hover:bg-purple-700"
-                  >
-                    {loading ? 'Creating...' : 'Create Product'}
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      setShowCreateProductModal(false);
-                      setSelectedInventoryItem(null);
-                      setNewProductData({
-                        price: 0,
-                        image: '',
-                        longDescription: '',
-                        visibility: true
-                      });
-                    }}
-                    variant="outline"
-                    className="border-white/20 text-white hover:bg-white/10"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-      )}
 
       {/* View Item Modal */}
       {showViewModal && viewingItem && (
@@ -1335,13 +485,13 @@ export default function InventoryClient({
                   
                   <div>
                     <Label className="text-gray-400 text-sm">Unit Cost</Label>
-                    <p className="text-white">${viewingItem.unit_cost.toFixed(2)}</p>
+                    <p className="text-white">${viewingItem.unit_cost?.toFixed(2) || '0.00'}</p>
                   </div>
                   
                   <div>
                     <Label className="text-gray-400 text-sm">Total Value</Label>
                     <p className="text-white font-semibold">
-                      ${(viewingItem.quantity_in_stock * viewingItem.unit_cost).toFixed(2)}
+                      ${((viewingItem.quantity_in_stock || 0) * (viewingItem.unit_cost || 0)).toFixed(2)}
                     </p>
                   </div>
                   
@@ -1413,7 +563,7 @@ export default function InventoryClient({
                   onClick={() => {
                     setShowViewModal(false);
                     setViewingItem(null);
-                    startEdit(viewingItem);
+                    router.push(`/admin/inventory/${viewingItem.item_id}/edit`);
                   }}
                   className="bg-purple-600 hover:bg-purple-700"
                 >
@@ -1421,7 +571,7 @@ export default function InventoryClient({
                   Edit Item
                 </Button>
                 
-                {viewingItem.hasProduct ? (
+                {viewingItem.hasProduct && (
                   <Link href={`/admin/products/${viewingItem.productId}/edit`}>
                     <Button
                       variant="outline"
@@ -1431,19 +581,6 @@ export default function InventoryClient({
                       Edit Product
                     </Button>
                   </Link>
-                ) : (
-                  <Button
-                    onClick={() => {
-                      setShowViewModal(false);
-                      setViewingItem(null);
-                      handleCreateProduct(viewingItem);
-                    }}
-                    variant="outline"
-                    className="border-purple-500/50 text-purple-400 hover:bg-purple-500/10"
-                  >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Create Product
-                  </Button>
                 )}
                 
                 <Button
@@ -1463,4 +600,4 @@ export default function InventoryClient({
       )}
     </div>
   );
-} 
+}
