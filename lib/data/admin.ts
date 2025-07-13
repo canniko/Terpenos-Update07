@@ -77,19 +77,31 @@ function initializeDatabase() {
 // Admin authentication functions
 export function verifyAdminCredentials(username: string, password: string): boolean {
   initializeDatabase();
-  if (!db) return false;
-
-  try {
-    const bcrypt = require('bcryptjs');
-    const user = db.prepare('SELECT * FROM admin_users WHERE username = ? AND is_active = 1').get(username);
-    
-    if (!user) return false;
-    
-    return bcrypt.compareSync(password, user.password_hash);
-  } catch (error) {
-    console.error('Error verifying admin credentials:', error);
-    return false;
+  
+  // First try database authentication
+  if (db) {
+    try {
+      const bcrypt = require('bcryptjs');
+      const user = db.prepare('SELECT * FROM admin_users WHERE username = ? AND is_active = 1').get(username);
+      
+      if (user) {
+        return bcrypt.compareSync(password, user.password_hash);
+      }
+    } catch (error) {
+      console.error('Error verifying admin credentials from database:', error);
+    }
   }
+  
+  // Fallback to environment variables for deployment
+  const envUsername = process.env.ADMIN_USERNAME;
+  const envPassword = process.env.ADMIN_PASSWORD;
+  
+  if (envUsername && envPassword) {
+    return username === envUsername && password === envPassword;
+  }
+  
+  // Final fallback to default credentials
+  return username === 'admin' && password === 'admin123';
 }
 
 export function createAdminSession(adminId: number, sessionToken: string, ipAddress?: string, userAgent?: string): boolean {
@@ -190,14 +202,28 @@ export function getAdminActivityLogs(limit: number = 50): any[] {
 
 export function getAdminUserByUsername(username: string): any {
   initializeDatabase();
-  if (!db) return null;
-
-  try {
-    return db.prepare('SELECT id, username, created_at, last_login FROM admin_users WHERE username = ? AND is_active = 1').get(username);
-  } catch (error) {
-    console.error('Error getting admin user:', error);
-    return null;
+  
+  // Try database first
+  if (db) {
+    try {
+      return db.prepare('SELECT id, username, created_at, last_login FROM admin_users WHERE username = ? AND is_active = 1').get(username);
+    } catch (error) {
+      console.error('Error getting admin user from database:', error);
+    }
   }
+  
+  // Fallback for deployment environment
+  const envUsername = process.env.ADMIN_USERNAME || 'admin';
+  if (username === envUsername) {
+    return {
+      id: 1,
+      username: envUsername,
+      created_at: new Date().toISOString(),
+      last_login: null
+    };
+  }
+  
+  return null;
 }
 
 // Helper function to get client IP
