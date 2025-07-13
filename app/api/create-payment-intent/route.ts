@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { isProductPurchaseable } from '@/lib/data/products';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-05-28.basil',
-});
-
 export async function POST(request: NextRequest) {
   try {
+    // Initialize Stripe only when the function is called
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: '2025-06-30.basil',
+    });
+    
     const { items, currency = 'USD' } = await request.json();
 
     console.log('Creating checkout session for:', { items: items.length, totalAmount: items.reduce((sum: number, item: any) => sum + (item.product.price * item.quantity), 0), currency });
